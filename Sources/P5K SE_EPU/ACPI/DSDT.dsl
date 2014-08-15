@@ -2605,27 +2605,27 @@ DefinitionBlock ("acpi.aml", "DSDT", 1, "A0994", "A0994000", 0x00000000)
 
                         Method (_INI, 0, NotSerialized)  // _INI: Initialize
                         {
-                            Name (_T_0, Zero)  // _T_x: Emitted by ASL Compiler
-                            Store (GNVS (0x36E8), _T_0) /* \_SB_.PCI0.SBRG.ASOC._INI._T_0 */
-                            If (LEqual (_T_0, Zero))
+                            Name (T_0, Zero)  // T_x: Emitted by ASL Compiler
+                            Store (GNVS (0x36E8), T_0) /* \_SB_.PCI0.SBRG.ASOC._INI.T_0 */
+                            If (LEqual (T_0, Zero))
                             {
                                 Store (0x42, Index (G3T0, 0x03))
                             }
                             Else
                             {
-                                If (LEqual (_T_0, 0x02))
+                                If (LEqual (T_0, 0x02))
                                 {
                                     Store (Zero, Index (G3T0, 0x03))
                                 }
                                 Else
                                 {
-                                    If (LEqual (_T_0, 0x04))
+                                    If (LEqual (T_0, 0x04))
                                     {
                                         Store (0x85, Index (G3T0, 0x03))
                                     }
                                     Else
                                     {
-                                        If (LEqual (_T_0, 0x06))
+                                        If (LEqual (T_0, 0x06))
                                         {
                                             Store (0xC8, Index (G3T0, 0x03))
                                         }
@@ -2686,15 +2686,15 @@ DefinitionBlock ("acpi.aml", "DSDT", 1, "A0994", "A0994000", 0x00000000)
                                 Add (Subtract (Local1, Local0, Local3), One, Index (G3T2, 0x06))
                             }
 
-                            Name (_T_1, Zero)  // _T_x: Emitted by ASL Compiler
-                            Store (GNVS (0x151F), _T_1) /* \_SB_.PCI0.SBRG.ASOC._INI._T_1 */
-                            If (LEqual (_T_1, Zero))
+                            Name (T_1, Zero)  // T_x: Emitted by ASL Compiler
+                            Store (GNVS (0x151F), T_1) /* \_SB_.PCI0.SBRG.ASOC._INI.T_1 */
+                            If (LEqual (T_1, Zero))
                             {
                                 Store (0x0708, Index (G321, 0x04))
                             }
                             Else
                             {
-                                If (LEqual (_T_1, One))
+                                If (LEqual (T_1, One))
                                 {
                                     Store (0x05DC, Index (G321, 0x04))
                                 }
@@ -2720,57 +2720,57 @@ DefinitionBlock ("acpi.aml", "DSDT", 1, "A0994", "A0994000", 0x00000000)
                         CreateDWordField (ASBF, 0x04, ASB1)
                         Method (GGRP, 1, Serialized)
                         {
-                            Name (_T_0, Zero)  // _T_x: Emitted by ASL Compiler
-                            Store (Arg0, _T_0) /* \_SB_.PCI0.SBRG.ASOC.GGRP._T_0 */
-                            If (LEqual (_T_0, Zero))
+                            Name (T_0, Zero)  // T_x: Emitted by ASL Compiler
+                            Store (Arg0, T_0) /* \_SB_.PCI0.SBRG.ASOC.GGRP.T_0 */
+                            If (LEqual (T_0, Zero))
                             {
                                 Return (GRP0) /* \_SB_.PCI0.SBRG.ASOC.GRP0 */
                             }
                             Else
                             {
-                                If (LEqual (_T_0, 0x03))
+                                If (LEqual (T_0, 0x03))
                                 {
                                     Return (GRP3) /* \_SB_.PCI0.SBRG.ASOC.GRP3 */
                                 }
                                 Else
                                 {
-                                    If (LEqual (_T_0, 0x04))
+                                    If (LEqual (T_0, 0x04))
                                     {
                                         Return (GRP4) /* \_SB_.PCI0.SBRG.ASOC.GRP4 */
                                     }
                                     Else
                                     {
-                                        If (LEqual (_T_0, 0x05))
+                                        If (LEqual (T_0, 0x05))
                                         {
                                             Return (GRP5) /* \_SB_.PCI0.SBRG.ASOC.GRP5 */
                                         }
                                         Else
                                         {
-                                            If (LEqual (_T_0, 0x06))
+                                            If (LEqual (T_0, 0x06))
                                             {
                                                 Return (GRP6) /* \_SB_.PCI0.SBRG.ASOC.GRP6 */
                                             }
                                             Else
                                             {
-                                                If (LEqual (_T_0, 0x09))
+                                                If (LEqual (T_0, 0x09))
                                                 {
                                                     Return (GRP9) /* \_SB_.PCI0.SBRG.ASOC.GRP9 */
                                                 }
                                                 Else
                                                 {
-                                                    If (LEqual (_T_0, 0x0B))
+                                                    If (LEqual (T_0, 0x0B))
                                                     {
                                                         Return (GRPB) /* \_SB_.PCI0.SBRG.ASOC.GRPB */
                                                     }
                                                     Else
                                                     {
-                                                        If (LEqual (_T_0, 0x0D))
+                                                        If (LEqual (T_0, 0x0D))
                                                         {
                                                             Return (GRPD) /* \_SB_.PCI0.SBRG.ASOC.GRPD */
                                                         }
                                                         Else
                                                         {
-                                                            If (LEqual (_T_0, 0x0E))
+                                                            If (LEqual (T_0, 0x0E))
                                                             {
                                                                 Return (GRPE) /* \_SB_.PCI0.SBRG.ASOC.GRPE */
                                                             }
@@ -2793,57 +2793,57 @@ DefinitionBlock ("acpi.aml", "DSDT", 1, "A0994", "A0994000", 0x00000000)
                             CreateDWordField (Arg0, Zero, PRM0)
                             CreateByteField (Arg0, 0x03, GPID)
                             Store (One, ASB0) /* \_SB_.PCI0.SBRG.ASOC.ASB0 */
-                            Name (_T_0, Zero)  // _T_x: Emitted by ASL Compiler
-                            Store (GPID, _T_0) /* \_SB_.PCI0.SBRG.ASOC.GITM._T_0 */
-                            If (LEqual (_T_0, Zero))
+                            Name (T_0, Zero)  // T_x: Emitted by ASL Compiler
+                            Store (GPID, T_0) /* \_SB_.PCI0.SBRG.ASOC.GITM.T_0 */
+                            If (LEqual (T_0, Zero))
                             {
                                 GIT0 (PRM0)
                             }
                             Else
                             {
-                                If (LEqual (_T_0, 0x03))
+                                If (LEqual (T_0, 0x03))
                                 {
                                     GIT3 (PRM0)
                                 }
                                 Else
                                 {
-                                    If (LEqual (_T_0, 0x04))
+                                    If (LEqual (T_0, 0x04))
                                     {
                                         GIT4 (PRM0)
                                     }
                                     Else
                                     {
-                                        If (LEqual (_T_0, 0x05))
+                                        If (LEqual (T_0, 0x05))
                                         {
                                             GIT5 (PRM0)
                                         }
                                         Else
                                         {
-                                            If (LEqual (_T_0, 0x06))
+                                            If (LEqual (T_0, 0x06))
                                             {
                                                 GIT6 (PRM0)
                                             }
                                             Else
                                             {
-                                                If (LEqual (_T_0, 0x09))
+                                                If (LEqual (T_0, 0x09))
                                                 {
                                                     GIT9 (PRM0)
                                                 }
                                                 Else
                                                 {
-                                                    If (LEqual (_T_0, 0x0B))
+                                                    If (LEqual (T_0, 0x0B))
                                                     {
                                                         GITB (PRM0)
                                                     }
                                                     Else
                                                     {
-                                                        If (LEqual (_T_0, 0x0D))
+                                                        If (LEqual (T_0, 0x0D))
                                                         {
                                                             GITD (PRM0)
                                                         }
                                                         Else
                                                         {
-                                                            If (LEqual (_T_0, 0x0E))
+                                                            If (LEqual (T_0, 0x0E))
                                                             {
                                                                 GITE (PRM0)
                                                             }
@@ -2870,57 +2870,57 @@ DefinitionBlock ("acpi.aml", "DSDT", 1, "A0994", "A0994000", 0x00000000)
                             CreateDWordField (Arg0, 0x08, PRM2)
                             CreateByteField (Arg0, 0x03, GPID)
                             Store (One, ASB0) /* \_SB_.PCI0.SBRG.ASOC.ASB0 */
-                            Name (_T_0, Zero)  // _T_x: Emitted by ASL Compiler
-                            Store (GPID, _T_0) /* \_SB_.PCI0.SBRG.ASOC.SITM._T_0 */
-                            If (LEqual (_T_0, Zero))
+                            Name (T_0, Zero)  // T_x: Emitted by ASL Compiler
+                            Store (GPID, T_0) /* \_SB_.PCI0.SBRG.ASOC.SITM.T_0 */
+                            If (LEqual (T_0, Zero))
                             {
                                 SIT0 (PRM0, PRM1, PRM2)
                             }
                             Else
                             {
-                                If (LEqual (_T_0, 0x03))
+                                If (LEqual (T_0, 0x03))
                                 {
                                     SIT3 (PRM0, PRM1, PRM2)
                                 }
                                 Else
                                 {
-                                    If (LEqual (_T_0, 0x04))
+                                    If (LEqual (T_0, 0x04))
                                     {
                                         SIT4 (PRM0, PRM1, PRM2)
                                     }
                                     Else
                                     {
-                                        If (LEqual (_T_0, 0x05))
+                                        If (LEqual (T_0, 0x05))
                                         {
                                             SIT5 (PRM0, PRM1, PRM2)
                                         }
                                         Else
                                         {
-                                            If (LEqual (_T_0, 0x06))
+                                            If (LEqual (T_0, 0x06))
                                             {
                                                 SIT6 (PRM0, PRM1, PRM2)
                                             }
                                             Else
                                             {
-                                                If (LEqual (_T_0, 0x09))
+                                                If (LEqual (T_0, 0x09))
                                                 {
                                                     SIT9 (PRM0, PRM1, PRM2)
                                                 }
                                                 Else
                                                 {
-                                                    If (LEqual (_T_0, 0x0B))
+                                                    If (LEqual (T_0, 0x0B))
                                                     {
                                                         SITB (PRM0, PRM1, PRM2)
                                                     }
                                                     Else
                                                     {
-                                                        If (LEqual (_T_0, 0x0D))
+                                                        If (LEqual (T_0, 0x0D))
                                                         {
                                                             SITD (PRM0, PRM1, PRM2)
                                                         }
                                                         Else
                                                         {
-                                                            If (LEqual (_T_0, 0x0E))
+                                                            If (LEqual (T_0, 0x0E))
                                                             {
                                                                 SITE (PRM0, PRM1, PRM2)
                                                             }
@@ -5472,27 +5472,27 @@ DefinitionBlock ("acpi.aml", "DSDT", 1, "A0994", "A0994000", 0x00000000)
         })
         Method (GIT0, 1, NotSerialized)
         {
-            Name (_T_0, Zero)  // _T_x: Emitted by ASL Compiler
-            Store (And (Arg0, 0xFFFF), _T_0) /* \_SB_.PCI0.SBRG.ASOC.GIT0._T_0 */
-            If (LEqual (_T_0, Zero))
+            Name (T_0, Zero)  // T_x: Emitted by ASL Compiler
+            Store (And (Arg0, 0xFFFF), T_0) /* \_SB_.PCI0.SBRG.ASOC.GIT0.T_0 */
+            If (LEqual (T_0, Zero))
             {
                 Store (Zero, ASB1) /* \_SB_.PCI0.SBRG.ASOC.ASB1 */
             }
             Else
             {
-                If (LEqual (_T_0, One))
+                If (LEqual (T_0, One))
                 {
                     Store (One, ASB1) /* \_SB_.PCI0.SBRG.ASOC.ASB1 */
                 }
                 Else
                 {
-                    If (LEqual (_T_0, 0x02))
+                    If (LEqual (T_0, 0x02))
                     {
                         Store (0x02, ASB1) /* \_SB_.PCI0.SBRG.ASOC.ASB1 */
                     }
                     Else
                     {
-                        If (LEqual (_T_0, 0x03))
+                        If (LEqual (T_0, 0x03))
                         {
                             Store (0x03, ASB1) /* \_SB_.PCI0.SBRG.ASOC.ASB1 */
                         }
@@ -5507,27 +5507,27 @@ DefinitionBlock ("acpi.aml", "DSDT", 1, "A0994", "A0994000", 0x00000000)
 
         Method (SIT0, 3, NotSerialized)
         {
-            Name (_T_0, Zero)  // _T_x: Emitted by ASL Compiler
-            Store (And (Arg0, 0xFFFF), _T_0) /* \_SB_.PCI0.SBRG.ASOC.SIT0._T_0 */
-            If (LEqual (_T_0, Zero))
+            Name (T_0, Zero)  // T_x: Emitted by ASL Compiler
+            Store (And (Arg0, 0xFFFF), T_0) /* \_SB_.PCI0.SBRG.ASOC.SIT0.T_0 */
+            If (LEqual (T_0, Zero))
             {
                 Store (0x0300, DBG8) /* \DBG8 */
             }
             Else
             {
-                If (LEqual (_T_0, One))
+                If (LEqual (T_0, One))
                 {
                     Store (0x0301, DBG8) /* \DBG8 */
                 }
                 Else
                 {
-                    If (LEqual (_T_0, 0x02))
+                    If (LEqual (T_0, 0x02))
                     {
                         Store (0x0302, DBG8) /* \DBG8 */
                     }
                     Else
                     {
-                        If (LEqual (_T_0, 0x03))
+                        If (LEqual (T_0, 0x03))
                         {
                             Store (0x0303, DBG8) /* \DBG8 */
                         }
@@ -5615,15 +5615,15 @@ DefinitionBlock ("acpi.aml", "DSDT", 1, "A0994", "A0994000", 0x00000000)
         Name (IDEX, Zero)
         Method (GIT3, 1, NotSerialized)
         {
-            Name (_T_0, Zero)  // _T_x: Emitted by ASL Compiler
-            Store (And (Arg0, 0xFFFF), _T_0) /* \_SB_.PCI0.SBRG.ASOC.GIT3._T_0 */
-            If (LEqual (_T_0, 0x11))
+            Name (T_0, Zero)  // T_x: Emitted by ASL Compiler
+            Store (And (Arg0, 0xFFFF), T_0) /* \_SB_.PCI0.SBRG.ASOC.GIT3.T_0 */
+            If (LEqual (T_0, 0x11))
             {
                 Subtract (GNVS (0xA6C8), 0xC8, ASB1) /* \_SB_.PCI0.SBRG.ASOC.ASB1 */
             }
             Else
             {
-                If (LEqual (_T_0, 0x13))
+                If (LEqual (T_0, 0x13))
                 {
                     If (LGreater (And (GCAX (One), 0x0FF0, Local0), 0x06F0))
                     {
@@ -5680,19 +5680,19 @@ DefinitionBlock ("acpi.aml", "DSDT", 1, "A0994", "A0994000", 0x00000000)
                 }
                 Else
                 {
-                    If (LEqual (_T_0, 0x32))
+                    If (LEqual (T_0, 0x32))
                     {
                         Store (GNVS (0x53A0), ASB1) /* \_SB_.PCI0.SBRG.ASOC.ASB1 */
                     }
                     Else
                     {
-                        If (LEqual (_T_0, 0x31))
+                        If (LEqual (T_0, 0x31))
                         {
                             Store (GNVS (0x4448), ASB1) /* \_SB_.PCI0.SBRG.ASOC.ASB1 */
                         }
                         Else
                         {
-                            If (LEqual (_T_0, 0x51))
+                            If (LEqual (T_0, 0x51))
                             {
                                 Store (GNVS (0x6368), ASB1) /* \_SB_.PCI0.SBRG.ASOC.ASB1 */
                             }
@@ -5708,9 +5708,9 @@ DefinitionBlock ("acpi.aml", "DSDT", 1, "A0994", "A0994000", 0x00000000)
 
         Method (SIT3, 3, NotSerialized)
         {
-            Name (_T_0, Zero)  // _T_x: Emitted by ASL Compiler
-            Store (And (Arg0, 0xFFFF), _T_0) /* \_SB_.PCI0.SBRG.ASOC.SIT3._T_0 */
-            If (LEqual (_T_0, 0x11))
+            Name (T_0, Zero)  // T_x: Emitted by ASL Compiler
+            Store (And (Arg0, 0xFFFF), T_0) /* \_SB_.PCI0.SBRG.ASOC.SIT3.T_0 */
+            If (LEqual (T_0, 0x11))
             {
                 Add (Arg1, 0xC8, Local2)
                 If (LNotEqual (GNVS (0xA6C8), Local2))
@@ -5744,7 +5744,7 @@ DefinitionBlock ("acpi.aml", "DSDT", 1, "A0994", "A0994000", 0x00000000)
             }
             Else
             {
-                If (LEqual (_T_0, 0x13))
+                If (LEqual (T_0, 0x13))
                 {
                     If (LNotEqual (IDEX, Arg1))
                     {
@@ -5789,7 +5789,7 @@ DefinitionBlock ("acpi.aml", "DSDT", 1, "A0994", "A0994000", 0x00000000)
                 }
                 Else
                 {
-                    If (LEqual (_T_0, 0x32))
+                    If (LEqual (T_0, 0x32))
                     {
                         If (LNotEqual (GNVS (0x53A0), Arg1))
                         {
@@ -5823,7 +5823,7 @@ DefinitionBlock ("acpi.aml", "DSDT", 1, "A0994", "A0994000", 0x00000000)
                     }
                     Else
                     {
-                        If (LEqual (_T_0, 0x31))
+                        If (LEqual (T_0, 0x31))
                         {
                             If (LNotEqual (GNVS (0x4448), Arg1))
                             {
@@ -5837,7 +5837,7 @@ DefinitionBlock ("acpi.aml", "DSDT", 1, "A0994", "A0994000", 0x00000000)
                         }
                         Else
                         {
-                            If (LEqual (_T_0, 0x51))
+                            If (LEqual (T_0, 0x51))
                             {
                                 If (LNotEqual (GNVS (0x6368), Arg1))
                                 {
@@ -6161,27 +6161,27 @@ DefinitionBlock ("acpi.aml", "DSDT", 1, "A0994", "A0994000", 0x00000000)
         })
         Method (GIT4, 1, NotSerialized)
         {
-            Name (_T_0, Zero)  // _T_x: Emitted by ASL Compiler
-            Store (And (Arg0, 0xFFFF), _T_0) /* \_SB_.PCI0.SBRG.ASOC.GIT4._T_0 */
-            If (LEqual (_T_0, 0x10))
+            Name (T_0, Zero)  // T_x: Emitted by ASL Compiler
+            Store (And (Arg0, 0xFFFF), T_0) /* \_SB_.PCI0.SBRG.ASOC.GIT4.T_0 */
+            If (LEqual (T_0, 0x10))
             {
                 Store (GNVS (0x1697), ASB1) /* \_SB_.PCI0.SBRG.ASOC.ASB1 */
             }
             Else
             {
-                If (LEqual (_T_0, 0x11))
+                If (LEqual (T_0, 0x11))
                 {
                     Store (GNVS (0x2568), ASB1) /* \_SB_.PCI0.SBRG.ASOC.ASB1 */
                 }
                 Else
                 {
-                    If (LEqual (_T_0, 0x70))
+                    If (LEqual (T_0, 0x70))
                     {
                         Store (GNVS (0x169A), ASB1) /* \_SB_.PCI0.SBRG.ASOC.ASB1 */
                     }
                     Else
                     {
-                        If (LEqual (_T_0, 0x71))
+                        If (LEqual (T_0, 0x71))
                         {
                             Store (GNVS (0x3508), ASB1) /* \_SB_.PCI0.SBRG.ASOC.ASB1 */
                         }
@@ -6196,9 +6196,9 @@ DefinitionBlock ("acpi.aml", "DSDT", 1, "A0994", "A0994000", 0x00000000)
 
         Method (SIT4, 3, NotSerialized)
         {
-            Name (_T_0, Zero)  // _T_x: Emitted by ASL Compiler
-            Store (And (Arg0, 0xFFFF), _T_0) /* \_SB_.PCI0.SBRG.ASOC.SIT4._T_0 */
-            If (LEqual (_T_0, 0x10))
+            Name (T_0, Zero)  // T_x: Emitted by ASL Compiler
+            Store (And (Arg0, 0xFFFF), T_0) /* \_SB_.PCI0.SBRG.ASOC.SIT4.T_0 */
+            If (LEqual (T_0, 0x10))
             {
                 If (LNotEqual (GNVS (0x1697), Arg1))
                 {
@@ -6212,7 +6212,7 @@ DefinitionBlock ("acpi.aml", "DSDT", 1, "A0994", "A0994000", 0x00000000)
             }
             Else
             {
-                If (LEqual (_T_0, 0x11))
+                If (LEqual (T_0, 0x11))
                 {
                     If (LNotEqual (GNVS (0x2568), Arg1))
                     {
@@ -6226,7 +6226,7 @@ DefinitionBlock ("acpi.aml", "DSDT", 1, "A0994", "A0994000", 0x00000000)
                 }
                 Else
                 {
-                    If (LEqual (_T_0, 0x70))
+                    If (LEqual (T_0, 0x70))
                     {
                         If (LNotEqual (GNVS (0x169A), Arg1))
                         {
@@ -6240,7 +6240,7 @@ DefinitionBlock ("acpi.aml", "DSDT", 1, "A0994", "A0994000", 0x00000000)
                     }
                     Else
                     {
-                        If (LEqual (_T_0, 0x71))
+                        If (LEqual (T_0, 0x71))
                         {
                             If (LNotEqual (GNVS (0x3508), Arg1))
                             {
@@ -6281,9 +6281,9 @@ DefinitionBlock ("acpi.aml", "DSDT", 1, "A0994", "A0994000", 0x00000000)
         })
         Method (GIT5, 1, NotSerialized)
         {
-            Name (_T_0, Zero)  // _T_x: Emitted by ASL Compiler
-            Store (And (Arg0, 0xFFFF), _T_0) /* \_SB_.PCI0.SBRG.ASOC.GIT5._T_0 */
-            If (LEqual (_T_0, Zero))
+            Name (T_0, Zero)  // T_x: Emitted by ASL Compiler
+            Store (And (Arg0, 0xFFFF), T_0) /* \_SB_.PCI0.SBRG.ASOC.GIT5.T_0 */
+            If (LEqual (T_0, Zero))
             {
                 Store (One, ASB1) /* \_SB_.PCI0.SBRG.ASOC.ASB1 */
             }
@@ -6295,9 +6295,9 @@ DefinitionBlock ("acpi.aml", "DSDT", 1, "A0994", "A0994000", 0x00000000)
 
         Method (SIT5, 3, NotSerialized)
         {
-            Name (_T_0, Zero)  // _T_x: Emitted by ASL Compiler
-            Store (And (Arg0, 0xFFFF), _T_0) /* \_SB_.PCI0.SBRG.ASOC.SIT5._T_0 */
-            If (LEqual (_T_0, Zero))
+            Name (T_0, Zero)  // T_x: Emitted by ASL Compiler
+            Store (And (Arg0, 0xFFFF), T_0) /* \_SB_.PCI0.SBRG.ASOC.SIT5.T_0 */
+            If (LEqual (T_0, Zero))
             {
                 Store (0x03, ASB0) /* \_SB_.PCI0.SBRG.ASOC.ASB0 */
             }
@@ -6414,57 +6414,57 @@ DefinitionBlock ("acpi.aml", "DSDT", 1, "A0994", "A0994000", 0x00000000)
         })
         Method (GIT6, 1, NotSerialized)
         {
-            Name (_T_0, Zero)  // _T_x: Emitted by ASL Compiler
-            Store (And (Arg0, 0xFFFF), _T_0) /* \_SB_.PCI0.SBRG.ASOC.GIT6._T_0 */
-            If (LEqual (_T_0, 0x11))
+            Name (T_0, Zero)  // T_x: Emitted by ASL Compiler
+            Store (And (Arg0, 0xFFFF), T_0) /* \_SB_.PCI0.SBRG.ASOC.GIT6.T_0 */
+            If (LEqual (T_0, 0x11))
             {
                 Store (0x0600, ASB1) /* \_SB_.PCI0.SBRG.ASOC.ASB1 */
             }
             Else
             {
-                If (LEqual (_T_0, 0x12))
+                If (LEqual (T_0, 0x12))
                 {
                     Store (0x0601, ASB1) /* \_SB_.PCI0.SBRG.ASOC.ASB1 */
                 }
                 Else
                 {
-                    If (LEqual (_T_0, 0x13))
+                    If (LEqual (T_0, 0x13))
                     {
                         Store (0x0602, ASB1) /* \_SB_.PCI0.SBRG.ASOC.ASB1 */
                     }
                     Else
                     {
-                        If (LEqual (_T_0, 0x73))
+                        If (LEqual (T_0, 0x73))
                         {
                             Store (0x0603, ASB1) /* \_SB_.PCI0.SBRG.ASOC.ASB1 */
                         }
                         Else
                         {
-                            If (LEqual (_T_0, 0xC3))
+                            If (LEqual (T_0, 0xC3))
                             {
                                 Store (0x0604, ASB1) /* \_SB_.PCI0.SBRG.ASOC.ASB1 */
                             }
                             Else
                             {
-                                If (LEqual (_T_0, 0x61))
+                                If (LEqual (T_0, 0x61))
                                 {
                                     Store (0x0605, ASB1) /* \_SB_.PCI0.SBRG.ASOC.ASB1 */
                                 }
                                 Else
                                 {
-                                    If (LEqual (_T_0, 0x62))
+                                    If (LEqual (T_0, 0x62))
                                     {
                                         Store (0x0606, ASB1) /* \_SB_.PCI0.SBRG.ASOC.ASB1 */
                                     }
                                     Else
                                     {
-                                        If (LEqual (_T_0, 0x63))
+                                        If (LEqual (T_0, 0x63))
                                         {
                                             Store (0x0607, ASB1) /* \_SB_.PCI0.SBRG.ASOC.ASB1 */
                                         }
                                         Else
                                         {
-                                            If (LEqual (_T_0, 0x74))
+                                            If (LEqual (T_0, 0x74))
                                             {
                                                 Store (0x0608, ASB1) /* \_SB_.PCI0.SBRG.ASOC.ASB1 */
                                             }
@@ -6484,57 +6484,57 @@ DefinitionBlock ("acpi.aml", "DSDT", 1, "A0994", "A0994000", 0x00000000)
 
         Method (SIT6, 3, NotSerialized)
         {
-            Name (_T_0, Zero)  // _T_x: Emitted by ASL Compiler
-            Store (And (Arg0, 0xFFFF), _T_0) /* \_SB_.PCI0.SBRG.ASOC.SIT6._T_0 */
-            If (LEqual (_T_0, 0x11))
+            Name (T_0, Zero)  // T_x: Emitted by ASL Compiler
+            Store (And (Arg0, 0xFFFF), T_0) /* \_SB_.PCI0.SBRG.ASOC.SIT6.T_0 */
+            If (LEqual (T_0, 0x11))
             {
                 Store (0x0600, DBG8) /* \DBG8 */
             }
             Else
             {
-                If (LEqual (_T_0, 0x12))
+                If (LEqual (T_0, 0x12))
                 {
                     Store (0x0601, DBG8) /* \DBG8 */
                 }
                 Else
                 {
-                    If (LEqual (_T_0, 0x13))
+                    If (LEqual (T_0, 0x13))
                     {
                         Store (0x0602, DBG8) /* \DBG8 */
                     }
                     Else
                     {
-                        If (LEqual (_T_0, 0x73))
+                        If (LEqual (T_0, 0x73))
                         {
                             Store (0x0603, DBG8) /* \DBG8 */
                         }
                         Else
                         {
-                            If (LEqual (_T_0, 0xC3))
+                            If (LEqual (T_0, 0xC3))
                             {
                                 Store (0x0604, DBG8) /* \DBG8 */
                             }
                             Else
                             {
-                                If (LEqual (_T_0, 0x61))
+                                If (LEqual (T_0, 0x61))
                                 {
                                     Store (0x0605, DBG8) /* \DBG8 */
                                 }
                                 Else
                                 {
-                                    If (LEqual (_T_0, 0x62))
+                                    If (LEqual (T_0, 0x62))
                                     {
                                         Store (0x0606, DBG8) /* \DBG8 */
                                     }
                                     Else
                                     {
-                                        If (LEqual (_T_0, 0x63))
+                                        If (LEqual (T_0, 0x63))
                                         {
                                             Store (0x0607, DBG8) /* \DBG8 */
                                         }
                                         Else
                                         {
-                                            If (LEqual (_T_0, 0x74))
+                                            If (LEqual (T_0, 0x74))
                                             {
                                                 Store (0x0608, DBG8) /* \DBG8 */
                                             }
@@ -6575,9 +6575,9 @@ DefinitionBlock ("acpi.aml", "DSDT", 1, "A0994", "A0994000", 0x00000000)
         })
         Method (GIT9, 1, NotSerialized)
         {
-            Name (_T_0, Zero)  // _T_x: Emitted by ASL Compiler
-            Store (And (Arg0, 0xFFFF), _T_0) /* \_SB_.PCI0.SBRG.ASOC.GIT9._T_0 */
-            If (LEqual (_T_0, Zero))
+            Name (T_0, Zero)  // T_x: Emitted by ASL Compiler
+            Store (And (Arg0, 0xFFFF), T_0) /* \_SB_.PCI0.SBRG.ASOC.GIT9.T_0 */
+            If (LEqual (T_0, Zero))
             {
                 Store (GNVS (0x34F0), ASB1) /* \_SB_.PCI0.SBRG.ASOC.ASB1 */
             }
@@ -6589,9 +6589,9 @@ DefinitionBlock ("acpi.aml", "DSDT", 1, "A0994", "A0994000", 0x00000000)
 
         Method (SIT9, 3, NotSerialized)
         {
-            Name (_T_0, Zero)  // _T_x: Emitted by ASL Compiler
-            Store (And (Arg0, 0xFFFF), _T_0) /* \_SB_.PCI0.SBRG.ASOC.SIT9._T_0 */
-            If (LEqual (_T_0, Zero))
+            Name (T_0, Zero)  // T_x: Emitted by ASL Compiler
+            Store (And (Arg0, 0xFFFF), T_0) /* \_SB_.PCI0.SBRG.ASOC.SIT9.T_0 */
+            If (LEqual (T_0, Zero))
             {
                 If (LNotEqual (GNVS (0x34F0), Arg1))
                 {
@@ -6650,21 +6650,21 @@ DefinitionBlock ("acpi.aml", "DSDT", 1, "A0994", "A0994000", 0x00000000)
         })
         Method (GITB, 1, NotSerialized)
         {
-            Name (_T_0, Zero)  // _T_x: Emitted by ASL Compiler
-            Store (And (Arg0, 0xFFFF), _T_0) /* \_SB_.PCI0.SBRG.ASOC.GITB._T_0 */
-            If (LEqual (_T_0, One))
+            Name (T_0, Zero)  // T_x: Emitted by ASL Compiler
+            Store (And (Arg0, 0xFFFF), T_0) /* \_SB_.PCI0.SBRG.ASOC.GITB.T_0 */
+            If (LEqual (T_0, One))
             {
                 Store (And (DerefOf (Index (GBT0, 0x02)), 0xFFFF), ASB1) /* \_SB_.PCI0.SBRG.ASOC.ASB1 */
             }
             Else
             {
-                If (LEqual (_T_0, 0x02))
+                If (LEqual (T_0, 0x02))
                 {
                     Store (DerefOf (Index (GBT1, 0x02)), ASB1) /* \_SB_.PCI0.SBRG.ASOC.ASB1 */
                 }
                 Else
                 {
-                    If (LEqual (_T_0, 0x03))
+                    If (LEqual (T_0, 0x03))
                     {
                         Store (DerefOf (Index (GBT2, 0x02)), ASB1) /* \_SB_.PCI0.SBRG.ASOC.ASB1 */
                     }
@@ -6678,13 +6678,13 @@ DefinitionBlock ("acpi.aml", "DSDT", 1, "A0994", "A0994000", 0x00000000)
 
         Method (SITB, 3, NotSerialized)
         {
-            Name (_T_0, Zero)  // _T_x: Emitted by ASL Compiler
-            Store (And (Arg0, 0xFFFF), _T_0) /* \_SB_.PCI0.SBRG.ASOC.SITB._T_0 */
-            If (LEqual (_T_0, One))
+            Name (T_0, Zero)  // T_x: Emitted by ASL Compiler
+            Store (And (Arg0, 0xFFFF), T_0) /* \_SB_.PCI0.SBRG.ASOC.SITB.T_0 */
+            If (LEqual (T_0, One))
             {
-                Name (_T_1, Zero)  // _T_x: Emitted by ASL Compiler
-                Store (And (Arg2, 0xFFFF), _T_1) /* \_SB_.PCI0.SBRG.ASOC.SITB._T_1 */
-                If (LEqual (_T_1, Zero))
+                Name (T_1, Zero)  // T_x: Emitted by ASL Compiler
+                Store (And (Arg2, 0xFFFF), T_1) /* \_SB_.PCI0.SBRG.ASOC.SITB.T_1 */
+                If (LEqual (T_1, Zero))
                 {
                     Store (And (DerefOf (Index (GBT0, 0x02)), 0xFFFF), Local0)
                     If (LEqual (Local0, Zero))
@@ -6694,7 +6694,7 @@ DefinitionBlock ("acpi.aml", "DSDT", 1, "A0994", "A0994000", 0x00000000)
                 }
                 Else
                 {
-                    If (LEqual (_T_1, One))
+                    If (LEqual (T_1, One))
                     {
                         And (Arg1, 0xFFFF, Local0)
                         Store (Local0, Index (GBT0, 0x02))
@@ -6710,7 +6710,7 @@ DefinitionBlock ("acpi.aml", "DSDT", 1, "A0994", "A0994000", 0x00000000)
             }
             Else
             {
-                If (LEqual (_T_0, 0x02))
+                If (LEqual (T_0, 0x02))
                 {
                     Store (And (Arg1, 0xFF), Local0)
                     If (LEqual (ITCG (Local0), One))
@@ -6792,33 +6792,33 @@ DefinitionBlock ("acpi.aml", "DSDT", 1, "A0994", "A0994000", 0x00000000)
         })
         Method (GITD, 1, NotSerialized)
         {
-            Name (_T_0, Zero)  // _T_x: Emitted by ASL Compiler
-            Store (And (Arg0, 0xFFFF), _T_0) /* \_SB_.PCI0.SBRG.ASOC.GITD._T_0 */
-            If (LEqual (_T_0, One))
+            Name (T_0, Zero)  // T_x: Emitted by ASL Compiler
+            Store (And (Arg0, 0xFFFF), T_0) /* \_SB_.PCI0.SBRG.ASOC.GITD.T_0 */
+            If (LEqual (T_0, One))
             {
                 Store (GNVS (0x168F), ASB1) /* \_SB_.PCI0.SBRG.ASOC.ASB1 */
             }
             Else
             {
-                If (LEqual (_T_0, 0x02))
+                If (LEqual (T_0, 0x02))
                 {
                     Store (GNVS (0x5390), ASB1) /* \_SB_.PCI0.SBRG.ASOC.ASB1 */
                 }
                 Else
                 {
-                    If (LEqual (_T_0, 0x03))
+                    If (LEqual (T_0, 0x03))
                     {
                         Store (GNVS (0x5398), ASB1) /* \_SB_.PCI0.SBRG.ASOC.ASB1 */
                     }
                     Else
                     {
-                        If (LEqual (_T_0, 0x04))
+                        If (LEqual (T_0, 0x04))
                         {
                             Store (GNVS (0x6358), ASB1) /* \_SB_.PCI0.SBRG.ASOC.ASB1 */
                         }
                         Else
                         {
-                            If (LEqual (_T_0, 0x05))
+                            If (LEqual (T_0, 0x05))
                             {
                                 Store (GNVS (0x6360), ASB1) /* \_SB_.PCI0.SBRG.ASOC.ASB1 */
                             }
@@ -6834,37 +6834,37 @@ DefinitionBlock ("acpi.aml", "DSDT", 1, "A0994", "A0994000", 0x00000000)
 
         Method (SITD, 3, NotSerialized)
         {
-            Name (_T_0, Zero)  // _T_x: Emitted by ASL Compiler
-            Store (And (Arg0, 0xFFFF), _T_0) /* \_SB_.PCI0.SBRG.ASOC.SITD._T_0 */
-            If (LEqual (_T_0, One))
+            Name (T_0, Zero)  // T_x: Emitted by ASL Compiler
+            Store (And (Arg0, 0xFFFF), T_0) /* \_SB_.PCI0.SBRG.ASOC.SITD.T_0 */
+            If (LEqual (T_0, One))
             {
                 SNVS (0x168F, Arg1)
                 Store (0x03, ASB0) /* \_SB_.PCI0.SBRG.ASOC.ASB0 */
             }
             Else
             {
-                If (LEqual (_T_0, 0x02))
+                If (LEqual (T_0, 0x02))
                 {
                     SNVS (0x5390, Arg1)
                     Store (0x03, ASB0) /* \_SB_.PCI0.SBRG.ASOC.ASB0 */
                 }
                 Else
                 {
-                    If (LEqual (_T_0, 0x03))
+                    If (LEqual (T_0, 0x03))
                     {
                         SNVS (0x5398, Arg1)
                         Store (0x03, ASB0) /* \_SB_.PCI0.SBRG.ASOC.ASB0 */
                     }
                     Else
                     {
-                        If (LEqual (_T_0, 0x04))
+                        If (LEqual (T_0, 0x04))
                         {
                             SNVS (0x6358, Arg1)
                             Store (0x03, ASB0) /* \_SB_.PCI0.SBRG.ASOC.ASB0 */
                         }
                         Else
                         {
-                            If (LEqual (_T_0, 0x05))
+                            If (LEqual (T_0, 0x05))
                             {
                                 SNVS (0x6360, Arg1)
                                 Store (0x03, ASB0) /* \_SB_.PCI0.SBRG.ASOC.ASB0 */
@@ -7006,16 +7006,16 @@ DefinitionBlock ("acpi.aml", "DSDT", 1, "A0994", "A0994000", 0x00000000)
         })
         Method (GITE, 1, NotSerialized)
         {
-            Name (_T_0, Zero)  // _T_x: Emitted by ASL Compiler
-            Store (And (Arg0, 0xFFFF), _T_0) /* \_SB_.PCI0.SBRG.ASOC.GITE._T_0 */
-            If (LEqual (_T_0, One))
+            Name (T_0, Zero)  // T_x: Emitted by ASL Compiler
+            Store (And (Arg0, 0xFFFF), T_0) /* \_SB_.PCI0.SBRG.ASOC.GITE.T_0 */
+            If (LEqual (T_0, One))
             {
                 Store (DerefOf (Index (OCST, RBYT (DerefOf (Index (ADP3, Zero)), 
                     DerefOf (Index (ADP3, One))))), ASB1) /* \_SB_.PCI0.SBRG.ASOC.ASB1 */
             }
             Else
             {
-                If (LEqual (_T_0, 0x11))
+                If (LEqual (T_0, 0x11))
                 {
                     Store (RBYT (DerefOf (Index (ADP3, Zero)), DerefOf (Index (ADP3, 
                         0x02))), Local0)
@@ -7025,7 +7025,7 @@ DefinitionBlock ("acpi.aml", "DSDT", 1, "A0994", "A0994000", 0x00000000)
                 }
                 Else
                 {
-                    If (LEqual (_T_0, 0x12))
+                    If (LEqual (T_0, 0x12))
                     {
                         Store (RBYT (DerefOf (Index (ADP3, Zero)), DerefOf (Index (ADP3, 
                             0x03))), Local0)
@@ -7035,7 +7035,7 @@ DefinitionBlock ("acpi.aml", "DSDT", 1, "A0994", "A0994000", 0x00000000)
                     }
                     Else
                     {
-                        If (LEqual (_T_0, 0x13))
+                        If (LEqual (T_0, 0x13))
                         {
                             Store (RBYT (DerefOf (Index (ADP3, Zero)), DerefOf (Index (ADP3, 
                                 0x04))), Local0)
@@ -7045,21 +7045,21 @@ DefinitionBlock ("acpi.aml", "DSDT", 1, "A0994", "A0994000", 0x00000000)
                         }
                         Else
                         {
-                            If (LEqual (_T_0, 0x14))
+                            If (LEqual (T_0, 0x14))
                             {
                                 Store (RBYT (DerefOf (Index (ADP3, Zero)), DerefOf (Index (ADP3, 
                                     0x05))), ASB1) /* \_SB_.PCI0.SBRG.ASOC.ASB1 */
                             }
                             Else
                             {
-                                If (LEqual (_T_0, 0x15))
+                                If (LEqual (T_0, 0x15))
                                 {
                                     Store (RBYT (DerefOf (Index (ADP3, Zero)), DerefOf (Index (ADP3, 
                                         0x06))), ASB1) /* \_SB_.PCI0.SBRG.ASOC.ASB1 */
                                 }
                                 Else
                                 {
-                                    If (LEqual (_T_0, 0x16))
+                                    If (LEqual (T_0, 0x16))
                                     {
                                         Store (RBYT (DerefOf (Index (ADP3, Zero)), DerefOf (Index (ADP3, 
                                             0x07))), ASB1) /* \_SB_.PCI0.SBRG.ASOC.ASB1 */
@@ -7078,23 +7078,23 @@ DefinitionBlock ("acpi.aml", "DSDT", 1, "A0994", "A0994000", 0x00000000)
 
         Method (SITE, 3, NotSerialized)
         {
-            Name (_T_0, Zero)  // _T_x: Emitted by ASL Compiler
-            Store (And (Arg0, 0xFFFF), _T_0) /* \_SB_.PCI0.SBRG.ASOC.SITE._T_0 */
-            If (LEqual (_T_0, 0x14))
+            Name (T_0, Zero)  // T_x: Emitted by ASL Compiler
+            Store (And (Arg0, 0xFFFF), T_0) /* \_SB_.PCI0.SBRG.ASOC.SITE.T_0 */
+            If (LEqual (T_0, 0x14))
             {
                 WBYT (DerefOf (Index (ADP3, Zero)), DerefOf (Index (ADP3, 0x05
                     )), Arg1)
             }
             Else
             {
-                If (LEqual (_T_0, 0x15))
+                If (LEqual (T_0, 0x15))
                 {
                     WBYT (DerefOf (Index (ADP3, Zero)), DerefOf (Index (ADP3, 0x06
                         )), Arg1)
                 }
                 Else
                 {
-                    If (LEqual (_T_0, 0x16))
+                    If (LEqual (T_0, 0x16))
                     {
                         WBYT (DerefOf (Index (ADP3, Zero)), DerefOf (Index (ADP3, 0x07
                             )), Arg1)
@@ -7162,21 +7162,21 @@ DefinitionBlock ("acpi.aml", "DSDT", 1, "A0994", "A0994000", 0x00000000)
         })
         Method (ITCG, 1, NotSerialized)
         {
-            Name (_T_0, Zero)  // _T_x: Emitted by ASL Compiler
-            Store (GNVS (0x354C), _T_0) /* \_SB_.PCI0.SBRG.ASOC.ITCG._T_0 */
-            If (LEqual (_T_0, Zero))
+            Name (T_0, Zero)  // T_x: Emitted by ASL Compiler
+            Store (GNVS (0x354C), T_0) /* \_SB_.PCI0.SBRG.ASOC.ITCG.T_0 */
+            If (LEqual (T_0, Zero))
             {
                 Store (One, Local0)
             }
             Else
             {
-                If (LEqual (_T_0, 0x04))
+                If (LEqual (T_0, 0x04))
                 {
                     Store (0x02, Local0)
                 }
                 Else
                 {
-                    If (LEqual (_T_0, 0x06))
+                    If (LEqual (T_0, 0x06))
                     {
                         Store (0x03, Local0)
                     }
@@ -7196,9 +7196,9 @@ DefinitionBlock ("acpi.aml", "DSDT", 1, "A0994", "A0994000", 0x00000000)
             CreateByteField (CLKB, 0x18, CB24)
             CreateByteField (CLKB, 0x19, CB25)
             Store (RBLK (0xD2, Zero, 0x1A), CLKB) /* \_SB_.PCI0.SBRG.ASOC.CLKB */
-            Name (_T_1, Zero)  // _T_x: Emitted by ASL Compiler
-            Store (And (Arg0, 0xFF), _T_1) /* \_SB_.PCI0.SBRG.ASOC.ITCG._T_1 */
-            If (LEqual (_T_1, Zero))
+            Name (T_1, Zero)  // T_x: Emitted by ASL Compiler
+            Store (And (Arg0, 0xFF), T_1) /* \_SB_.PCI0.SBRG.ASOC.ITCG.T_1 */
+            If (LEqual (T_1, Zero))
             {
                 Store (Or (CB00, 0x20), CB00) /* \_SB_.PCI0.SBRG.ASOC.ITCG.CB00 */
                 Store (And (CB20, 0xFB), CB20) /* \_SB_.PCI0.SBRG.ASOC.ITCG.CB20 */
@@ -7210,7 +7210,7 @@ DefinitionBlock ("acpi.aml", "DSDT", 1, "A0994", "A0994000", 0x00000000)
             }
             Else
             {
-                If (LEqual (_T_1, One))
+                If (LEqual (T_1, One))
                 {
                     Store (And (CB00, 0xDF), CB00) /* \_SB_.PCI0.SBRG.ASOC.ITCG.CB00 */
                     Store (Or (CB20, 0x04), CB20) /* \_SB_.PCI0.SBRG.ASOC.ITCG.CB20 */
@@ -7242,30 +7242,30 @@ DefinitionBlock ("acpi.aml", "DSDT", 1, "A0994", "A0994000", 0x00000000)
             If (And (Arg0, 0x8000))
             {
                 Store (One, AIGC) /* \_SB_.PCI0.SBRG.ASOC.AIGC */
-                Name (_T_0, Zero)  // _T_x: Emitted by ASL Compiler
-                Store (And (Arg0, 0xFF), _T_0) /* \_SB_.PCI0.SBRG.ASOC.SICL._T_0 */
-                If (LEqual (_T_0, 0x10))
+                Name (T_0, Zero)  // T_x: Emitted by ASL Compiler
+                Store (And (Arg0, 0xFF), T_0) /* \_SB_.PCI0.SBRG.ASOC.SICL.T_0 */
+                If (LEqual (T_0, 0x10))
                 {
                     SPIC (Zero)
                     Store (Zero, PICL) /* \_SB_.PCI0.SBRG.ASOC.PICL */
                 }
                 Else
                 {
-                    If (LEqual (_T_0, 0x11))
+                    If (LEqual (T_0, 0x11))
                     {
                         SPIC (One)
                         Store (One, PICL) /* \_SB_.PCI0.SBRG.ASOC.PICL */
                     }
                     Else
                     {
-                        If (LEqual (_T_0, 0x12))
+                        If (LEqual (T_0, 0x12))
                         {
                             SPIC (0x02)
                             Store (0x02, PICL) /* \_SB_.PCI0.SBRG.ASOC.PICL */
                         }
                         Else
                         {
-                            If (LEqual (_T_0, 0x13))
+                            If (LEqual (T_0, 0x13))
                             {
                                 SPIC (0x03)
                                 Store (0x03, PICL) /* \_SB_.PCI0.SBRG.ASOC.PICL */
@@ -7287,23 +7287,23 @@ DefinitionBlock ("acpi.aml", "DSDT", 1, "A0994", "A0994000", 0x00000000)
                 }
                 Else
                 {
-                    Name (_T_1, Zero)  // _T_x: Emitted by ASL Compiler
-                    Store (And (Arg0, 0xFF), _T_1) /* \_SB_.PCI0.SBRG.ASOC.SICL._T_1 */
-                    If (LEqual (_T_1, Zero))
+                    Name (T_1, Zero)  // T_x: Emitted by ASL Compiler
+                    Store (And (Arg0, 0xFF), T_1) /* \_SB_.PCI0.SBRG.ASOC.SICL.T_1 */
+                    If (LEqual (T_1, Zero))
                     {
                         SPIC (One)
                         Store (One, PICL) /* \_SB_.PCI0.SBRG.ASOC.PICL */
                     }
                     Else
                     {
-                        If (LEqual (_T_1, One))
+                        If (LEqual (T_1, One))
                         {
                             SPIC (0x02)
                             Store (0x02, PICL) /* \_SB_.PCI0.SBRG.ASOC.PICL */
                         }
                         Else
                         {
-                            If (LEqual (_T_1, 0x02))
+                            If (LEqual (T_1, 0x02))
                             {
                                 SPIC (0x03)
                                 Store (0x03, PICL) /* \_SB_.PCI0.SBRG.ASOC.PICL */
