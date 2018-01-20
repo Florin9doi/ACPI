@@ -5,7 +5,7 @@
  * 
  * Disassembling to non-symbolic legacy ASL operators
  *
- * Disassembly of DSDT.aml, Sat Jan 20 15:52:16 2018
+ * Disassembly of DSDT.aml, Sat Jan 20 16:16:43 2018
  *
  * Original Table Header:
  *     Signature        "DSDT"
@@ -6989,7 +6989,10 @@ DefinitionBlock ("", "DSDT", 2, "DELL", "WN09", 0x00000000)
                         Return (CRS)
                     }
 
-                    Return (Zero)
+                    Return (Buffer ()
+                    {
+                         0x00
+                    })
                 }
             }
         }
@@ -7889,10 +7892,13 @@ DefinitionBlock ("", "DSDT", 2, "DELL", "WN09", 0x00000000)
                         Zero, 
                         Zero
                     })
-                    Name (_PLD, Buffer (0x10)  // _PLD: Physical Location of Device
+                    Name (_PLD, Package ()  // _PLD: Physical Location of Device
                     {
-                        /* 0000 */  0x00, 0x00, 0x00, 0x81, 0x00, 0x00, 0x00, 0x00,
-                        /* 0008 */  0x00, 0x00, 0x00, 0x30, 0x00, 0x00, 0x00, 0x00 
+                        Buffer ()
+                        {
+                            /* 0000 */  0x00, 0x00, 0x00, 0x81, 0x00, 0x00, 0x00, 0x00,
+                            /* 0008 */  0x00, 0x00, 0x00, 0x30, 0x00, 0x00, 0x00, 0x00
+                        }
                     })
                     Device (CH00)
                     {
@@ -7919,10 +7925,13 @@ DefinitionBlock ("", "DSDT", 2, "DELL", "WN09", 0x00000000)
                             Zero, 
                             Zero
                         })
-                        Name (_PLD, Buffer (0x10)  // _PLD: Physical Location of Device
+                        Name (_PLD, Package ()  // _PLD: Physical Location of Device
                         {
-                            /* 0000 */  0x00, 0x00, 0x00, 0x81, 0x00, 0x00, 0x00, 0x00,
-                            /* 0008 */  0x00, 0x00, 0x00, 0x30, 0x00, 0x00, 0x00, 0x00 
+                            Buffer ()
+                            {
+                                /* 0000 */  0x00, 0x00, 0x00, 0x81, 0x00, 0x00, 0x00, 0x00,
+                                /* 0008 */  0x00, 0x00, 0x00, 0x30, 0x00, 0x00, 0x00, 0x00
+                            }
                         })
                     }
 
@@ -7936,10 +7945,13 @@ DefinitionBlock ("", "DSDT", 2, "DELL", "WN09", 0x00000000)
                             Zero, 
                             Zero
                         })
-                        Name (_PLD, Buffer (0x10)  // _PLD: Physical Location of Device
+                        Name (_PLD, Package ()  // _PLD: Physical Location of Device
                         {
-                            /* 0000 */  0x00, 0x00, 0x00, 0x81, 0x00, 0x00, 0x00, 0x00,
-                            /* 0008 */  0x00, 0x00, 0x00, 0x30, 0x00, 0x00, 0x00, 0x00 
+                            Buffer ()
+                            {
+                                /* 0000 */  0x00, 0x00, 0x00, 0x81, 0x00, 0x00, 0x00, 0x00,
+                                /* 0008 */  0x00, 0x00, 0x00, 0x30, 0x00, 0x00, 0x00, 0x00
+                            }
                         })
                     }
 
@@ -8003,10 +8015,13 @@ DefinitionBlock ("", "DSDT", 2, "DELL", "WN09", 0x00000000)
                         Zero, 
                         Zero
                     })
-                    Name (_PLD, Buffer (0x10)  // _PLD: Physical Location of Device
+                    Name (_PLD, Package ()  // _PLD: Physical Location of Device
                     {
-                        /* 0000 */  0x00, 0x00, 0x00, 0x81, 0x00, 0x00, 0x00, 0x00,
-                        /* 0008 */  0x00, 0x00, 0x00, 0x30, 0x00, 0x00, 0x00, 0x00 
+                        Buffer ()
+                        {
+                            /* 0000 */  0x00, 0x00, 0x00, 0x81, 0x00, 0x00, 0x00, 0x00,
+                            /* 0008 */  0x00, 0x00, 0x00, 0x30, 0x00, 0x00, 0x00, 0x00
+                        }
                     })
                     Device (CH00)
                     {
@@ -8018,10 +8033,13 @@ DefinitionBlock ("", "DSDT", 2, "DELL", "WN09", 0x00000000)
                             Zero, 
                             Zero
                         })
-                        Name (_PLD, Buffer (0x10)  // _PLD: Physical Location of Device
+                        Name (_PLD, Package ()  // _PLD: Physical Location of Device
                         {
-                            /* 0000 */  0x00, 0x00, 0x00, 0x81, 0x00, 0x00, 0x00, 0x00,
-                            /* 0008 */  0x00, 0x00, 0x00, 0x30, 0x00, 0x00, 0x00, 0x00 
+                            Buffer ()
+                            {
+                                /* 0000 */  0x00, 0x00, 0x00, 0x81, 0x00, 0x00, 0x00, 0x00,
+                                /* 0008 */  0x00, 0x00, 0x00, 0x30, 0x00, 0x00, 0x00, 0x00
+                            }
                         })
                     }
 
@@ -8040,10 +8058,13 @@ DefinitionBlock ("", "DSDT", 2, "DELL", "WN09", 0x00000000)
                             Zero, 
                             Zero
                         })
-                        Name (_PLD, Buffer (0x10)  // _PLD: Physical Location of Device
+                        Name (_PLD, Package ()  // _PLD: Physical Location of Device
                         {
-                            /* 0000 */  0x00, 0x00, 0x00, 0x81, 0x00, 0x00, 0x00, 0x00,
-                            /* 0008 */  0x00, 0x00, 0x00, 0x30, 0x00, 0x00, 0x00, 0x00 
+                            Buffer ()
+                            {
+                                /* 0000 */  0x00, 0x00, 0x00, 0x81, 0x00, 0x00, 0x00, 0x00,
+                                /* 0008 */  0x00, 0x00, 0x00, 0x30, 0x00, 0x00, 0x00, 0x00
+                            }
                         })
                     }
 
@@ -8057,10 +8078,13 @@ DefinitionBlock ("", "DSDT", 2, "DELL", "WN09", 0x00000000)
                             Zero, 
                             Zero
                         })
-                        Name (_PLD, Buffer (0x10)  // _PLD: Physical Location of Device
+                        Name (_PLD, Package ()  // _PLD: Physical Location of Device
                         {
-                            /* 0000 */  0x00, 0x00, 0x00, 0x81, 0x00, 0x00, 0x00, 0x00,
-                            /* 0008 */  0x00, 0x00, 0x00, 0x30, 0x00, 0x00, 0x00, 0x00 
+                            Buffer ()
+                            {
+                                /* 0000 */  0x00, 0x00, 0x00, 0x81, 0x00, 0x00, 0x00, 0x00,
+                                /* 0008 */  0x00, 0x00, 0x00, 0x30, 0x00, 0x00, 0x00, 0x00
+                            }
                         })
                     }
 
@@ -8074,10 +8098,13 @@ DefinitionBlock ("", "DSDT", 2, "DELL", "WN09", 0x00000000)
                             Zero, 
                             Zero
                         })
-                        Name (_PLD, Buffer (0x10)  // _PLD: Physical Location of Device
+                        Name (_PLD, Package ()  // _PLD: Physical Location of Device
                         {
-                            /* 0000 */  0x00, 0x00, 0x00, 0x81, 0x00, 0x00, 0x00, 0x00,
-                            /* 0008 */  0x00, 0x00, 0x00, 0x30, 0x00, 0x00, 0x00, 0x00 
+                            Buffer ()
+                            {
+                                /* 0000 */  0x00, 0x00, 0x00, 0x81, 0x00, 0x00, 0x00, 0x00,
+                                /* 0008 */  0x00, 0x00, 0x00, 0x30, 0x00, 0x00, 0x00, 0x00
+                            }
                         })
                     }
 
@@ -8091,10 +8118,13 @@ DefinitionBlock ("", "DSDT", 2, "DELL", "WN09", 0x00000000)
                             Zero, 
                             Zero
                         })
-                        Name (_PLD, Buffer (0x10)  // _PLD: Physical Location of Device
+                        Name (_PLD, Package ()  // _PLD: Physical Location of Device
                         {
-                            /* 0000 */  0x00, 0x00, 0x00, 0x81, 0x00, 0x00, 0x00, 0x00,
-                            /* 0008 */  0x00, 0x00, 0x00, 0x30, 0x00, 0x00, 0x00, 0x00 
+                            Buffer ()
+                            {
+                                /* 0000 */  0x00, 0x00, 0x00, 0x81, 0x00, 0x00, 0x00, 0x00,
+                                /* 0008 */  0x00, 0x00, 0x00, 0x30, 0x00, 0x00, 0x00, 0x00
+                            }
                         })
                     }
 
@@ -8773,6 +8803,8 @@ DefinitionBlock ("", "DSDT", 2, "DELL", "WN09", 0x00000000)
             SX44 (SX23, Local0)
             Return (SX23)
         }
+
+        Return (Zero)
     }
 
     Method (SX12, 0, NotSerialized)
@@ -9731,7 +9763,7 @@ DefinitionBlock ("", "DSDT", 2, "DELL", "WN09", 0x00000000)
         Device (AMW0)
         {
             Mutex (WMIX, 0x01)
-            Name (_HID, "pnp0c14")  // _HID: Hardware ID
+            Name (_HID, "PNP0c14")  // _HID: Hardware ID
             Name (_UID, Zero)  // _UID: Unique ID
             Method (STBY, 3, NotSerialized)
             {
