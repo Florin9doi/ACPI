@@ -1,7 +1,7 @@
 /*
  * Intel ACPI Component Architecture
- * AML Disassembler version 20140724-32 [Jul 24 2014]
- * Copyright (c) 2000 - 2014 Intel Corporation
+ * AML/ASL+ Disassembler version 20190816 (32-bit version)
+ * Copyright (c) 2000 - 2019 Intel Corporation
  * 
  *
  * Original Table Header:
@@ -15,7 +15,7 @@
  *     Compiler ID      "INTL"
  *     Compiler Version 0x20060113 (537264403)
  */
-DefinitionBlock ("acpi.aml", "DSDT", 1, "A0994", "A0994000", 0x00000000)
+DefinitionBlock ("", "DSDT", 1, "A0994", "A0994000", 0x00000000)
 {
     Scope (_PR)
     {
@@ -31,12 +31,12 @@ DefinitionBlock ("acpi.aml", "DSDT", 1, "A0994", "A0994000", 0x00000000)
             {
                 CreateDWordField (Arg0, Zero, REVS)
                 CreateDWordField (Arg0, 0x04, SIZE)
-                Store (SizeOf (Arg0), Local0)
-                Store (Subtract (Local0, 0x08), Local1)
-                CreateField (Arg0, 0x40, Multiply (Local1, 0x08), TEMP)
+                Local0 = SizeOf (Arg0)
+                Local1 = (Local0 - 0x08)
+                CreateField (Arg0, 0x40, (Local1 * 0x08), TEMP)
                 Name (STS0, Buffer (0x04)
                 {
-                     0x00, 0x00, 0x00, 0x00                           /* .... */
+                     0x00, 0x00, 0x00, 0x00                           // ....
                 })
                 Concatenate (STS0, TEMP, Local2)
                 _OSC (ToUUID ("4077a616-290c-47be-9ebd-d87058713953"), REVS, SIZE, Local2)
@@ -55,36 +55,36 @@ DefinitionBlock ("acpi.aml", "DSDT", 1, "A0994", "A0994000", 0x00000000)
                 CreateDWordField (UID0, 0x04, EID1)
                 CreateDWordField (UID0, 0x08, EID2)
                 CreateDWordField (UID0, 0x0C, EID3)
-                If (LNot (LAnd (LAnd (LEqual (IID0, EID0), LEqual (IID1, EID1)), 
-                    LAnd (LEqual (IID2, EID2), LEqual (IID3, EID3)))))
+                If (!(((IID0 == EID0) && (IID1 == EID1)) && ((
+                    IID2 == EID2) && (IID3 == EID3))))
                 {
-                    Store (0x06, STS0) /* \_PR_.CPU1._OSC.STS0 */
+                    STS0 = 0x06
                     Return (Arg3)
                 }
 
-                If (LNotEqual (Arg1, One))
+                If ((Arg1 != One))
                 {
-                    Store (0x0A, STS0) /* \_PR_.CPU1._OSC.STS0 */
+                    STS0 = 0x0A
                     Return (Arg3)
                 }
 
-                Or (And (TYPE, 0x7FFFFFFF), CAP0, TYPE) /* \_PR_.CPU1.TYPE */
-                If (And (CFGD, One))
+                TYPE = ((TYPE & 0x7FFFFFFF) | CAP0) /* \_PR_.CPU1._OSC.CAP0 */
+                If ((CFGD & One))
                 {
-                    If (LAnd (LAnd (And (CFGD, 0x01000000), LEqual (And (TYPE, 
-                        0x09), 0x09)), LNot (And (TBLD, One))))
+                    If ((((CFGD & 0x01000000) && ((TYPE & 0x09) == 
+                        0x09)) && !(TBLD & One)))
                     {
-                        Or (TBLD, One, TBLD) /* \_PR_.CPU1.TBLD */
+                        TBLD |= One
                         Load (STBL, HNDL) /* \_PR_.CPU1.HNDL */
                     }
                 }
 
-                If (And (CFGD, 0xF0))
+                If ((CFGD & 0xF0))
                 {
-                    If (LAnd (LAnd (And (CFGD, 0x01000000), And (TYPE, 0x18
-                        )), LNot (And (TBLD, 0x02))))
+                    If ((((CFGD & 0x01000000) && (TYPE & 0x18)) && !
+                        (TBLD & 0x02)))
                     {
-                        Or (TBLD, 0x02, TBLD) /* \_PR_.CPU1.TBLD */
+                        TBLD |= 0x02
                     }
                 }
 
@@ -107,12 +107,12 @@ DefinitionBlock ("acpi.aml", "DSDT", 1, "A0994", "A0994000", 0x00000000)
             {
                 CreateDWordField (Arg0, Zero, REVS)
                 CreateDWordField (Arg0, 0x04, SIZE)
-                Store (SizeOf (Arg0), Local0)
-                Store (Subtract (Local0, 0x08), Local1)
-                CreateField (Arg0, 0x40, Multiply (Local1, 0x08), TEMP)
+                Local0 = SizeOf (Arg0)
+                Local1 = (Local0 - 0x08)
+                CreateField (Arg0, 0x40, (Local1 * 0x08), TEMP)
                 Name (STS1, Buffer (0x04)
                 {
-                     0x00, 0x00, 0x00, 0x00                           /* .... */
+                     0x00, 0x00, 0x00, 0x00                           // ....
                 })
                 Concatenate (STS1, TEMP, Local2)
                 _OSC (ToUUID ("4077a616-290c-47be-9ebd-d87058713953"), REVS, SIZE, Local2)
@@ -131,36 +131,36 @@ DefinitionBlock ("acpi.aml", "DSDT", 1, "A0994", "A0994000", 0x00000000)
                 CreateDWordField (UID0, 0x04, EID1)
                 CreateDWordField (UID0, 0x08, EID2)
                 CreateDWordField (UID0, 0x0C, EID3)
-                If (LNot (LAnd (LAnd (LEqual (IID0, EID0), LEqual (IID1, EID1)), 
-                    LAnd (LEqual (IID2, EID2), LEqual (IID3, EID3)))))
+                If (!(((IID0 == EID0) && (IID1 == EID1)) && ((
+                    IID2 == EID2) && (IID3 == EID3))))
                 {
-                    Store (0x06, STS1) /* \_PR_.CPU2._OSC.STS1 */
+                    STS1 = 0x06
                     Return (Arg3)
                 }
 
-                If (LNotEqual (Arg1, One))
+                If ((Arg1 != One))
                 {
-                    Store (0x0A, STS1) /* \_PR_.CPU2._OSC.STS1 */
+                    STS1 = 0x0A
                     Return (Arg3)
                 }
 
-                Or (And (TYPE, 0x7FFFFFFF), CAP1, TYPE) /* \_PR_.CPU2.TYPE */
-                If (And (CFGD, One))
+                TYPE = ((TYPE & 0x7FFFFFFF) | CAP1) /* \_PR_.CPU2._OSC.CAP1 */
+                If ((CFGD & One))
                 {
-                    If (LAnd (LAnd (And (CFGD, 0x01000000), LEqual (And (TYPE, 
-                        0x09), 0x09)), LNot (And (TBLD, One))))
+                    If ((((CFGD & 0x01000000) && ((TYPE & 0x09) == 
+                        0x09)) && !(TBLD & One)))
                     {
-                        Or (TBLD, One, TBLD) /* \_PR_.CPU2.TBLD */
+                        TBLD |= One
                         Load (STBL, HNDL) /* \_PR_.CPU2.HNDL */
                     }
                 }
 
-                If (And (CFGD, 0xF0))
+                If ((CFGD & 0xF0))
                 {
-                    If (LAnd (LAnd (And (CFGD, 0x01000000), And (TYPE, 0x18
-                        )), LNot (And (TBLD, 0x02))))
+                    If ((((CFGD & 0x01000000) && (TYPE & 0x18)) && !
+                        (TBLD & 0x02)))
                     {
-                        Or (TBLD, 0x02, TBLD) /* \_PR_.CPU2.TBLD */
+                        TBLD |= 0x02
                     }
                 }
 
@@ -183,12 +183,12 @@ DefinitionBlock ("acpi.aml", "DSDT", 1, "A0994", "A0994000", 0x00000000)
             {
                 CreateDWordField (Arg0, Zero, REVS)
                 CreateDWordField (Arg0, 0x04, SIZE)
-                Store (SizeOf (Arg0), Local0)
-                Store (Subtract (Local0, 0x08), Local1)
-                CreateField (Arg0, 0x40, Multiply (Local1, 0x08), TEMP)
+                Local0 = SizeOf (Arg0)
+                Local1 = (Local0 - 0x08)
+                CreateField (Arg0, 0x40, (Local1 * 0x08), TEMP)
                 Name (STS2, Buffer (0x04)
                 {
-                     0x00, 0x00, 0x00, 0x00                           /* .... */
+                     0x00, 0x00, 0x00, 0x00                           // ....
                 })
                 Concatenate (STS2, TEMP, Local2)
                 _OSC (ToUUID ("4077a616-290c-47be-9ebd-d87058713953"), REVS, SIZE, Local2)
@@ -207,36 +207,36 @@ DefinitionBlock ("acpi.aml", "DSDT", 1, "A0994", "A0994000", 0x00000000)
                 CreateDWordField (UID0, 0x04, EID1)
                 CreateDWordField (UID0, 0x08, EID2)
                 CreateDWordField (UID0, 0x0C, EID3)
-                If (LNot (LAnd (LAnd (LEqual (IID0, EID0), LEqual (IID1, EID1)), 
-                    LAnd (LEqual (IID2, EID2), LEqual (IID3, EID3)))))
+                If (!(((IID0 == EID0) && (IID1 == EID1)) && ((
+                    IID2 == EID2) && (IID3 == EID3))))
                 {
-                    Store (0x06, STS2) /* \_PR_.CPU3._OSC.STS2 */
+                    STS2 = 0x06
                     Return (Arg3)
                 }
 
-                If (LNotEqual (Arg1, One))
+                If ((Arg1 != One))
                 {
-                    Store (0x0A, STS2) /* \_PR_.CPU3._OSC.STS2 */
+                    STS2 = 0x0A
                     Return (Arg3)
                 }
 
-                Or (And (TYPE, 0x7FFFFFFF), CAP2, TYPE) /* \_PR_.CPU3.TYPE */
-                If (And (CFGD, One))
+                TYPE = ((TYPE & 0x7FFFFFFF) | CAP2) /* \_PR_.CPU3._OSC.CAP2 */
+                If ((CFGD & One))
                 {
-                    If (LAnd (LAnd (And (CFGD, 0x01000000), LEqual (And (TYPE, 
-                        0x09), 0x09)), LNot (And (TBLD, One))))
+                    If ((((CFGD & 0x01000000) && ((TYPE & 0x09) == 
+                        0x09)) && !(TBLD & One)))
                     {
-                        Or (TBLD, One, TBLD) /* \_PR_.CPU3.TBLD */
+                        TBLD |= One
                         Load (STBL, HNDL) /* \_PR_.CPU3.HNDL */
                     }
                 }
 
-                If (And (CFGD, 0xF0))
+                If ((CFGD & 0xF0))
                 {
-                    If (LAnd (LAnd (And (CFGD, 0x01000000), And (TYPE, 0x18
-                        )), LNot (And (TBLD, 0x02))))
+                    If ((((CFGD & 0x01000000) && (TYPE & 0x18)) && !
+                        (TBLD & 0x02)))
                     {
-                        Or (TBLD, 0x02, TBLD) /* \_PR_.CPU3.TBLD */
+                        TBLD |= 0x02
                     }
                 }
 
@@ -259,12 +259,12 @@ DefinitionBlock ("acpi.aml", "DSDT", 1, "A0994", "A0994000", 0x00000000)
             {
                 CreateDWordField (Arg0, Zero, REVS)
                 CreateDWordField (Arg0, 0x04, SIZE)
-                Store (SizeOf (Arg0), Local0)
-                Store (Subtract (Local0, 0x08), Local1)
-                CreateField (Arg0, 0x40, Multiply (Local1, 0x08), TEMP)
+                Local0 = SizeOf (Arg0)
+                Local1 = (Local0 - 0x08)
+                CreateField (Arg0, 0x40, (Local1 * 0x08), TEMP)
                 Name (STS3, Buffer (0x04)
                 {
-                     0x00, 0x00, 0x00, 0x00                           /* .... */
+                     0x00, 0x00, 0x00, 0x00                           // ....
                 })
                 Concatenate (STS3, TEMP, Local2)
                 _OSC (ToUUID ("4077a616-290c-47be-9ebd-d87058713953"), REVS, SIZE, Local2)
@@ -283,36 +283,36 @@ DefinitionBlock ("acpi.aml", "DSDT", 1, "A0994", "A0994000", 0x00000000)
                 CreateDWordField (UID0, 0x04, EID1)
                 CreateDWordField (UID0, 0x08, EID2)
                 CreateDWordField (UID0, 0x0C, EID3)
-                If (LNot (LAnd (LAnd (LEqual (IID0, EID0), LEqual (IID1, EID1)), 
-                    LAnd (LEqual (IID2, EID2), LEqual (IID3, EID3)))))
+                If (!(((IID0 == EID0) && (IID1 == EID1)) && ((
+                    IID2 == EID2) && (IID3 == EID3))))
                 {
-                    Store (0x06, STS3) /* \_PR_.CPU4._OSC.STS3 */
+                    STS3 = 0x06
                     Return (Arg3)
                 }
 
-                If (LNotEqual (Arg1, One))
+                If ((Arg1 != One))
                 {
-                    Store (0x0A, STS3) /* \_PR_.CPU4._OSC.STS3 */
+                    STS3 = 0x0A
                     Return (Arg3)
                 }
 
-                Or (And (TYPE, 0x7FFFFFFF), CAP3, TYPE) /* \_PR_.CPU4.TYPE */
-                If (And (CFGD, One))
+                TYPE = ((TYPE & 0x7FFFFFFF) | CAP3) /* \_PR_.CPU4._OSC.CAP3 */
+                If ((CFGD & One))
                 {
-                    If (LAnd (LAnd (And (CFGD, 0x01000000), LEqual (And (TYPE, 
-                        0x09), 0x09)), LNot (And (TBLD, One))))
+                    If ((((CFGD & 0x01000000) && ((TYPE & 0x09) == 
+                        0x09)) && !(TBLD & One)))
                     {
-                        Or (TBLD, One, TBLD) /* \_PR_.CPU4.TBLD */
+                        TBLD |= One
                         Load (STBL, HNDL) /* \_PR_.CPU4.HNDL */
                     }
                 }
 
-                If (And (CFGD, 0xF0))
+                If ((CFGD & 0xF0))
                 {
-                    If (LAnd (LAnd (And (CFGD, 0x01000000), And (TYPE, 0x18
-                        )), LNot (And (TBLD, 0x02))))
+                    If ((((CFGD & 0x01000000) && (TYPE & 0x18)) && !
+                        (TBLD & 0x02)))
                     {
-                        Or (TBLD, 0x02, TBLD) /* \_PR_.CPU4.TBLD */
+                        TBLD |= 0x02
                     }
                 }
 
@@ -383,12 +383,12 @@ DefinitionBlock ("acpi.aml", "DSDT", 1, "A0994", "A0994000", 0x00000000)
 
     Method (RRIO, 4, NotSerialized)
     {
-        Store ("RRIO", Debug)
+        Debug = "RRIO"
     }
 
     Method (RDMA, 3, NotSerialized)
     {
-        Store ("rDMA", Debug)
+        Debug = "rDMA"
     }
 
     Name (PICM, Zero)
@@ -396,84 +396,81 @@ DefinitionBlock ("acpi.aml", "DSDT", 1, "A0994", "A0994000", 0x00000000)
     {
         If (Arg0)
         {
-            Store (0xAA, DBG8) /* \DBG8 */
+            DBG8 = 0xAA
         }
         Else
         {
-            Store (0xAC, DBG8) /* \DBG8 */
+            DBG8 = 0xAC
         }
 
-        Store (Arg0, PICM) /* \PICM */
+        PICM = Arg0
     }
 
     Name (OSVR, Ones)
     Method (OSFL, 0, NotSerialized)
     {
-        If (LNotEqual (OSVR, Ones))
+        If ((OSVR != Ones))
         {
             Return (OSVR) /* \OSVR */
         }
 
-        If (LEqual (PICM, Zero))
+        If ((PICM == Zero))
         {
-            Store (0xAC, DBG8) /* \DBG8 */
+            DBG8 = 0xAC
         }
 
-        Store (One, OSVR) /* \OSVR */
+        OSVR = One
         If (CondRefOf (_OSI, Local1))
         {
             If (_OSI ("Windows 2000"))
             {
-                Store (0x04, OSVR) /* \OSVR */
+                OSVR = 0x04
             }
 
             If (_OSI ("Windows 2001"))
             {
-                Store (Zero, OSVR) /* \OSVR */
+                OSVR = Zero
             }
 
             If (_OSI ("Windows 2001 SP1"))
             {
-                Store (Zero, OSVR) /* \OSVR */
+                OSVR = Zero
             }
 
             If (_OSI ("Windows 2001 SP2"))
             {
-                Store (Zero, OSVR) /* \OSVR */
+                OSVR = Zero
             }
 
             If (_OSI ("Windows 2001.1"))
             {
-                Store (Zero, OSVR) /* \OSVR */
+                OSVR = Zero
             }
 
             If (_OSI ("Windows 2001.1 SP1"))
             {
-                Store (Zero, OSVR) /* \OSVR */
+                OSVR = Zero
             }
 
             If (_OSI ("Windows 2006"))
             {
-                Store (Zero, OSVR) /* \OSVR */
+                OSVR = Zero
             }
+        }
+        ElseIf (MCTH (_OS, "Microsoft Windows NT"))
+        {
+            OSVR = 0x04
         }
         Else
         {
-            If (MCTH (_OS, "Microsoft Windows NT"))
+            If (MCTH (_OS, "Microsoft WindowsME: Millennium Edition"))
             {
-                Store (0x04, OSVR) /* \OSVR */
+                OSVR = 0x02
             }
-            Else
-            {
-                If (MCTH (_OS, "Microsoft WindowsME: Millennium Edition"))
-                {
-                    Store (0x02, OSVR) /* \OSVR */
-                }
 
-                If (MCTH (_OS, "Linux"))
-                {
-                    Store (0x03, OSVR) /* \OSVR */
-                }
+            If (MCTH (_OS, "Linux"))
+            {
+                OSVR = 0x03
             }
         }
 
@@ -482,21 +479,21 @@ DefinitionBlock ("acpi.aml", "DSDT", 1, "A0994", "A0994000", 0x00000000)
 
     Method (MCTH, 2, NotSerialized)
     {
-        If (LLess (SizeOf (Arg0), SizeOf (Arg1)))
+        If ((SizeOf (Arg0) < SizeOf (Arg1)))
         {
             Return (Zero)
         }
 
-        Add (SizeOf (Arg0), One, Local0)
-        Name (BUF0, Buffer (Local0) {})
-        Name (BUF1, Buffer (Local0) {})
-        Store (Arg0, BUF0) /* \MCTH.BUF0 */
-        Store (Arg1, BUF1) /* \MCTH.BUF1 */
+        Local0 = (SizeOf (Arg0) + One)
+        Name (BUF0, Buffer (Local0){})
+        Name (BUF1, Buffer (Local0){})
+        BUF0 = Arg0
+        BUF1 = Arg1
         While (Local0)
         {
-            Decrement (Local0)
-            If (LNotEqual (DerefOf (Index (BUF0, Local0)), DerefOf (Index (
-                BUF1, Local0))))
+            Local0--
+            If ((DerefOf (BUF0 [Local0]) != DerefOf (BUF1 [Local0]
+                )))
             {
                 Return (Zero)
             }
@@ -512,25 +509,25 @@ DefinitionBlock ("acpi.aml", "DSDT", 1, "A0994", "A0994000", 0x00000000)
     })
     Method (GPRW, 2, NotSerialized)
     {
-        Store (Arg0, Index (PRWP, Zero))
-        Store (ShiftLeft (SS1, One), Local0)
-        Or (Local0, ShiftLeft (SS2, 0x02), Local0)
-        Or (Local0, ShiftLeft (SS3, 0x03), Local0)
-        Or (Local0, ShiftLeft (SS4, 0x04), Local0)
-        If (And (ShiftLeft (One, Arg1), Local0))
+        PRWP [Zero] = Arg0
+        Local0 = (SS1 << One)
+        Local0 |= (SS2 << 0x02)
+        Local0 |= (SS3 << 0x03)
+        Local0 |= (SS4 << 0x04)
+        If (((One << Arg1) & Local0))
         {
-            Store (Arg1, Index (PRWP, One))
+            PRWP [One] = Arg1
         }
         Else
         {
-            ShiftRight (Local0, One, Local0)
-            If (LOr (LEqual (OSFL (), One), LEqual (OSFL (), 0x02)))
+            Local0 >>= One
+            If (((OSFL () == One) || (OSFL () == 0x02)))
             {
-                FindSetLeftBit (Local0, Index (PRWP, One))
+                FindSetLeftBit (Local0, PRWP [One])
             }
             Else
             {
-                FindSetRightBit (Local0, Index (PRWP, One))
+                FindSetRightBit (Local0, PRWP [One])
             }
         }
 
@@ -1513,7 +1510,7 @@ DefinitionBlock ("acpi.aml", "DSDT", 1, "A0994", "A0994000", 0x00000000)
 
             Method (_S3D, 0, NotSerialized)  // _S3D: S3 Device State
             {
-                If (LOr (LEqual (OSFL (), One), LEqual (OSFL (), 0x02)))
+                If (((OSFL () == One) || (OSFL () == 0x02)))
                 {
                     Return (0x02)
                 }
@@ -1606,10 +1603,10 @@ DefinitionBlock ("acpi.aml", "DSDT", 1, "A0994", "A0994000", 0x00000000)
                         Offset (0x14)
                     }
 
-                    Method (\_GPE._L0A, 0, NotSerialized)  // _Lxx: Level-Triggered GPE
+                    Method (\_GPE._L0A, 0, NotSerialized)  // _Lxx: Level-Triggered GPE, xx=0x00-0xFF
                     {
                         Notify (\_SB.PCI0.SBRG.IELK, 0x81) // Information Change
-                        Store (One, \_SB.PCI0.SBRG.IELK.PMCS)
+                        \_SB.PCI0.SBRG.IELK.PMCS = One
                     }
 
                     Method (_STA, 0, NotSerialized)  // _STA: Status
@@ -1630,29 +1627,26 @@ DefinitionBlock ("acpi.aml", "DSDT", 1, "A0994", "A0994000", 0x00000000)
 
                     Method (GPBS, 0, NotSerialized)
                     {
-                        Return (XOr (PBLV, One))
+                        Return ((PBLV ^ One))
                     }
                 }
 
                 Method (SPTS, 1, NotSerialized)
                 {
-                    Store (One, PS1S) /* \_SB_.PCI0.SBRG.PS1S */
-                    Store (One, PS1E) /* \_SB_.PCI0.SBRG.PS1E */
-                    Store (One, SLPS) /* \_SB_.SLPS */
+                    PS1S = One
+                    PS1E = One
+                    SLPS = One
                 }
 
                 Method (SWAK, 1, NotSerialized)
                 {
-                    Store (Zero, SLPS) /* \_SB_.SLPS */
-                    Store (Zero, PS1E) /* \_SB_.PCI0.SBRG.PS1E */
-                    If (LAnd (LEqual (Arg0, One), RTCS)) {}
+                    SLPS = Zero
+                    PS1E = Zero
+                    If (((Arg0 == One) && RTCS)){}
+                    ElseIf (((Arg0 == 0x03) && BRTC)){}
                     Else
                     {
-                        If (LAnd (LEqual (Arg0, 0x03), BRTC)) {}
-                        Else
-                        {
-                            Notify (PWRB, 0x02) // Device Wake
-                        }
+                        Notify (PWRB, 0x02) // Device Wake
                     }
                 }
 
@@ -1842,7 +1836,7 @@ DefinitionBlock ("acpi.aml", "DSDT", 1, "A0994", "A0994000", 0x00000000)
                         })
                         If (_STA ())
                         {
-                            Store (One, Index (FDEP, Zero))
+                            FDEP [Zero] = One
                         }
 
                         Return (FDEP) /* \_SB_.PCI0.SBRG.FDC_._FDE.FDEP */
@@ -1861,14 +1855,14 @@ DefinitionBlock ("acpi.aml", "DSDT", 1, "A0994", "A0994000", 0x00000000)
                     Method (_CRS, 0, NotSerialized)  // _CRS: Current Resource Settings
                     {
                         DCRS (0x03, One)
-                        Store (IRQM, IRQE) /* \_SB_.PCI0.SBRG.IRQE */
-                        Store (DMAM, DMAE) /* \_SB_.PCI0.SBRG.DMAE */
-                        Store (IO11, IO21) /* \_SB_.PCI0.SBRG.IO21 */
-                        Store (IO12, IO22) /* \_SB_.PCI0.SBRG.IO22 */
-                        Store (0x06, LEN2) /* \_SB_.PCI0.SBRG.LEN2 */
-                        Add (IO21, 0x07, IO31) /* \_SB_.PCI0.SBRG.IO31 */
-                        Store (IO31, IO32) /* \_SB_.PCI0.SBRG.IO32 */
-                        Store (One, LEN3) /* \_SB_.PCI0.SBRG.LEN3 */
+                        IRQE = IRQM /* \_SB_.PCI0.SBRG.IRQM */
+                        DMAE = DMAM /* \_SB_.PCI0.SBRG.DMAM */
+                        IO21 = IO11 /* \_SB_.PCI0.SBRG.IO11 */
+                        IO22 = IO12 /* \_SB_.PCI0.SBRG.IO12 */
+                        LEN2 = 0x06
+                        IO31 = (IO21 + 0x07)
+                        IO32 = IO31 /* \_SB_.PCI0.SBRG.IO31 */
+                        LEN3 = One
                         Return (CRS2) /* \_SB_.PCI0.SBRG.CRS2 */
                     }
 
@@ -1881,21 +1875,21 @@ DefinitionBlock ("acpi.aml", "DSDT", 1, "A0994", "A0994000", 0x00000000)
                         If (IRQE)
                         {
                             FindSetRightBit (IRQE, Local0)
-                            Subtract (Local0, One, INTR) /* \_SB_.PCI0.SBRG.INTR */
+                            INTR = (Local0 - One)
                         }
                         Else
                         {
-                            Store (Zero, INTR) /* \_SB_.PCI0.SBRG.INTR */
+                            INTR = Zero
                         }
 
                         If (DMAE)
                         {
                             FindSetRightBit (DMAE, Local0)
-                            Subtract (Local0, One, DMCH) /* \_SB_.PCI0.SBRG.DMCH */
+                            DMCH = (Local0 - One)
                         }
                         Else
                         {
-                            Store (0x04, DMCH) /* \_SB_.PCI0.SBRG.DMCH */
+                            DMCH = 0x04
                         }
 
                         EXFG ()
@@ -1995,14 +1989,14 @@ DefinitionBlock ("acpi.aml", "DSDT", 1, "A0994", "A0994000", 0x00000000)
                     })
                     Method (_CRS, 0, NotSerialized)  // _CRS: Current Resource Settings
                     {
-                        If (LAnd (LNotEqual (SPIO, 0x03F0), LGreater (SPIO, 0xF0)))
+                        If (((SPIO != 0x03F0) && (SPIO > 0xF0)))
                         {
                             CreateWordField (CRS, \_SB.PCI0.SBRG.SIOR._Y00._MIN, GP10)  // _MIN: Minimum Base Address
                             CreateWordField (CRS, \_SB.PCI0.SBRG.SIOR._Y00._MAX, GP11)  // _MAX: Maximum Base Address
                             CreateByteField (CRS, \_SB.PCI0.SBRG.SIOR._Y00._LEN, GPL1)  // _LEN: Length
-                            Store (SPIO, GP10) /* \_SB_.PCI0.SBRG.SIOR._CRS.GP10 */
-                            Store (SPIO, GP11) /* \_SB_.PCI0.SBRG.SIOR._CRS.GP11 */
-                            Store (0x02, GPL1) /* \_SB_.PCI0.SBRG.SIOR._CRS.GPL1 */
+                            GP10 = SPIO /* \SPIO */
+                            GP11 = SPIO /* \SPIO */
+                            GPL1 = 0x02
                         }
 
                         Return (CRS) /* \_SB_.PCI0.SBRG.SIOR.CRS_ */
@@ -2037,31 +2031,31 @@ DefinitionBlock ("acpi.aml", "DSDT", 1, "A0994", "A0994000", 0x00000000)
                 Method (ENFG, 1, NotSerialized)
                 {
                     Acquire (IOCF, 0xFFFF)
-                    Store (0x87, INDX) /* \_SB_.PCI0.SBRG.INDX */
-                    Store (0x87, INDX) /* \_SB_.PCI0.SBRG.INDX */
-                    Store (Arg0, LDN) /* \_SB_.PCI0.SBRG.LDN_ */
+                    INDX = 0x87
+                    INDX = 0x87
+                    LDN = Arg0
                 }
 
                 Method (EXFG, 0, NotSerialized)
                 {
-                    Store (0xAA, INDX) /* \_SB_.PCI0.SBRG.INDX */
+                    INDX = 0xAA
                     Release (IOCF)
                 }
 
                 Method (LPTM, 1, NotSerialized)
                 {
                     ENFG (CGLD (Arg0))
-                    And (OPT0, 0x02, Local0)
+                    Local0 = (OPT0 & 0x02)
                     EXFG ()
                     Return (Local0)
                 }
 
                 Method (UHID, 1, NotSerialized)
                 {
-                    If (LEqual (Arg0, One))
+                    If ((Arg0 == One))
                     {
                         ENFG (CGLD (Arg0))
-                        And (OPT1, 0x38, Local0)
+                        Local0 = (OPT1 & 0x38)
                         EXFG ()
                         If (Local0)
                         {
@@ -2075,32 +2069,32 @@ DefinitionBlock ("acpi.aml", "DSDT", 1, "A0994", "A0994000", 0x00000000)
                 Method (SIOK, 1, NotSerialized)
                 {
                     ENFG (0x0A)
-                    If (LGreater (Arg0, One))
+                    If ((Arg0 > One))
                     {
-                        Or (CRE4, 0x10, CRE4) /* \_SB_.PCI0.SBRG.CRE4 */
+                        CRE4 |= 0x10
                     }
 
-                    Store (CRE3, Local0)
+                    Local0 = CRE3 /* \_SB_.PCI0.SBRG.CRE3 */
                     EXFG ()
                 }
 
                 Method (SIOS, 1, NotSerialized)
                 {
-                    Store ("SIOS", Debug)
+                    Debug = "SIOS"
                     SIOK (Arg0)
                 }
 
                 Method (SIOW, 1, NotSerialized)
                 {
-                    Store ("SIOW", Debug)
+                    Debug = "SIOW"
                     SIOK (Zero)
                 }
 
                 Method (SIOH, 0, NotSerialized)
                 {
-                    Store ("SIOH", Debug)
+                    Debug = "SIOH"
                     ENFG (0x0A)
-                    If (And (OPT3, 0x10))
+                    If ((OPT3 & 0x10))
                     {
                         Notify (PS2K, 0x02) // Device Wake
                     }
@@ -2159,88 +2153,84 @@ DefinitionBlock ("acpi.aml", "DSDT", 1, "A0994", "A0994000", 0x00000000)
 
                 Method (CGLD, 1, NotSerialized)
                 {
-                    Return (DerefOf (Index (DCAT, Arg0)))
+                    Return (DerefOf (DCAT [Arg0]))
                 }
 
                 Method (DSTA, 1, NotSerialized)
                 {
                     ENFG (CGLD (Arg0))
-                    Store (ACTR, Local0)
+                    Local0 = ACTR /* \_SB_.PCI0.SBRG.ACTR */
                     EXFG ()
-                    If (LEqual (Local0, 0xFF))
+                    If ((Local0 == 0xFF))
                     {
                         Return (Zero)
                     }
 
-                    If (LEqual (Arg0, 0x05))
+                    If ((Arg0 == 0x05))
                     {
-                        ShiftRight (Local0, 0x02, Local0)
+                        Local0 >>= 0x02
                     }
 
-                    If (LEqual (Arg0, 0x08))
+                    If ((Arg0 == 0x08))
                     {
-                        ShiftRight (Local0, One, Local0)
+                        Local0 >>= One
                     }
 
-                    And (Local0, One, Local0)
-                    Or (IOST, ShiftLeft (Local0, Arg0), IOST) /* \IOST */
+                    Local0 &= One
+                    IOST |= (Local0 << Arg0)
                     If (Local0)
                     {
                         Return (0x0F)
                     }
+                    ElseIf (((One << Arg0) & IOST))
+                    {
+                        Return (0x0D)
+                    }
                     Else
                     {
-                        If (And (ShiftLeft (One, Arg0), IOST))
-                        {
-                            Return (0x0D)
-                        }
-                        Else
-                        {
-                            Return (Zero)
-                        }
+                        Return (Zero)
                     }
                 }
 
                 Method (DCNT, 2, NotSerialized)
                 {
                     ENFG (CGLD (Arg0))
-                    If (LEqual (Arg0, 0x05))
+                    If ((Arg0 == 0x05))
                     {
-                        ShiftLeft (IOH2, 0x08, Local1)
-                        Or (IOL2, Local1, Local1)
+                        Local1 = (IOH2 << 0x08)
+                        Local1 |= IOL2
                     }
                     Else
                     {
-                        ShiftLeft (IOAH, 0x08, Local1)
-                        Or (IOAL, Local1, Local1)
+                        Local1 = (IOAH << 0x08)
+                        Local1 |= IOAL
                     }
 
                     RRIO (Arg0, Arg1, Local1, 0x08)
-                    If (LAnd (LLess (DMCH, 0x04), LNotEqual (And (DMCH, 0x03, 
-                        Local1), Zero)))
+                    If (((DMCH < 0x04) && ((Local1 = (DMCH & 0x03)) != Zero)))
                     {
-                        RDMA (Arg0, Arg1, Increment (Local1))
+                        RDMA (Arg0, Arg1, Local1++)
                     }
 
-                    Store (Arg1, Local1)
-                    Store (One, Local2)
-                    If (LEqual (Arg0, 0x05))
+                    Local1 = Arg1
+                    Local2 = One
+                    If ((Arg0 == 0x05))
                     {
-                        ShiftLeft (Arg1, 0x02, Local1)
-                        ShiftLeft (Local2, 0x02, Local2)
+                        Local1 = (Arg1 << 0x02)
+                        Local2 <<= 0x02
                     }
 
-                    If (LEqual (Arg0, 0x08))
+                    If ((Arg0 == 0x08))
                     {
-                        ShiftLeft (Arg1, One, Local1)
-                        ShiftLeft (Local2, One, Local2)
+                        Local1 = (Arg1 << One)
+                        Local2 <<= One
                     }
 
-                    Store (ACTR, Local0)
-                    Not (Local2, Local3)
-                    And (Local0, Local3, Local0)
-                    Or (Local0, Local1, Local0)
-                    Store (Local0, ACTR) /* \_SB_.PCI0.SBRG.ACTR */
+                    Local0 = ACTR /* \_SB_.PCI0.SBRG.ACTR */
+                    Local3 = ~Local2
+                    Local0 &= Local3
+                    Local0 |= Local1
+                    ACTR = Local0
                     EXFG ()
                 }
 
@@ -2292,28 +2282,28 @@ DefinitionBlock ("acpi.aml", "DSDT", 1, "A0994", "A0994000", 0x00000000)
                 Method (DCRS, 2, NotSerialized)
                 {
                     ENFG (CGLD (Arg0))
-                    ShiftLeft (IOAH, 0x08, IO11) /* \_SB_.PCI0.SBRG.IO11 */
-                    Or (IOAL, IO11, IO11) /* \_SB_.PCI0.SBRG.IO11 */
-                    Store (IO11, IO12) /* \_SB_.PCI0.SBRG.IO12 */
-                    Subtract (FindSetRightBit (IO11), One, Local0)
-                    ShiftLeft (One, Local0, LEN1) /* \_SB_.PCI0.SBRG.LEN1 */
+                    IO11 = (IOAH << 0x08)
+                    IO11 |= IOAL /* \_SB_.PCI0.SBRG.IO11 */
+                    IO12 = IO11 /* \_SB_.PCI0.SBRG.IO11 */
+                    Local0 = (FindSetRightBit (IO11) - One)
+                    LEN1 = (One << Local0)
                     If (INTR)
                     {
-                        ShiftLeft (One, INTR, IRQM) /* \_SB_.PCI0.SBRG.IRQM */
+                        IRQM = (One << INTR) /* \_SB_.PCI0.SBRG.INTR */
                     }
                     Else
                     {
-                        Store (Zero, IRQM) /* \_SB_.PCI0.SBRG.IRQM */
+                        IRQM = Zero
                     }
 
-                    If (LOr (LGreater (DMCH, 0x03), LEqual (Arg1, Zero)))
+                    If (((DMCH > 0x03) || (Arg1 == Zero)))
                     {
-                        Store (Zero, DMAM) /* \_SB_.PCI0.SBRG.DMAM */
+                        DMAM = Zero
                     }
                     Else
                     {
-                        And (DMCH, 0x03, Local1)
-                        ShiftLeft (One, Local1, DMAM) /* \_SB_.PCI0.SBRG.DMAM */
+                        Local1 = (DMCH & 0x03)
+                        DMAM = (One << Local1)
                     }
 
                     EXFG ()
@@ -2326,26 +2316,26 @@ DefinitionBlock ("acpi.aml", "DSDT", 1, "A0994", "A0994000", 0x00000000)
                     CreateByteField (Arg0, 0x04, DMAM)
                     CreateWordField (Arg0, 0x08, IO11)
                     ENFG (CGLD (Arg1))
-                    And (IO11, 0xFF, IOAL) /* \_SB_.PCI0.SBRG.IOAL */
-                    ShiftRight (IO11, 0x08, IOAH) /* \_SB_.PCI0.SBRG.IOAH */
+                    IOAL = (IO11 & 0xFF)
+                    IOAH = (IO11 >> 0x08)
                     If (IRQM)
                     {
                         FindSetRightBit (IRQM, Local0)
-                        Subtract (Local0, One, INTR) /* \_SB_.PCI0.SBRG.INTR */
+                        INTR = (Local0 - One)
                     }
                     Else
                     {
-                        Store (Zero, INTR) /* \_SB_.PCI0.SBRG.INTR */
+                        INTR = Zero
                     }
 
                     If (DMAM)
                     {
                         FindSetRightBit (DMAM, Local0)
-                        Subtract (Local0, One, DMCH) /* \_SB_.PCI0.SBRG.DMCH */
+                        DMCH = (Local0 - One)
                     }
                     Else
                     {
-                        Store (0x07, DMCH) /* \_SB_.PCI0.SBRG.DMCH */
+                        DMCH = 0x07
                     }
 
                     EXFG ()
@@ -2500,17 +2490,17 @@ DefinitionBlock ("acpi.aml", "DSDT", 1, "A0994", "A0994000", 0x00000000)
                         CreateWordField (CRS, \_SB.PCI0.SBRG.RMSC._Y06._MIN, GP00)  // _MIN: Minimum Base Address
                         CreateWordField (CRS, \_SB.PCI0.SBRG.RMSC._Y06._MAX, GP01)  // _MAX: Maximum Base Address
                         CreateByteField (CRS, \_SB.PCI0.SBRG.RMSC._Y06._LEN, GP0L)  // _LEN: Length
-                        Store (PMBS, GP00) /* \_SB_.PCI0.SBRG.RMSC._CRS.GP00 */
-                        Store (PMBS, GP01) /* \_SB_.PCI0.SBRG.RMSC._CRS.GP01 */
-                        Store (PMLN, GP0L) /* \_SB_.PCI0.SBRG.RMSC._CRS.GP0L */
+                        GP00 = PMBS /* \PMBS */
+                        GP01 = PMBS /* \PMBS */
+                        GP0L = PMLN /* \PMLN */
                         If (SMBS)
                         {
                             CreateWordField (CRS, \_SB.PCI0.SBRG.RMSC._Y07._MIN, GP10)  // _MIN: Minimum Base Address
                             CreateWordField (CRS, \_SB.PCI0.SBRG.RMSC._Y07._MAX, GP11)  // _MAX: Maximum Base Address
                             CreateByteField (CRS, \_SB.PCI0.SBRG.RMSC._Y07._LEN, GP1L)  // _LEN: Length
-                            Store (SMBS, GP10) /* \_SB_.PCI0.SBRG.RMSC._CRS.GP10 */
-                            Store (SMBS, GP11) /* \_SB_.PCI0.SBRG.RMSC._CRS.GP11 */
-                            Store (SMBL, GP1L) /* \_SB_.PCI0.SBRG.RMSC._CRS.GP1L */
+                            GP10 = SMBS /* \SMBS */
+                            GP11 = SMBS /* \SMBS */
+                            GP1L = SMBL /* \SMBL */
                         }
 
                         If (GPBS)
@@ -2518,9 +2508,9 @@ DefinitionBlock ("acpi.aml", "DSDT", 1, "A0994", "A0994000", 0x00000000)
                             CreateWordField (CRS, \_SB.PCI0.SBRG.RMSC._Y08._MIN, GP20)  // _MIN: Minimum Base Address
                             CreateWordField (CRS, \_SB.PCI0.SBRG.RMSC._Y08._MAX, GP21)  // _MAX: Maximum Base Address
                             CreateByteField (CRS, \_SB.PCI0.SBRG.RMSC._Y08._LEN, GP2L)  // _LEN: Length
-                            Store (GPBS, GP20) /* \_SB_.PCI0.SBRG.RMSC._CRS.GP20 */
-                            Store (GPBS, GP21) /* \_SB_.PCI0.SBRG.RMSC._CRS.GP21 */
-                            Store (GPLN, GP2L) /* \_SB_.PCI0.SBRG.RMSC._CRS.GP2L */
+                            GP20 = GPBS /* \GPBS */
+                            GP21 = GPBS /* \GPBS */
+                            GP2L = GPLN /* \GPLN */
                         }
 
                         Return (CRS) /* \_SB_.PCI0.SBRG.RMSC.CRS_ */
@@ -2546,47 +2536,47 @@ DefinitionBlock ("acpi.aml", "DSDT", 1, "A0994", "A0994000", 0x00000000)
 
                     Method (ISMI, 1, Serialized)
                     {
-                        Store (Arg0, SMIC) /* \SMIC */
+                        SMIC = Arg0
                     }
 
                     Method (GNVS, 1, Serialized)
                     {
-                        Store (Arg0, PAR0) /* \PAR0 */
+                        PAR0 = Arg0
                         ISMI (0x70)
                         Return (PAR1) /* \PAR1 */
                     }
 
                     Method (SNVS, 2, Serialized)
                     {
-                        Store (Arg0, PAR0) /* \PAR0 */
-                        Store (Arg1, PAR1) /* \PAR1 */
+                        PAR0 = Arg0
+                        PAR1 = Arg1
                         ISMI (0x71)
                     }
 
                     Method (GMAX, 1, Serialized)
                     {
-                        Store (Arg0, PAR0) /* \PAR0 */
+                        PAR0 = Arg0
                         ISMI (0x74)
                         Return (PAR1) /* \PAR1 */
                     }
 
                     Method (GMDX, 1, Serialized)
                     {
-                        Store (Arg0, PAR0) /* \PAR0 */
+                        PAR0 = Arg0
                         ISMI (0x75)
                         Return (PAR1) /* \PAR1 */
                     }
 
                     Method (GCAX, 1, Serialized)
                     {
-                        Store (Arg0, PAR0) /* \PAR0 */
+                        PAR0 = Arg0
                         ISMI (0x76)
                         Return (PAR1) /* \PAR1 */
                     }
 
                     Method (GCDX, 1, Serialized)
                     {
-                        Store (Arg0, PAR0) /* \PAR0 */
+                        PAR0 = Arg0
                         ISMI (0x77)
                         Return (PAR1) /* \PAR1 */
                     }
@@ -2605,99 +2595,87 @@ DefinitionBlock ("acpi.aml", "DSDT", 1, "A0994", "A0994000", 0x00000000)
 
                         Method (_INI, 0, NotSerialized)  // _INI: Initialize
                         {
-                            Name (T_0, Zero)  // T_x: Emitted by ASL Compiler
-                            Store (GNVS (0x36E8), T_0) /* \_SB_.PCI0.SBRG.ASOC._INI.T_0 */
-                            If (LEqual (T_0, Zero))
+                            Name (_T_0, Zero)  // _T_x: Emitted by ASL Compiler, x=0-9, A-Z
+                            _T_0 = GNVS (0x36E8)
+                            If ((_T_0 == Zero))
                             {
-                                Store (0x42, Index (G3T0, 0x03))
+                                G3T0 [0x03] = 0x42
                             }
-                            Else
+                            ElseIf ((_T_0 == 0x02))
                             {
-                                If (LEqual (T_0, 0x02))
-                                {
-                                    Store (Zero, Index (G3T0, 0x03))
-                                }
-                                Else
-                                {
-                                    If (LEqual (T_0, 0x04))
-                                    {
-                                        Store (0x85, Index (G3T0, 0x03))
-                                    }
-                                    Else
-                                    {
-                                        If (LEqual (T_0, 0x06))
-                                        {
-                                            Store (0xC8, Index (G3T0, 0x03))
-                                        }
-                                    }
-                                }
+                                G3T0 [0x03] = Zero
+                            }
+                            ElseIf ((_T_0 == 0x04))
+                            {
+                                G3T0 [0x03] = 0x85
+                            }
+                            ElseIf ((_T_0 == 0x06))
+                            {
+                                G3T0 [0x03] = 0xC8
                             }
 
-                            If (LGreater (And (GCAX (One), 0x0FF0, Local0), 0x06F0))
+                            If (((Local0 = (GCAX (One) & 0x0FF0)) > 0x06F0))
                             {
-                                Store (GMAX (0x2C), Local0)
-                                And (ShiftRight (Local0, 0x08), 0xFF, Local2)
-                                And (Local0, 0xFF, Local1)
-                                Subtract (Local1, Local2, Local0)
-                                Store (GMDX (0x0198), Local7)
-                                And (ShiftRight (Local7, 0x08), 0xFF, Local7)
-                                If (LLess (Local7, Local0))
+                                Local0 = GMAX (0x2C)
+                                Local2 = ((Local0 >> 0x08) & 0xFF)
+                                Local1 = (Local0 & 0xFF)
+                                Local0 = (Local1 - Local2)
+                                Local7 = GMDX (0x0198)
+                                Local7 = ((Local7 >> 0x08) & 0xFF)
+                                If ((Local7 < Local0))
                                 {
-                                    Store (Local1, Local7)
+                                    Local7 = Local1
                                 }
                             }
                             Else
                             {
-                                Store (GMAX (0x17), Local0)
-                                And (ShiftRight (Local0, 0x08), 0x1F, Local1)
-                                Store (Local1, Local7)
-                                Store (GMAX (0x0198), Local0)
-                                And (ShiftRight (Local0, 0x18), 0x1F, Local0)
+                                Local0 = GMAX (0x17)
+                                Local1 = ((Local0 >> 0x08) & 0x1F)
+                                Local7 = Local1
+                                Local0 = GMAX (0x0198)
+                                Local0 = ((Local0 >> 0x18) & 0x1F)
                             }
 
-                            Multiply (Local0, 0x0A, Local2)
-                            Or (Local2, 0xFF000000, Index (G3T2, 0x04))
-                            If (And (GMAX (0x0198), 0x80000000))
+                            Local2 = (Local0 * 0x0A)
+                            G3T2 [0x04] = (Local2 | 0xFF000000)
+                            If ((GMAX (0x0198) & 0x80000000))
                             {
-                                Store (0x1F, Local1)
+                                Local1 = 0x1F
                             }
 
-                            If (And (GMAX (0x17), 0x00800000))
+                            If ((GMAX (0x17) & 0x00800000))
                             {
-                                And (GMAX (0x17), 0x4000, Local2)
-                                Store (0x05, Index (G3T2, 0x05))
-                                Store (ShiftRight (And (GMAX (0x17), 0x4000), 0x0E), Local5)
-                                Store (Subtract (Local7, Local0), Local4)
-                                Multiply (Local4, 0x02, Local6)
-                                Add (Local6, Local5, Index (G3T2, 0x03))
-                                Multiply (Subtract (Local1, Local0, Local3), 0x02, Local3)
-                                Add (Local3, One, Local3)
+                                Local2 = (GMAX (0x17) & 0x4000)
+                                G3T2 [0x05] = 0x05
+                                Local5 = ((GMAX (0x17) & 0x4000) >> 0x0E)
+                                Local4 = (Local7 - Local0)
+                                Local6 = (Local4 * 0x02)
+                                G3T2 [0x03] = (Local6 + Local5)
+                                Local3 = ((Local3 = (Local1 - Local0)) * 0x02)
+                                Local3 += One
                                 If (Local2)
                                 {
-                                    Add (Local3, One, Local3)
+                                    Local3 += One
                                 }
 
-                                Store (Local3, Index (G3T2, 0x06))
+                                G3T2 [0x06] = Local3
                             }
                             Else
                             {
-                                Store (0x0A, Index (G3T2, 0x05))
-                                Store (Subtract (Local7, Local0), Index (G3T2, 0x03))
-                                Add (Subtract (Local1, Local0, Local3), One, Index (G3T2, 0x06))
+                                G3T2 [0x05] = 0x0A
+                                G3T2 [0x03] = (Local7 - Local0)
+                                G3T2 [0x06] = ((Local3 = (Local1 - Local0)) + One)
                             }
 
-                            Name (T_1, Zero)  // T_x: Emitted by ASL Compiler
-                            Store (GNVS (0x151F), T_1) /* \_SB_.PCI0.SBRG.ASOC._INI.T_1 */
-                            If (LEqual (T_1, Zero))
+                            Name (_T_1, Zero)  // _T_x: Emitted by ASL Compiler, x=0-9, A-Z
+                            _T_1 = GNVS (0x151F)
+                            If ((_T_1 == Zero))
                             {
-                                Store (0x0708, Index (G321, 0x04))
+                                G321 [0x04] = 0x0708
                             }
-                            Else
+                            ElseIf ((_T_1 == One))
                             {
-                                If (LEqual (T_1, One))
-                                {
-                                    Store (0x05DC, Index (G321, 0x04))
-                                }
+                                G321 [0x04] = 0x05DC
                             }
                         }
 
@@ -2714,77 +2692,53 @@ DefinitionBlock ("acpi.aml", "DSDT", 1, "A0994", "A0994000", 0x00000000)
                         })
                         Name (ASBF, Buffer (0x08)
                         {
-                             0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00   /* ........ */
+                             0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00   // ........
                         })
                         CreateDWordField (ASBF, Zero, ASB0)
                         CreateDWordField (ASBF, 0x04, ASB1)
                         Method (GGRP, 1, Serialized)
                         {
-                            Name (T_0, Zero)  // T_x: Emitted by ASL Compiler
-                            Store (Arg0, T_0) /* \_SB_.PCI0.SBRG.ASOC.GGRP.T_0 */
-                            If (LEqual (T_0, Zero))
+                            Name (_T_0, Zero)  // _T_x: Emitted by ASL Compiler, x=0-9, A-Z
+                            _T_0 = Arg0
+                            If ((_T_0 == Zero))
                             {
                                 Return (GRP0) /* \_SB_.PCI0.SBRG.ASOC.GRP0 */
                             }
+                            ElseIf ((_T_0 == 0x03))
+                            {
+                                Return (GRP3) /* \_SB_.PCI0.SBRG.ASOC.GRP3 */
+                            }
+                            ElseIf ((_T_0 == 0x04))
+                            {
+                                Return (GRP4) /* \_SB_.PCI0.SBRG.ASOC.GRP4 */
+                            }
+                            ElseIf ((_T_0 == 0x05))
+                            {
+                                Return (GRP5) /* \_SB_.PCI0.SBRG.ASOC.GRP5 */
+                            }
+                            ElseIf ((_T_0 == 0x06))
+                            {
+                                Return (GRP6) /* \_SB_.PCI0.SBRG.ASOC.GRP6 */
+                            }
+                            ElseIf ((_T_0 == 0x09))
+                            {
+                                Return (GRP9) /* \_SB_.PCI0.SBRG.ASOC.GRP9 */
+                            }
+                            ElseIf ((_T_0 == 0x0B))
+                            {
+                                Return (GRPB) /* \_SB_.PCI0.SBRG.ASOC.GRPB */
+                            }
+                            ElseIf ((_T_0 == 0x0D))
+                            {
+                                Return (GRPD) /* \_SB_.PCI0.SBRG.ASOC.GRPD */
+                            }
+                            ElseIf ((_T_0 == 0x0E))
+                            {
+                                Return (GRPE) /* \_SB_.PCI0.SBRG.ASOC.GRPE */
+                            }
                             Else
                             {
-                                If (LEqual (T_0, 0x03))
-                                {
-                                    Return (GRP3) /* \_SB_.PCI0.SBRG.ASOC.GRP3 */
-                                }
-                                Else
-                                {
-                                    If (LEqual (T_0, 0x04))
-                                    {
-                                        Return (GRP4) /* \_SB_.PCI0.SBRG.ASOC.GRP4 */
-                                    }
-                                    Else
-                                    {
-                                        If (LEqual (T_0, 0x05))
-                                        {
-                                            Return (GRP5) /* \_SB_.PCI0.SBRG.ASOC.GRP5 */
-                                        }
-                                        Else
-                                        {
-                                            If (LEqual (T_0, 0x06))
-                                            {
-                                                Return (GRP6) /* \_SB_.PCI0.SBRG.ASOC.GRP6 */
-                                            }
-                                            Else
-                                            {
-                                                If (LEqual (T_0, 0x09))
-                                                {
-                                                    Return (GRP9) /* \_SB_.PCI0.SBRG.ASOC.GRP9 */
-                                                }
-                                                Else
-                                                {
-                                                    If (LEqual (T_0, 0x0B))
-                                                    {
-                                                        Return (GRPB) /* \_SB_.PCI0.SBRG.ASOC.GRPB */
-                                                    }
-                                                    Else
-                                                    {
-                                                        If (LEqual (T_0, 0x0D))
-                                                        {
-                                                            Return (GRPD) /* \_SB_.PCI0.SBRG.ASOC.GRPD */
-                                                        }
-                                                        Else
-                                                        {
-                                                            If (LEqual (T_0, 0x0E))
-                                                            {
-                                                                Return (GRPE) /* \_SB_.PCI0.SBRG.ASOC.GRPE */
-                                                            }
-                                                            Else
-                                                            {
-                                                                Return (Zero)
-                                                            }
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
+                                Return (Zero)
                             }
                         }
 
@@ -2792,72 +2746,48 @@ DefinitionBlock ("acpi.aml", "DSDT", 1, "A0994", "A0994000", 0x00000000)
                         {
                             CreateDWordField (Arg0, Zero, PRM0)
                             CreateByteField (Arg0, 0x03, GPID)
-                            Store (One, ASB0) /* \_SB_.PCI0.SBRG.ASOC.ASB0 */
-                            Name (T_0, Zero)  // T_x: Emitted by ASL Compiler
-                            Store (GPID, T_0) /* \_SB_.PCI0.SBRG.ASOC.GITM.T_0 */
-                            If (LEqual (T_0, Zero))
+                            ASB0 = One
+                            Name (_T_0, Zero)  // _T_x: Emitted by ASL Compiler, x=0-9, A-Z
+                            _T_0 = GPID /* \_SB_.PCI0.SBRG.ASOC.GITM.GPID */
+                            If ((_T_0 == Zero))
                             {
                                 GIT0 (PRM0)
                             }
+                            ElseIf ((_T_0 == 0x03))
+                            {
+                                GIT3 (PRM0)
+                            }
+                            ElseIf ((_T_0 == 0x04))
+                            {
+                                GIT4 (PRM0)
+                            }
+                            ElseIf ((_T_0 == 0x05))
+                            {
+                                GIT5 (PRM0)
+                            }
+                            ElseIf ((_T_0 == 0x06))
+                            {
+                                GIT6 (PRM0)
+                            }
+                            ElseIf ((_T_0 == 0x09))
+                            {
+                                GIT9 (PRM0)
+                            }
+                            ElseIf ((_T_0 == 0x0B))
+                            {
+                                GITB (PRM0)
+                            }
+                            ElseIf ((_T_0 == 0x0D))
+                            {
+                                GITD (PRM0)
+                            }
+                            ElseIf ((_T_0 == 0x0E))
+                            {
+                                GITE (PRM0)
+                            }
                             Else
                             {
-                                If (LEqual (T_0, 0x03))
-                                {
-                                    GIT3 (PRM0)
-                                }
-                                Else
-                                {
-                                    If (LEqual (T_0, 0x04))
-                                    {
-                                        GIT4 (PRM0)
-                                    }
-                                    Else
-                                    {
-                                        If (LEqual (T_0, 0x05))
-                                        {
-                                            GIT5 (PRM0)
-                                        }
-                                        Else
-                                        {
-                                            If (LEqual (T_0, 0x06))
-                                            {
-                                                GIT6 (PRM0)
-                                            }
-                                            Else
-                                            {
-                                                If (LEqual (T_0, 0x09))
-                                                {
-                                                    GIT9 (PRM0)
-                                                }
-                                                Else
-                                                {
-                                                    If (LEqual (T_0, 0x0B))
-                                                    {
-                                                        GITB (PRM0)
-                                                    }
-                                                    Else
-                                                    {
-                                                        If (LEqual (T_0, 0x0D))
-                                                        {
-                                                            GITD (PRM0)
-                                                        }
-                                                        Else
-                                                        {
-                                                            If (LEqual (T_0, 0x0E))
-                                                            {
-                                                                GITE (PRM0)
-                                                            }
-                                                            Else
-                                                            {
-                                                                Store (Zero, ASB0) /* \_SB_.PCI0.SBRG.ASOC.ASB0 */
-                                                            }
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
+                                ASB0 = Zero
                             }
 
                             Return (ASBF) /* \_SB_.PCI0.SBRG.ASOC.ASBF */
@@ -2869,72 +2799,48 @@ DefinitionBlock ("acpi.aml", "DSDT", 1, "A0994", "A0994000", 0x00000000)
                             CreateDWordField (Arg0, 0x04, PRM1)
                             CreateDWordField (Arg0, 0x08, PRM2)
                             CreateByteField (Arg0, 0x03, GPID)
-                            Store (One, ASB0) /* \_SB_.PCI0.SBRG.ASOC.ASB0 */
-                            Name (T_0, Zero)  // T_x: Emitted by ASL Compiler
-                            Store (GPID, T_0) /* \_SB_.PCI0.SBRG.ASOC.SITM.T_0 */
-                            If (LEqual (T_0, Zero))
+                            ASB0 = One
+                            Name (_T_0, Zero)  // _T_x: Emitted by ASL Compiler, x=0-9, A-Z
+                            _T_0 = GPID /* \_SB_.PCI0.SBRG.ASOC.SITM.GPID */
+                            If ((_T_0 == Zero))
                             {
                                 SIT0 (PRM0, PRM1, PRM2)
                             }
+                            ElseIf ((_T_0 == 0x03))
+                            {
+                                SIT3 (PRM0, PRM1, PRM2)
+                            }
+                            ElseIf ((_T_0 == 0x04))
+                            {
+                                SIT4 (PRM0, PRM1, PRM2)
+                            }
+                            ElseIf ((_T_0 == 0x05))
+                            {
+                                SIT5 (PRM0, PRM1, PRM2)
+                            }
+                            ElseIf ((_T_0 == 0x06))
+                            {
+                                SIT6 (PRM0, PRM1, PRM2)
+                            }
+                            ElseIf ((_T_0 == 0x09))
+                            {
+                                SIT9 (PRM0, PRM1, PRM2)
+                            }
+                            ElseIf ((_T_0 == 0x0B))
+                            {
+                                SITB (PRM0, PRM1, PRM2)
+                            }
+                            ElseIf ((_T_0 == 0x0D))
+                            {
+                                SITD (PRM0, PRM1, PRM2)
+                            }
+                            ElseIf ((_T_0 == 0x0E))
+                            {
+                                SITE (PRM0, PRM1, PRM2)
+                            }
                             Else
                             {
-                                If (LEqual (T_0, 0x03))
-                                {
-                                    SIT3 (PRM0, PRM1, PRM2)
-                                }
-                                Else
-                                {
-                                    If (LEqual (T_0, 0x04))
-                                    {
-                                        SIT4 (PRM0, PRM1, PRM2)
-                                    }
-                                    Else
-                                    {
-                                        If (LEqual (T_0, 0x05))
-                                        {
-                                            SIT5 (PRM0, PRM1, PRM2)
-                                        }
-                                        Else
-                                        {
-                                            If (LEqual (T_0, 0x06))
-                                            {
-                                                SIT6 (PRM0, PRM1, PRM2)
-                                            }
-                                            Else
-                                            {
-                                                If (LEqual (T_0, 0x09))
-                                                {
-                                                    SIT9 (PRM0, PRM1, PRM2)
-                                                }
-                                                Else
-                                                {
-                                                    If (LEqual (T_0, 0x0B))
-                                                    {
-                                                        SITB (PRM0, PRM1, PRM2)
-                                                    }
-                                                    Else
-                                                    {
-                                                        If (LEqual (T_0, 0x0D))
-                                                        {
-                                                            SITD (PRM0, PRM1, PRM2)
-                                                        }
-                                                        Else
-                                                        {
-                                                            If (LEqual (T_0, 0x0E))
-                                                            {
-                                                                SITE (PRM0, PRM1, PRM2)
-                                                            }
-                                                            Else
-                                                            {
-                                                                Store (Zero, ASB0) /* \_SB_.PCI0.SBRG.ASOC.ASB0 */
-                                                            }
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
+                                ASB0 = Zero
                             }
 
                             Return (ASBF) /* \_SB_.PCI0.SBRG.ASOC.ASBF */
@@ -2942,18 +2848,18 @@ DefinitionBlock ("acpi.aml", "DSDT", 1, "A0994", "A0994000", 0x00000000)
 
                         Method (OP2V, 2, NotSerialized)
                         {
-                            Store (DerefOf (Index (Arg1, 0x04)), Local0)
-                            Store (DerefOf (Index (Arg1, 0x05)), Local1)
-                            Multiply (Arg0, Local1, Local1)
-                            Add (Local0, Local1, Local0)
+                            Local0 = DerefOf (Arg1 [0x04])
+                            Local1 = DerefOf (Arg1 [0x05])
+                            Local1 *= Arg0
+                            Local0 += Local1
                             Return (Local0)
                         }
 
                         Method (V2OP, 2, NotSerialized)
                         {
-                            Store (DerefOf (Index (Arg1, 0x04)), Local0)
-                            Store (DerefOf (Index (Arg1, 0x05)), Local1)
-                            Subtract (Arg0, Local0, Local0)
+                            Local0 = DerefOf (Arg1 [0x04])
+                            Local1 = DerefOf (Arg1 [0x05])
+                            Local0 = (Arg0 - Local0)
                             Divide (Local0, Local1, Local1, Local0)
                             Return (Local0)
                         }
@@ -2981,19 +2887,16 @@ DefinitionBlock ("acpi.aml", "DSDT", 1, "A0994", "A0994000", 0x00000000)
 
                     Method (_STA, 0, NotSerialized)  // _STA: Status
                     {
-                        If (LEqual (OSFL (), Zero))
+                        If ((OSFL () == Zero))
                         {
                             If (HPTE)
                             {
                                 Return (0x0F)
                             }
                         }
-                        Else
+                        ElseIf (HPTE)
                         {
-                            If (HPTE)
-                            {
-                                Return (0x0B)
-                            }
+                            Return (0x0B)
                         }
 
                         Return (Zero)
@@ -3002,8 +2905,8 @@ DefinitionBlock ("acpi.aml", "DSDT", 1, "A0994", "A0994000", 0x00000000)
                     Method (_CRS, 0, NotSerialized)  // _CRS: Current Resource Settings
                     {
                         CreateDWordField (CRS, \_SB.PCI0.SBRG.HPET._Y09._BAS, HPT)  // _BAS: Base Address
-                        Multiply (HPTS, 0x1000, Local0)
-                        Add (Local0, 0xFED00000, HPT) /* \_SB_.PCI0.SBRG.HPET._CRS.HPT_ */
+                        Local0 = (HPTS * 0x1000)
+                        HPT = (Local0 + 0xFED00000)
                         Return (CRS) /* \_SB_.PCI0.SBRG.HPET.CRS_ */
                     }
                 }
@@ -3083,39 +2986,34 @@ DefinitionBlock ("acpi.aml", "DSDT", 1, "A0994", "A0994000", 0x00000000)
                 })
                 Method (RRIO, 4, NotSerialized)
                 {
-                    If (LAnd (LLessEqual (Arg0, 0x03), LGreaterEqual (Arg0, Zero)))
+                    If (((Arg0 <= 0x03) && (Arg0 >= Zero)))
                     {
-                        Store (Match (DerefOf (Index (DBPT, Arg0)), MEQ, Arg2, MTR, 
-                            Zero, Zero), Local0)
-                        If (LNotEqual (Local0, Ones))
+                        Local0 = Match (DerefOf (DBPT [Arg0]), MEQ, Arg2, MTR, Zero, 
+                            Zero)
+                        If ((Local0 != Ones))
                         {
-                            Store (DerefOf (Index (DerefOf (Index (DDLT, Arg0)), Zero)), 
-                                Local1)
-                            Store (DerefOf (Index (DerefOf (Index (DDLT, Arg0)), One)), 
-                                Local2)
-                            ShiftLeft (Local0, Local1, Local0)
-                            And (LPCD, Local2, LPCD) /* \_SB_.PCI0.SBRG.LPCD */
-                            Or (LPCD, Local0, LPCD) /* \_SB_.PCI0.SBRG.LPCD */
+                            Local1 = DerefOf (DerefOf (DDLT [Arg0]) [Zero])
+                            Local2 = DerefOf (DerefOf (DDLT [Arg0]) [One])
+                            Local0 <<= Local1
+                            LPCD &= Local2
+                            LPCD |= Local0
                             WX82 (Arg0, Arg1)
                         }
                     }
 
-                    If (LEqual (Arg0, 0x08))
+                    If ((Arg0 == 0x08))
                     {
-                        If (LEqual (Arg2, 0x0200))
+                        If ((Arg2 == 0x0200))
                         {
                             WX82 (0x08, Arg0)
                         }
-                        Else
+                        ElseIf ((Arg2 == 0x0208))
                         {
-                            If (LEqual (Arg2, 0x0208))
-                            {
-                                WX82 (0x09, Arg0)
-                            }
+                            WX82 (0x09, Arg0)
                         }
                     }
 
-                    If (LAnd (LLessEqual (Arg0, 0x0D), LGreaterEqual (Arg0, 0x0A)))
+                    If (((Arg0 <= 0x0D) && (Arg0 >= 0x0A)))
                     {
                         WX82 (Arg0, Arg1)
                     }
@@ -3123,15 +3021,15 @@ DefinitionBlock ("acpi.aml", "DSDT", 1, "A0994", "A0994000", 0x00000000)
 
                 Method (WX82, 2, NotSerialized)
                 {
-                    ShiftLeft (One, Arg0, Local0)
+                    Local0 = (One << Arg0)
                     If (Arg1)
                     {
-                        Or (LPCE, Local0, LPCE) /* \_SB_.PCI0.SBRG.LPCE */
+                        LPCE |= Local0
                     }
                     Else
                     {
-                        Not (Local0, Local0)
-                        And (LPCE, Local0, LPCE) /* \_SB_.PCI0.SBRG.LPCE */
+                        Local0 = ~Local0
+                        LPCE &= Local0
                     }
                 }
 
@@ -3154,15 +3052,15 @@ DefinitionBlock ("acpi.aml", "DSDT", 1, "A0994", "A0994000", 0x00000000)
                     {
                         CreateDWordField (CRS, \_SB.PCI0.PCIE._Y0A._BAS, BAS1)  // _BAS: Base Address
                         CreateDWordField (CRS, \_SB.PCI0.PCIE._Y0A._LEN, LEN1)  // _LEN: Length
-                        Store (PCIB, BAS1) /* \_SB_.PCI0.PCIE._CRS.BAS1 */
-                        Store (PCIL, LEN1) /* \_SB_.PCI0.PCIE._CRS.LEN1 */
+                        BAS1 = PCIB /* \PCIB */
+                        LEN1 = PCIL /* \PCIL */
                         Return (CRS) /* \_SB_.PCI0.PCIE.CRS_ */
                     }
                 }
 
                 Scope (\_GPE)
                 {
-                    Method (_L1E, 0, NotSerialized)  // _Lxx: Level-Triggered GPE
+                    Method (_L1E, 0, NotSerialized)  // _Lxx: Level-Triggered GPE, xx=0x00-0xFF
                     {
                         Notify (\_SB.PCI0.SBRG.ASOC, One) // Device Check
                         Sleep (0x03E8)
@@ -3174,10 +3072,10 @@ DefinitionBlock ("acpi.aml", "DSDT", 1, "A0994", "A0994000", 0x00000000)
                     Name (VESL, Zero)
                     Method (SPLV, 1, Serialized)
                     {
-                        And (Arg0, 0xFFFF, VESL) /* \_SB_.PCI0.SBRG.ASOC.VESL */
-                        Store (VESL, PAR0) /* \PAR0 */
+                        VESL = (Arg0 & 0xFFFF)
+                        PAR0 = VESL /* \_SB_.PCI0.SBRG.ASOC.VESL */
                         ISMI (0x88)
-                        Store (And (PAR0, 0xFFFF), Local0)
+                        Local0 = (PAR0 & 0xFFFF)
                         Return (Local0)
                     }
 
@@ -3315,10 +3213,10 @@ DefinitionBlock ("acpi.aml", "DSDT", 1, "A0994", "A0994000", 0x00000000)
                             CreateDWordField (CRS, \_SB.PCI0.SBRG.OMSC._Y0B._BAS, MB01)  // _BAS: Base Address
                             CreateDWordField (CRS, \_SB.PCI0.SBRG.OMSC._Y0C._LEN, ML02)  // _LEN: Length
                             CreateDWordField (CRS, \_SB.PCI0.SBRG.OMSC._Y0C._BAS, MB02)  // _BAS: Base Address
-                            Store (0xFEC00000, MB01) /* \_SB_.PCI0.SBRG.OMSC._CRS.MB01 */
-                            Store (0x1000, ML01) /* \_SB_.PCI0.SBRG.OMSC._CRS.ML01 */
-                            Store (0xFEE00000, MB02) /* \_SB_.PCI0.SBRG.OMSC._CRS.MB02 */
-                            Store (0x1000, ML02) /* \_SB_.PCI0.SBRG.OMSC._CRS.ML02 */
+                            MB01 = 0xFEC00000
+                            ML01 = 0x1000
+                            MB02 = 0xFEE00000
+                            ML02 = 0x1000
                         }
 
                         Return (CRS) /* \_SB_.PCI0.SBRG.OMSC.CRS_ */
@@ -3361,33 +3259,33 @@ DefinitionBlock ("acpi.aml", "DSDT", 1, "A0994", "A0994000", 0x00000000)
                         CreateDWordField (CRS, \_SB.RMEM._Y0F._LEN, LEN3)  // _LEN: Length
                         CreateDWordField (CRS, \_SB.RMEM._Y10._BAS, BAS4)  // _BAS: Base Address
                         CreateDWordField (CRS, \_SB.RMEM._Y10._LEN, LEN4)  // _LEN: Length
-                        If (OSFL ()) {}
+                        If (OSFL ()){}
                         Else
                         {
                             If (MG1B)
                             {
-                                If (LGreater (MG1B, 0x000C0000))
+                                If ((MG1B > 0x000C0000))
                                 {
-                                    Store (0x000C0000, BAS1) /* \_SB_.RMEM._CRS.BAS1 */
-                                    Subtract (MG1B, BAS1, LEN1) /* \_SB_.RMEM._CRS.LEN1 */
+                                    BAS1 = 0x000C0000
+                                    LEN1 = (MG1B - BAS1) /* \_SB_.RMEM._CRS.BAS1 */
                                 }
                             }
                             Else
                             {
-                                Store (0x000C0000, BAS1) /* \_SB_.RMEM._CRS.BAS1 */
-                                Store (0x00020000, LEN1) /* \_SB_.RMEM._CRS.LEN1 */
+                                BAS1 = 0x000C0000
+                                LEN1 = 0x00020000
                             }
 
-                            If (Add (MG1B, MG1L, Local0))
+                            If (Local0 = (MG1B + MG1L) /* \MG1L */)
                             {
-                                Store (Local0, BAS2) /* \_SB_.RMEM._CRS.BAS2 */
-                                Subtract (0x00100000, BAS2, LEN2) /* \_SB_.RMEM._CRS.LEN2 */
+                                BAS2 = Local0
+                                LEN2 = (0x00100000 - BAS2) /* \_SB_.RMEM._CRS.BAS2 */
                             }
                         }
 
-                        Subtract (MG2B, 0x00100000, LEN3) /* \_SB_.RMEM._CRS.LEN3 */
-                        Add (MG2B, MG2L, BAS4) /* \_SB_.RMEM._CRS.BAS4 */
-                        Subtract (Zero, BAS4, LEN4) /* \_SB_.RMEM._CRS.LEN4 */
+                        LEN3 = (MG2B - 0x00100000)
+                        BAS4 = (MG2B + MG2L) /* \MG2L */
+                        LEN4 = (Zero - BAS4) /* \_SB_.RMEM._CRS.BAS4 */
                         Return (CRS) /* \_SB_.RMEM.CRS_ */
                     }
                 }
@@ -3398,8 +3296,8 @@ DefinitionBlock ("acpi.aml", "DSDT", 1, "A0994", "A0994000", 0x00000000)
                     Name (_CID, EisaId ("PNP030B"))  // _CID: Compatible ID
                     Method (_STA, 0, NotSerialized)  // _STA: Status
                     {
-                        ShiftLeft (One, 0x0A, Local0)
-                        If (And (IOST, Local0))
+                        Local0 = (One << 0x0A)
+                        If ((IOST & Local0))
                         {
                             Return (0x0F)
                         }
@@ -3441,14 +3339,14 @@ DefinitionBlock ("acpi.aml", "DSDT", 1, "A0994", "A0994000", 0x00000000)
                 })
                 Name (\FZTF, Buffer (0x07)
                 {
-                     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xF5         /* ....... */
+                     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xF5         // .......
                 })
                 Name (REGF, One)
                 Method (_REG, 2, NotSerialized)  // _REG: Region Availability
                 {
-                    If (LEqual (Arg0, 0x02))
+                    If ((Arg0 == 0x02))
                     {
-                        Store (Arg1, REGF) /* \_SB_.PCI0.SATA.REGF */
+                        REGF = Arg1
                     }
                 }
 
@@ -3524,7 +3422,7 @@ DefinitionBlock ("acpi.aml", "DSDT", 1, "A0994", "A0994000", 0x00000000)
                         Zero
                     }
                 })
-                Name (TMD0, Buffer (0x14) {})
+                Name (TMD0, Buffer (0x14){})
                 CreateDWordField (TMD0, Zero, PIO0)
                 CreateDWordField (TMD0, 0x04, DMA0)
                 CreateDWordField (TMD0, 0x08, PIO1)
@@ -3586,111 +3484,111 @@ DefinitionBlock ("acpi.aml", "DSDT", 1, "A0994", "A0994000", 0x00000000)
                     Name (_ADR, Zero)  // _ADR: Address
                     Method (_GTM, 0, NotSerialized)  // _GTM: Get Timing Mode
                     {
-                        ShiftLeft (PSCR, One, Local1)
-                        Or (PMCR, Local1, Local0)
-                        ShiftLeft (PMAE, 0x02, Local3)
-                        ShiftLeft (PM6E, One, Local4)
-                        Or (Local3, Local4, Local3)
-                        Or (PM3E, Local3, Local1)
-                        ShiftLeft (PMPT, 0x04, Local3)
-                        Or (Local1, Local3, Local1)
-                        ShiftLeft (PSAE, 0x02, Local3)
-                        ShiftLeft (PS6E, One, Local4)
-                        Or (Local3, Local4, Local3)
-                        Or (PS3E, Local3, Local2)
-                        ShiftLeft (PSPT, 0x04, Local3)
-                        Or (Local2, Local3, Local2)
+                        Local1 = (PSCR << One)
+                        Local0 = (PMCR | Local1)
+                        Local3 = (PMAE << 0x02)
+                        Local4 = (PM6E << One)
+                        Local3 |= Local4
+                        Local1 = (PM3E | Local3)
+                        Local3 = (PMPT << 0x04)
+                        Local1 |= Local3
+                        Local3 = (PSAE << 0x02)
+                        Local4 = (PS6E << One)
+                        Local3 |= Local4
+                        Local2 = (PS3E | Local3)
+                        Local3 = (PSPT << 0x04)
+                        Local2 |= Local3
                         Return (GTM (PMRI, Local1, PMUT, PSRI, Local2, PSUT, Local0))
                     }
 
                     Method (_STM, 3, NotSerialized)  // _STM: Set Timing Mode
                     {
-                        Store (Arg0, Debug)
-                        Store (Arg0, TMD0) /* \_SB_.PCI0.SATA.TMD0 */
-                        ShiftLeft (PMAE, 0x02, Local3)
-                        ShiftLeft (PM6E, One, Local4)
-                        Or (Local3, Local4, Local3)
-                        Or (PM3E, Local3, Local0)
-                        ShiftLeft (PMPT, 0x04, Local3)
-                        Or (Local0, Local3, Local0)
-                        ShiftLeft (PSAE, 0x02, Local3)
-                        ShiftLeft (PS6E, One, Local4)
-                        Or (Local3, Local4, Local3)
-                        Or (PS3E, Local3, Local1)
-                        ShiftLeft (PSPT, 0x04, Local3)
-                        Or (Local1, Local3, Local1)
-                        Store (PMRI, GMPT) /* \_SB_.PCI0.SATA.GMPT */
-                        Store (Local0, GMUE) /* \_SB_.PCI0.SATA.GMUE */
-                        Store (PMUT, GMUT) /* \_SB_.PCI0.SATA.GMUT */
-                        Store (PMCR, GMCR) /* \_SB_.PCI0.SATA.GMCR */
-                        Store (PSRI, GSPT) /* \_SB_.PCI0.SATA.GSPT */
-                        Store (Local1, GSUE) /* \_SB_.PCI0.SATA.GSUE */
-                        Store (PSUT, GSUT) /* \_SB_.PCI0.SATA.GSUT */
-                        Store (PSCR, GSCR) /* \_SB_.PCI0.SATA.GSCR */
+                        Debug = Arg0
+                        TMD0 = Arg0
+                        Local3 = (PMAE << 0x02)
+                        Local4 = (PM6E << One)
+                        Local3 |= Local4
+                        Local0 = (PM3E | Local3)
+                        Local3 = (PMPT << 0x04)
+                        Local0 |= Local3
+                        Local3 = (PSAE << 0x02)
+                        Local4 = (PS6E << One)
+                        Local3 |= Local4
+                        Local1 = (PS3E | Local3)
+                        Local3 = (PSPT << 0x04)
+                        Local1 |= Local3
+                        GMPT = PMRI /* \_SB_.PCI0.SATA.PMRI */
+                        GMUE = Local0
+                        GMUT = PMUT /* \_SB_.PCI0.SATA.PMUT */
+                        GMCR = PMCR /* \_SB_.PCI0.SATA.PMCR */
+                        GSPT = PSRI /* \_SB_.PCI0.SATA.PSRI */
+                        GSUE = Local1
+                        GSUT = PSUT /* \_SB_.PCI0.SATA.PSUT */
+                        GSCR = PSCR /* \_SB_.PCI0.SATA.PSCR */
                         STM ()
-                        Store (GMPT, PMRI) /* \_SB_.PCI0.SATA.PMRI */
-                        Store (GMUE, Local0)
-                        Store (GMUT, PMUT) /* \_SB_.PCI0.SATA.PMUT */
-                        Store (GMCR, PMCR) /* \_SB_.PCI0.SATA.PMCR */
-                        Store (GSUE, Local1)
-                        Store (GSUT, PSUT) /* \_SB_.PCI0.SATA.PSUT */
-                        Store (GSCR, PSCR) /* \_SB_.PCI0.SATA.PSCR */
-                        If (And (Local0, One))
+                        PMRI = GMPT /* \_SB_.PCI0.SATA.GMPT */
+                        Local0 = GMUE /* \_SB_.PCI0.SATA.GMUE */
+                        PMUT = GMUT /* \_SB_.PCI0.SATA.GMUT */
+                        PMCR = GMCR /* \_SB_.PCI0.SATA.GMCR */
+                        Local1 = GSUE /* \_SB_.PCI0.SATA.GSUE */
+                        PSUT = GSUT /* \_SB_.PCI0.SATA.GSUT */
+                        PSCR = GSCR /* \_SB_.PCI0.SATA.GSCR */
+                        If ((Local0 & One))
                         {
-                            Store (One, PM3E) /* \_SB_.PCI0.SATA.PM3E */
+                            PM3E = One
                         }
                         Else
                         {
-                            Store (Zero, PM3E) /* \_SB_.PCI0.SATA.PM3E */
+                            PM3E = Zero
                         }
 
-                        If (And (Local0, 0x02))
+                        If ((Local0 & 0x02))
                         {
-                            Store (One, PM6E) /* \_SB_.PCI0.SATA.PM6E */
+                            PM6E = One
                         }
                         Else
                         {
-                            Store (Zero, PM6E) /* \_SB_.PCI0.SATA.PM6E */
+                            PM6E = Zero
                         }
 
-                        If (And (Local0, 0x04))
+                        If ((Local0 & 0x04))
                         {
-                            Store (One, PMAE) /* \_SB_.PCI0.SATA.PMAE */
+                            PMAE = One
                         }
                         Else
                         {
-                            Store (Zero, PMAE) /* \_SB_.PCI0.SATA.PMAE */
+                            PMAE = Zero
                         }
 
-                        If (And (Local1, One))
+                        If ((Local1 & One))
                         {
-                            Store (One, PS3E) /* \_SB_.PCI0.SATA.PS3E */
+                            PS3E = One
                         }
                         Else
                         {
-                            Store (Zero, PS3E) /* \_SB_.PCI0.SATA.PS3E */
+                            PS3E = Zero
                         }
 
-                        If (And (Local1, 0x02))
+                        If ((Local1 & 0x02))
                         {
-                            Store (One, PS6E) /* \_SB_.PCI0.SATA.PS6E */
+                            PS6E = One
                         }
                         Else
                         {
-                            Store (Zero, PS6E) /* \_SB_.PCI0.SATA.PS6E */
+                            PS6E = Zero
                         }
 
-                        If (And (Local1, 0x04))
+                        If ((Local1 & 0x04))
                         {
-                            Store (One, PSAE) /* \_SB_.PCI0.SATA.PSAE */
+                            PSAE = One
                         }
                         Else
                         {
-                            Store (Zero, PSAE) /* \_SB_.PCI0.SATA.PSAE */
+                            PSAE = Zero
                         }
 
-                        Store (GTF (Zero, Arg1), ATA0) /* \_SB_.PCI0.SATA.ATA0 */
-                        Store (GTF (One, Arg2), ATA1) /* \_SB_.PCI0.SATA.ATA1 */
+                        ATA0 = GTF (Zero, Arg1)
+                        ATA1 = GTF (One, Arg2)
                     }
 
                     Device (DRV0)
@@ -3717,111 +3615,111 @@ DefinitionBlock ("acpi.aml", "DSDT", 1, "A0994", "A0994000", 0x00000000)
                     Name (_ADR, One)  // _ADR: Address
                     Method (_GTM, 0, NotSerialized)  // _GTM: Get Timing Mode
                     {
-                        ShiftLeft (SSCR, One, Local1)
-                        Or (SMCR, Local1, Local0)
-                        ShiftLeft (SMAE, 0x02, Local3)
-                        ShiftLeft (SM6E, One, Local4)
-                        Or (Local3, Local4, Local3)
-                        Or (SM3E, Local3, Local1)
-                        ShiftLeft (SMPT, 0x04, Local3)
-                        Or (Local1, Local3, Local1)
-                        ShiftLeft (SSAE, 0x02, Local3)
-                        ShiftLeft (SS6E, One, Local4)
-                        Or (Local3, Local4, Local3)
-                        Or (SS3E, Local3, Local2)
-                        ShiftLeft (SSPT, 0x04, Local3)
-                        Or (Local2, Local3, Local2)
+                        Local1 = (SSCR << One)
+                        Local0 = (SMCR | Local1)
+                        Local3 = (SMAE << 0x02)
+                        Local4 = (SM6E << One)
+                        Local3 |= Local4
+                        Local1 = (SM3E | Local3)
+                        Local3 = (SMPT << 0x04)
+                        Local1 |= Local3
+                        Local3 = (SSAE << 0x02)
+                        Local4 = (SS6E << One)
+                        Local3 |= Local4
+                        Local2 = (SS3E | Local3)
+                        Local3 = (SSPT << 0x04)
+                        Local2 |= Local3
                         Return (GTM (SMRI, Local1, SMUT, SSRI, Local2, SSUT, Local0))
                     }
 
                     Method (_STM, 3, NotSerialized)  // _STM: Set Timing Mode
                     {
-                        Store (Arg0, Debug)
-                        Store (Arg0, TMD0) /* \_SB_.PCI0.SATA.TMD0 */
-                        ShiftLeft (SMAE, 0x02, Local3)
-                        ShiftLeft (SM6E, One, Local4)
-                        Or (Local3, Local4, Local3)
-                        Or (SM3E, Local3, Local0)
-                        ShiftLeft (SMPT, 0x04, Local3)
-                        Or (Local0, Local3, Local0)
-                        ShiftLeft (SSAE, 0x02, Local3)
-                        ShiftLeft (SS6E, One, Local4)
-                        Or (Local3, Local4, Local3)
-                        Or (SS3E, Local3, Local1)
-                        ShiftLeft (SSPT, 0x04, Local3)
-                        Or (Local1, Local3, Local1)
-                        Store (SMRI, GMPT) /* \_SB_.PCI0.SATA.GMPT */
-                        Store (Local0, GMUE) /* \_SB_.PCI0.SATA.GMUE */
-                        Store (SMUT, GMUT) /* \_SB_.PCI0.SATA.GMUT */
-                        Store (SMCR, GMCR) /* \_SB_.PCI0.SATA.GMCR */
-                        Store (SSRI, GSPT) /* \_SB_.PCI0.SATA.GSPT */
-                        Store (Local1, GSUE) /* \_SB_.PCI0.SATA.GSUE */
-                        Store (SSUT, GSUT) /* \_SB_.PCI0.SATA.GSUT */
-                        Store (SSCR, GSCR) /* \_SB_.PCI0.SATA.GSCR */
+                        Debug = Arg0
+                        TMD0 = Arg0
+                        Local3 = (SMAE << 0x02)
+                        Local4 = (SM6E << One)
+                        Local3 |= Local4
+                        Local0 = (SM3E | Local3)
+                        Local3 = (SMPT << 0x04)
+                        Local0 |= Local3
+                        Local3 = (SSAE << 0x02)
+                        Local4 = (SS6E << One)
+                        Local3 |= Local4
+                        Local1 = (SS3E | Local3)
+                        Local3 = (SSPT << 0x04)
+                        Local1 |= Local3
+                        GMPT = SMRI /* \_SB_.PCI0.SATA.SMRI */
+                        GMUE = Local0
+                        GMUT = SMUT /* \_SB_.PCI0.SATA.SMUT */
+                        GMCR = SMCR /* \_SB_.PCI0.SATA.SMCR */
+                        GSPT = SSRI /* \_SB_.PCI0.SATA.SSRI */
+                        GSUE = Local1
+                        GSUT = SSUT /* \_SB_.PCI0.SATA.SSUT */
+                        GSCR = SSCR /* \_SB_.PCI0.SATA.SSCR */
                         STM ()
-                        Store (GMPT, SMRI) /* \_SB_.PCI0.SATA.SMRI */
-                        Store (GMUE, Local0)
-                        Store (GMUT, SMUT) /* \_SB_.PCI0.SATA.SMUT */
-                        Store (GMCR, SMCR) /* \_SB_.PCI0.SATA.SMCR */
-                        Store (GSUE, Local1)
-                        Store (GSUT, SSUT) /* \_SB_.PCI0.SATA.SSUT */
-                        Store (GSCR, SSCR) /* \_SB_.PCI0.SATA.SSCR */
-                        If (And (Local0, One))
+                        SMRI = GMPT /* \_SB_.PCI0.SATA.GMPT */
+                        Local0 = GMUE /* \_SB_.PCI0.SATA.GMUE */
+                        SMUT = GMUT /* \_SB_.PCI0.SATA.GMUT */
+                        SMCR = GMCR /* \_SB_.PCI0.SATA.GMCR */
+                        Local1 = GSUE /* \_SB_.PCI0.SATA.GSUE */
+                        SSUT = GSUT /* \_SB_.PCI0.SATA.GSUT */
+                        SSCR = GSCR /* \_SB_.PCI0.SATA.GSCR */
+                        If ((Local0 & One))
                         {
-                            Store (One, SM3E) /* \_SB_.PCI0.SATA.SM3E */
+                            SM3E = One
                         }
                         Else
                         {
-                            Store (Zero, SM3E) /* \_SB_.PCI0.SATA.SM3E */
+                            SM3E = Zero
                         }
 
-                        If (And (Local0, 0x02))
+                        If ((Local0 & 0x02))
                         {
-                            Store (One, SM6E) /* \_SB_.PCI0.SATA.SM6E */
+                            SM6E = One
                         }
                         Else
                         {
-                            Store (Zero, SM6E) /* \_SB_.PCI0.SATA.SM6E */
+                            SM6E = Zero
                         }
 
-                        If (And (Local0, 0x04))
+                        If ((Local0 & 0x04))
                         {
-                            Store (One, SMAE) /* \_SB_.PCI0.SATA.SMAE */
+                            SMAE = One
                         }
                         Else
                         {
-                            Store (Zero, SMAE) /* \_SB_.PCI0.SATA.SMAE */
+                            SMAE = Zero
                         }
 
-                        If (And (Local1, One))
+                        If ((Local1 & One))
                         {
-                            Store (One, SS3E) /* \_SB_.PCI0.SATA.SS3E */
+                            SS3E = One
                         }
                         Else
                         {
-                            Store (Zero, SS3E) /* \_SB_.PCI0.SATA.SS3E */
+                            SS3E = Zero
                         }
 
-                        If (And (Local1, 0x02))
+                        If ((Local1 & 0x02))
                         {
-                            Store (One, SS6E) /* \_SB_.PCI0.SATA.SS6E */
+                            SS6E = One
                         }
                         Else
                         {
-                            Store (Zero, SS6E) /* \_SB_.PCI0.SATA.SS6E */
+                            SS6E = Zero
                         }
 
-                        If (And (Local1, 0x04))
+                        If ((Local1 & 0x04))
                         {
-                            Store (One, SSAE) /* \_SB_.PCI0.SATA.SSAE */
+                            SSAE = One
                         }
                         Else
                         {
-                            Store (Zero, SSAE) /* \_SB_.PCI0.SATA.SSAE */
+                            SSAE = Zero
                         }
 
-                        Store (GTF (Zero, Arg1), ATA2) /* \_SB_.PCI0.SATA.ATA2 */
-                        Store (GTF (One, Arg2), ATA3) /* \_SB_.PCI0.SATA.ATA3 */
+                        ATA2 = GTF (Zero, Arg1)
+                        ATA3 = GTF (One, Arg2)
                     }
 
                     Device (DRV0)
@@ -3845,76 +3743,72 @@ DefinitionBlock ("acpi.aml", "DSDT", 1, "A0994", "A0994000", 0x00000000)
 
                 Method (GTM, 7, Serialized)
                 {
-                    Store (Ones, PIO0) /* \_SB_.PCI0.SATA.PIO0 */
-                    Store (Ones, PIO1) /* \_SB_.PCI0.SATA.PIO1 */
-                    Store (Ones, DMA0) /* \_SB_.PCI0.SATA.DMA0 */
-                    Store (Ones, DMA1) /* \_SB_.PCI0.SATA.DMA1 */
-                    Store (0x10, CHNF) /* \_SB_.PCI0.SATA.CHNF */
-                    If (REGF) {}
+                    PIO0 = Ones
+                    PIO1 = Ones
+                    DMA0 = Ones
+                    DMA1 = Ones
+                    CHNF = 0x10
+                    If (REGF){}
                     Else
                     {
                         Return (TMD0) /* \_SB_.PCI0.SATA.TMD0 */
                     }
 
-                    If (And (Arg1, 0x20))
+                    If ((Arg1 & 0x20))
                     {
-                        Or (CHNF, 0x02, CHNF) /* \_SB_.PCI0.SATA.CHNF */
+                        CHNF |= 0x02
                     }
 
-                    Store (Match (DerefOf (Index (TIM0, One)), MEQ, Arg0, MTR, 
-                        Zero, Zero), Local6)
-                    Store (DerefOf (Index (DerefOf (Index (TIM0, Zero)), Local6)), 
-                        Local7)
-                    Store (Local7, DMA0) /* \_SB_.PCI0.SATA.DMA0 */
-                    Store (Local7, PIO0) /* \_SB_.PCI0.SATA.PIO0 */
-                    If (And (Arg4, 0x20))
+                    Local6 = Match (DerefOf (TIM0 [One]), MEQ, Arg0, MTR, Zero, 
+                        Zero)
+                    Local7 = DerefOf (DerefOf (TIM0 [Zero]) [Local6])
+                    DMA0 = Local7
+                    PIO0 = Local7
+                    If ((Arg4 & 0x20))
                     {
-                        Or (CHNF, 0x08, CHNF) /* \_SB_.PCI0.SATA.CHNF */
+                        CHNF |= 0x08
                     }
 
-                    Store (Match (DerefOf (Index (TIM0, 0x02)), MEQ, Arg3, MTR, 
-                        Zero, Zero), Local6)
-                    Store (DerefOf (Index (DerefOf (Index (TIM0, Zero)), Local6)), 
-                        Local7)
-                    Store (Local7, DMA1) /* \_SB_.PCI0.SATA.DMA1 */
-                    Store (Local7, PIO1) /* \_SB_.PCI0.SATA.PIO1 */
-                    If (And (Arg1, 0x07))
+                    Local6 = Match (DerefOf (TIM0 [0x02]), MEQ, Arg3, MTR, Zero, 
+                        Zero)
+                    Local7 = DerefOf (DerefOf (TIM0 [Zero]) [Local6])
+                    DMA1 = Local7
+                    PIO1 = Local7
+                    If ((Arg1 & 0x07))
                     {
-                        Store (Arg2, Local5)
-                        If (And (Arg1, 0x02))
+                        Local5 = Arg2
+                        If ((Arg1 & 0x02))
                         {
-                            Add (Local5, 0x02, Local5)
+                            Local5 += 0x02
                         }
 
-                        If (And (Arg1, 0x04))
+                        If ((Arg1 & 0x04))
                         {
-                            Add (Local5, 0x04, Local5)
+                            Local5 += 0x04
                         }
 
-                        Store (DerefOf (Index (DerefOf (Index (TIM0, 0x03)), Local5)), 
-                            DMA0) /* \_SB_.PCI0.SATA.DMA0 */
-                        Or (CHNF, One, CHNF) /* \_SB_.PCI0.SATA.CHNF */
+                        DMA0 = DerefOf (DerefOf (TIM0 [0x03]) [Local5])
+                        CHNF |= One
                     }
 
-                    If (And (Arg4, 0x07))
+                    If ((Arg4 & 0x07))
                     {
-                        Store (Arg5, Local5)
-                        If (And (Arg4, 0x02))
+                        Local5 = Arg5
+                        If ((Arg4 & 0x02))
                         {
-                            Add (Local5, 0x02, Local5)
+                            Local5 += 0x02
                         }
 
-                        If (And (Arg4, 0x04))
+                        If ((Arg4 & 0x04))
                         {
-                            Add (Local5, 0x04, Local5)
+                            Local5 += 0x04
                         }
 
-                        Store (DerefOf (Index (DerefOf (Index (TIM0, 0x03)), Local5)), 
-                            DMA1) /* \_SB_.PCI0.SATA.DMA1 */
-                        Or (CHNF, 0x04, CHNF) /* \_SB_.PCI0.SATA.CHNF */
+                        DMA1 = DerefOf (DerefOf (TIM0 [0x03]) [Local5])
+                        CHNF |= 0x04
                     }
 
-                    Store (TMD0, Debug)
+                    Debug = TMD0 /* \_SB_.PCI0.SATA.TMD0 */
                     Return (TMD0) /* \_SB_.PCI0.SATA.TMD0 */
                 }
 
@@ -3922,152 +3816,142 @@ DefinitionBlock ("acpi.aml", "DSDT", 1, "A0994", "A0994000", 0x00000000)
                 {
                     If (REGF)
                     {
-                        Store (Zero, GMUE) /* \_SB_.PCI0.SATA.GMUE */
-                        Store (Zero, GMUT) /* \_SB_.PCI0.SATA.GMUT */
-                        Store (Zero, GSUE) /* \_SB_.PCI0.SATA.GSUE */
-                        Store (Zero, GSUT) /* \_SB_.PCI0.SATA.GSUT */
-                        If (And (CHNF, One))
+                        GMUE = Zero
+                        GMUT = Zero
+                        GSUE = Zero
+                        GSUT = Zero
+                        If ((CHNF & One))
                         {
-                            Store (Match (DerefOf (Index (TIM0, 0x03)), MLE, DMA0, MTR, 
-                                Zero, Zero), Local0)
-                            If (LGreater (Local0, 0x05))
+                            Local0 = Match (DerefOf (TIM0 [0x03]), MLE, DMA0, MTR, Zero, 
+                                Zero)
+                            If ((Local0 > 0x05))
                             {
-                                Store (0x05, Local0)
+                                Local0 = 0x05
                             }
 
-                            Store (DerefOf (Index (DerefOf (Index (TIM0, 0x04)), Local0)), 
-                                GMUT) /* \_SB_.PCI0.SATA.GMUT */
-                            Or (GMUE, One, GMUE) /* \_SB_.PCI0.SATA.GMUE */
-                            If (LGreater (Local0, 0x02))
+                            GMUT = DerefOf (DerefOf (TIM0 [0x04]) [Local0])
+                            GMUE |= One
+                            If ((Local0 > 0x02))
                             {
-                                Or (GMUE, 0x02, GMUE) /* \_SB_.PCI0.SATA.GMUE */
+                                GMUE |= 0x02
                             }
 
-                            If (LGreater (Local0, 0x04))
+                            If ((Local0 > 0x04))
                             {
-                                And (GMUE, 0xFD, GMUE) /* \_SB_.PCI0.SATA.GMUE */
-                                Or (GMUE, 0x04, GMUE) /* \_SB_.PCI0.SATA.GMUE */
+                                GMUE &= 0xFD
+                                GMUE |= 0x04
                             }
                         }
-                        Else
+                        ElseIf (((PIO0 == Ones) | (PIO0 == Zero)))
                         {
-                            If (Or (LEqual (PIO0, Ones), LEqual (PIO0, Zero)))
+                            If (((DMA0 < Ones) & (DMA0 > Zero)))
                             {
-                                If (And (LLess (DMA0, Ones), LGreater (DMA0, Zero)))
-                                {
-                                    Store (DMA0, PIO0) /* \_SB_.PCI0.SATA.PIO0 */
-                                    Or (GMUE, 0x80, GMUE) /* \_SB_.PCI0.SATA.GMUE */
-                                }
+                                PIO0 = DMA0 /* \_SB_.PCI0.SATA.DMA0 */
+                                GMUE |= 0x80
                             }
                         }
 
-                        If (And (CHNF, 0x04))
+                        If ((CHNF & 0x04))
                         {
-                            Store (Match (DerefOf (Index (TIM0, 0x03)), MLE, DMA1, MTR, 
-                                Zero, Zero), Local0)
-                            If (LGreater (Local0, 0x05))
+                            Local0 = Match (DerefOf (TIM0 [0x03]), MLE, DMA1, MTR, Zero, 
+                                Zero)
+                            If ((Local0 > 0x05))
                             {
-                                Store (0x05, Local0)
+                                Local0 = 0x05
                             }
 
-                            Store (DerefOf (Index (DerefOf (Index (TIM0, 0x04)), Local0)), 
-                                GSUT) /* \_SB_.PCI0.SATA.GSUT */
-                            Or (GSUE, One, GSUE) /* \_SB_.PCI0.SATA.GSUE */
-                            If (LGreater (Local0, 0x02))
+                            GSUT = DerefOf (DerefOf (TIM0 [0x04]) [Local0])
+                            GSUE |= One
+                            If ((Local0 > 0x02))
                             {
-                                Or (GSUE, 0x02, GSUE) /* \_SB_.PCI0.SATA.GSUE */
+                                GSUE |= 0x02
                             }
 
-                            If (LGreater (Local0, 0x04))
+                            If ((Local0 > 0x04))
                             {
-                                And (GSUE, 0xFD, GSUE) /* \_SB_.PCI0.SATA.GSUE */
-                                Or (GSUE, 0x04, GSUE) /* \_SB_.PCI0.SATA.GSUE */
+                                GSUE &= 0xFD
+                                GSUE |= 0x04
                             }
                         }
-                        Else
+                        ElseIf (((PIO1 == Ones) | (PIO1 == Zero)))
                         {
-                            If (Or (LEqual (PIO1, Ones), LEqual (PIO1, Zero)))
+                            If (((DMA1 < Ones) & (DMA1 > Zero)))
                             {
-                                If (And (LLess (DMA1, Ones), LGreater (DMA1, Zero)))
-                                {
-                                    Store (DMA1, PIO1) /* \_SB_.PCI0.SATA.PIO1 */
-                                    Or (GSUE, 0x80, GSUE) /* \_SB_.PCI0.SATA.GSUE */
-                                }
+                                PIO1 = DMA1 /* \_SB_.PCI0.SATA.DMA1 */
+                                GSUE |= 0x80
                             }
                         }
 
-                        If (And (CHNF, 0x02))
+                        If ((CHNF & 0x02))
                         {
-                            Or (GMUE, 0x20, GMUE) /* \_SB_.PCI0.SATA.GMUE */
+                            GMUE |= 0x20
                         }
 
-                        If (And (CHNF, 0x08))
+                        If ((CHNF & 0x08))
                         {
-                            Or (GSUE, 0x20, GSUE) /* \_SB_.PCI0.SATA.GSUE */
+                            GSUE |= 0x20
                         }
 
-                        And (Match (DerefOf (Index (TIM0, Zero)), MGE, PIO0, MTR, 
-                            Zero, Zero), 0x07, Local0)
-                        Store (DerefOf (Index (DerefOf (Index (TIM0, One)), Local0)), 
-                            Local1)
-                        Store (Local1, GMPT) /* \_SB_.PCI0.SATA.GMPT */
-                        If (LLess (Local0, 0x03))
+                        Local0 = (Match (DerefOf (TIM0 [Zero]), MGE, PIO0, MTR, Zero, 
+                            Zero) & 0x07)
+                        Local1 = DerefOf (DerefOf (TIM0 [One]) [Local0])
+                        GMPT = Local1
+                        If ((Local0 < 0x03))
                         {
-                            Or (GMUE, 0x50, GMUE) /* \_SB_.PCI0.SATA.GMUE */
+                            GMUE |= 0x50
                         }
 
-                        And (Match (DerefOf (Index (TIM0, Zero)), MGE, PIO1, MTR, 
-                            Zero, Zero), 0x07, Local0)
-                        Store (DerefOf (Index (DerefOf (Index (TIM0, 0x02)), Local0)), 
-                            Local1)
-                        Store (Local1, GSPT) /* \_SB_.PCI0.SATA.GSPT */
-                        If (LLess (Local0, 0x03))
+                        Local0 = (Match (DerefOf (TIM0 [Zero]), MGE, PIO1, MTR, Zero, 
+                            Zero) & 0x07)
+                        Local1 = DerefOf (DerefOf (TIM0 [0x02]) [Local0])
+                        GSPT = Local1
+                        If ((Local0 < 0x03))
                         {
-                            Or (GSUE, 0x50, GSUE) /* \_SB_.PCI0.SATA.GSUE */
+                            GSUE |= 0x50
                         }
                     }
                 }
 
                 Name (AT01, Buffer (0x07)
                 {
-                     0x03, 0x00, 0x00, 0x00, 0x00, 0x00, 0xEF         /* ....... */
+                     0x03, 0x00, 0x00, 0x00, 0x00, 0x00, 0xEF         // .......
                 })
                 Name (AT02, Buffer (0x07)
                 {
-                     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x90         /* ....... */
+                     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x90         // .......
                 })
                 Name (AT03, Buffer (0x07)
                 {
-                     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xC6         /* ....... */
+                     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xC6         // .......
                 })
                 Name (AT04, Buffer (0x07)
                 {
-                     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x91         /* ....... */
+                     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x91         // .......
                 })
-                Name (ATA0, Buffer (0x1D) {})
-                Name (ATA1, Buffer (0x1D) {})
-                Name (ATA2, Buffer (0x1D) {})
-                Name (ATA3, Buffer (0x1D) {})
-                Name (ATAB, Buffer (0x1D) {})
+                Name (ATA0, Buffer (0x1D){})
+                Name (ATA1, Buffer (0x1D){})
+                Name (ATA2, Buffer (0x1D){})
+                Name (ATA3, Buffer (0x1D){})
+                Name (ATAB, Buffer (0x1D){})
                 CreateByteField (ATAB, Zero, CMDC)
                 Method (GTFB, 3, Serialized)
                 {
-                    Multiply (CMDC, 0x38, Local0)
-                    Add (Local0, 0x08, Local1)
+                    Local0 = (CMDC * 0x38)
+                    Local1 = (Local0 + 0x08)
                     CreateField (ATAB, Local1, 0x38, CMDX)
-                    Multiply (CMDC, 0x07, Local0)
-                    CreateByteField (ATAB, Add (Local0, 0x02), A001)
-                    CreateByteField (ATAB, Add (Local0, 0x06), A005)
-                    Store (Arg0, CMDX) /* \_SB_.PCI0.SATA.GTFB.CMDX */
-                    Store (Arg1, A001) /* \_SB_.PCI0.SATA.GTFB.A001 */
-                    Store (Arg2, A005) /* \_SB_.PCI0.SATA.GTFB.A005 */
-                    Increment (CMDC)
+                    Local0 = (CMDC * 0x07)
+                    CreateByteField (ATAB, (Local0 + 0x02), A001)
+                    CreateByteField (ATAB, (Local0 + 0x06), A005)
+                    CMDX = Arg0
+                    A001 = Arg1
+                    A005 = Arg2
+                    CMDC++
                 }
 
                 Method (GTF, 2, Serialized)
                 {
-                    Store (Arg1, Debug)
-                    Store (Zero, CMDC) /* \_SB_.PCI0.SATA.CMDC */
+                    Debug = Arg1
+                    CMDC = Zero
                     Name (ID49, 0x0C00)
                     Name (ID59, Zero)
                     Name (ID53, 0x04)
@@ -4076,111 +3960,102 @@ DefinitionBlock ("acpi.aml", "DSDT", 1, "A0994", "A0994000", 0x00000000)
                     Name (IRDY, One)
                     Name (PIOT, Zero)
                     Name (DMAT, Zero)
-                    If (LEqual (SizeOf (Arg1), 0x0200))
+                    If ((SizeOf (Arg1) == 0x0200))
                     {
                         CreateWordField (Arg1, 0x62, IW49)
-                        Store (IW49, ID49) /* \_SB_.PCI0.SATA.GTF_.ID49 */
+                        ID49 = IW49 /* \_SB_.PCI0.SATA.GTF_.IW49 */
                         CreateWordField (Arg1, 0x6A, IW53)
-                        Store (IW53, ID53) /* \_SB_.PCI0.SATA.GTF_.ID53 */
+                        ID53 = IW53 /* \_SB_.PCI0.SATA.GTF_.IW53 */
                         CreateWordField (Arg1, 0x7E, IW63)
-                        Store (IW63, ID63) /* \_SB_.PCI0.SATA.GTF_.ID63 */
+                        ID63 = IW63 /* \_SB_.PCI0.SATA.GTF_.IW63 */
                         CreateWordField (Arg1, 0x76, IW59)
-                        Store (IW59, ID59) /* \_SB_.PCI0.SATA.GTF_.ID59 */
+                        ID59 = IW59 /* \_SB_.PCI0.SATA.GTF_.IW59 */
                         CreateWordField (Arg1, 0xB0, IW88)
-                        Store (IW88, ID88) /* \_SB_.PCI0.SATA.GTF_.ID88 */
+                        ID88 = IW88 /* \_SB_.PCI0.SATA.GTF_.IW88 */
                     }
 
-                    Store (0xA0, Local7)
+                    Local7 = 0xA0
                     If (Arg0)
                     {
-                        Store (0xB0, Local7)
-                        And (CHNF, 0x08, IRDY) /* \_SB_.PCI0.SATA.GTF_.IRDY */
-                        If (And (CHNF, 0x10))
+                        Local7 = 0xB0
+                        IRDY = (CHNF & 0x08)
+                        If ((CHNF & 0x10))
                         {
-                            Store (PIO1, PIOT) /* \_SB_.PCI0.SATA.GTF_.PIOT */
+                            PIOT = PIO1 /* \_SB_.PCI0.SATA.PIO1 */
                         }
                         Else
                         {
-                            Store (PIO0, PIOT) /* \_SB_.PCI0.SATA.GTF_.PIOT */
+                            PIOT = PIO0 /* \_SB_.PCI0.SATA.PIO0 */
                         }
 
-                        If (And (CHNF, 0x04))
+                        If ((CHNF & 0x04))
                         {
-                            If (And (CHNF, 0x10))
+                            If ((CHNF & 0x10))
                             {
-                                Store (DMA1, DMAT) /* \_SB_.PCI0.SATA.GTF_.DMAT */
+                                DMAT = DMA1 /* \_SB_.PCI0.SATA.DMA1 */
                             }
                             Else
                             {
-                                Store (DMA0, DMAT) /* \_SB_.PCI0.SATA.GTF_.DMAT */
+                                DMAT = DMA0 /* \_SB_.PCI0.SATA.DMA0 */
                             }
                         }
                     }
                     Else
                     {
-                        And (CHNF, 0x02, IRDY) /* \_SB_.PCI0.SATA.GTF_.IRDY */
-                        Store (PIO0, PIOT) /* \_SB_.PCI0.SATA.GTF_.PIOT */
-                        If (And (CHNF, One))
+                        IRDY = (CHNF & 0x02)
+                        PIOT = PIO0 /* \_SB_.PCI0.SATA.PIO0 */
+                        If ((CHNF & One))
                         {
-                            Store (DMA0, DMAT) /* \_SB_.PCI0.SATA.GTF_.DMAT */
+                            DMAT = DMA0 /* \_SB_.PCI0.SATA.DMA0 */
                         }
                     }
 
-                    If (LAnd (LAnd (And (ID53, 0x04), And (ID88, 0xFF00
-                        )), DMAT))
+                    If ((((ID53 & 0x04) && (ID88 & 0xFF00)) && DMAT))
                     {
-                        Store (Match (DerefOf (Index (TIM0, 0x03)), MLE, DMAT, MTR, 
-                            Zero, Zero), Local1)
-                        If (LGreater (Local1, 0x05))
+                        Local1 = Match (DerefOf (TIM0 [0x03]), MLE, DMAT, MTR, Zero, 
+                            Zero)
+                        If ((Local1 > 0x05))
                         {
-                            Store (0x05, Local1)
+                            Local1 = 0x05
                         }
 
-                        GTFB (AT01, Or (0x40, Local1), Local7)
+                        GTFB (AT01, (0x40 | Local1), Local7)
                     }
-                    Else
+                    ElseIf (((ID63 & 0xFF00) && PIOT))
                     {
-                        If (LAnd (And (ID63, 0xFF00), PIOT))
-                        {
-                            And (Match (DerefOf (Index (TIM0, Zero)), MGE, PIOT, MTR, 
-                                Zero, Zero), 0x03, Local0)
-                            Or (0x20, DerefOf (Index (DerefOf (Index (TIM0, 0x07)), Local0
-                                )), Local1)
-                            GTFB (AT01, Local1, Local7)
-                        }
+                        Local0 = (Match (DerefOf (TIM0 [Zero]), MGE, PIOT, MTR, Zero, 
+                            Zero) & 0x03)
+                        Local1 = (0x20 | DerefOf (DerefOf (TIM0 [0x07]) [Local0]))
+                        GTFB (AT01, Local1, Local7)
                     }
 
                     If (IRDY)
                     {
-                        And (Match (DerefOf (Index (TIM0, Zero)), MGE, PIOT, MTR, 
-                            Zero, Zero), 0x07, Local0)
-                        Or (0x08, DerefOf (Index (DerefOf (Index (TIM0, 0x06)), Local0
-                            )), Local1)
+                        Local0 = (Match (DerefOf (TIM0 [Zero]), MGE, PIOT, MTR, Zero, 
+                            Zero) & 0x07)
+                        Local1 = (0x08 | DerefOf (DerefOf (TIM0 [0x06]) [Local0]))
                         GTFB (AT01, Local1, Local7)
                     }
-                    Else
+                    ElseIf ((ID49 & 0x0400))
                     {
-                        If (And (ID49, 0x0400))
-                        {
-                            GTFB (AT01, One, Local7)
-                        }
+                        GTFB (AT01, One, Local7)
                     }
 
-                    If (LAnd (And (ID59, 0x0100), And (ID59, 0xFF)))
+                    If (((ID59 & 0x0100) && (ID59 & 0xFF)))
                     {
-                        GTFB (AT03, And (ID59, 0xFF), Local7)
+                        GTFB (AT03, (ID59 & 0xFF), Local7)
                     }
 
-                    Store (ATAB, Debug)
+                    Debug = ATAB /* \_SB_.PCI0.SATA.ATAB */
                     Return (ATAB) /* \_SB_.PCI0.SATA.ATAB */
                 }
 
                 Method (RATA, 1, NotSerialized)
                 {
                     CreateByteField (Arg0, Zero, CMDN)
-                    Multiply (CMDN, 0x38, Local0)
+                    Local0 = (CMDN * 0x38)
                     CreateField (Arg0, 0x08, Local0, RETB)
-                    Store (RETB, Debug)
+                    Debug = RETB /* \_SB_.PCI0.SATA.RATA.RETB */
                     Return (Concatenate (RETB, FZTF))
                 }
             }
@@ -4191,9 +4066,9 @@ DefinitionBlock ("acpi.aml", "DSDT", 1, "A0994", "A0994000", 0x00000000)
                 Name (REGF, One)
                 Method (_REG, 2, NotSerialized)  // _REG: Region Availability
                 {
-                    If (LEqual (Arg0, 0x02))
+                    If ((Arg0 == 0x02))
                     {
-                        Store (Arg1, REGF) /* \_SB_.PCI0.SAT1.REGF */
+                        REGF = Arg1
                     }
                 }
 
@@ -4269,7 +4144,7 @@ DefinitionBlock ("acpi.aml", "DSDT", 1, "A0994", "A0994000", 0x00000000)
                         Zero
                     }
                 })
-                Name (TMD0, Buffer (0x14) {})
+                Name (TMD0, Buffer (0x14){})
                 CreateDWordField (TMD0, Zero, PIO0)
                 CreateDWordField (TMD0, 0x04, DMA0)
                 CreateDWordField (TMD0, 0x08, PIO1)
@@ -4331,111 +4206,111 @@ DefinitionBlock ("acpi.aml", "DSDT", 1, "A0994", "A0994000", 0x00000000)
                     Name (_ADR, Zero)  // _ADR: Address
                     Method (_GTM, 0, NotSerialized)  // _GTM: Get Timing Mode
                     {
-                        ShiftLeft (PSCR, One, Local1)
-                        Or (PMCR, Local1, Local0)
-                        ShiftLeft (PMAE, 0x02, Local3)
-                        ShiftLeft (PM6E, One, Local4)
-                        Or (Local3, Local4, Local3)
-                        Or (PM3E, Local3, Local1)
-                        ShiftLeft (PMPT, 0x04, Local3)
-                        Or (Local1, Local3, Local1)
-                        ShiftLeft (PSAE, 0x02, Local3)
-                        ShiftLeft (PS6E, One, Local4)
-                        Or (Local3, Local4, Local3)
-                        Or (PS3E, Local3, Local2)
-                        ShiftLeft (PSPT, 0x04, Local3)
-                        Or (Local2, Local3, Local2)
+                        Local1 = (PSCR << One)
+                        Local0 = (PMCR | Local1)
+                        Local3 = (PMAE << 0x02)
+                        Local4 = (PM6E << One)
+                        Local3 |= Local4
+                        Local1 = (PM3E | Local3)
+                        Local3 = (PMPT << 0x04)
+                        Local1 |= Local3
+                        Local3 = (PSAE << 0x02)
+                        Local4 = (PS6E << One)
+                        Local3 |= Local4
+                        Local2 = (PS3E | Local3)
+                        Local3 = (PSPT << 0x04)
+                        Local2 |= Local3
                         Return (GTM (PMRI, Local1, PMUT, PSRI, Local2, PSUT, Local0))
                     }
 
                     Method (_STM, 3, NotSerialized)  // _STM: Set Timing Mode
                     {
-                        Store (Arg0, Debug)
-                        Store (Arg0, TMD0) /* \_SB_.PCI0.SAT1.TMD0 */
-                        ShiftLeft (PMAE, 0x02, Local3)
-                        ShiftLeft (PM6E, One, Local4)
-                        Or (Local3, Local4, Local3)
-                        Or (PM3E, Local3, Local0)
-                        ShiftLeft (PMPT, 0x04, Local3)
-                        Or (Local0, Local3, Local0)
-                        ShiftLeft (PSAE, 0x02, Local3)
-                        ShiftLeft (PS6E, One, Local4)
-                        Or (Local3, Local4, Local3)
-                        Or (PS3E, Local3, Local1)
-                        ShiftLeft (PSPT, 0x04, Local3)
-                        Or (Local1, Local3, Local1)
-                        Store (PMRI, GMPT) /* \_SB_.PCI0.SAT1.GMPT */
-                        Store (Local0, GMUE) /* \_SB_.PCI0.SAT1.GMUE */
-                        Store (PMUT, GMUT) /* \_SB_.PCI0.SAT1.GMUT */
-                        Store (PMCR, GMCR) /* \_SB_.PCI0.SAT1.GMCR */
-                        Store (PSRI, GSPT) /* \_SB_.PCI0.SAT1.GSPT */
-                        Store (Local1, GSUE) /* \_SB_.PCI0.SAT1.GSUE */
-                        Store (PSUT, GSUT) /* \_SB_.PCI0.SAT1.GSUT */
-                        Store (PSCR, GSCR) /* \_SB_.PCI0.SAT1.GSCR */
+                        Debug = Arg0
+                        TMD0 = Arg0
+                        Local3 = (PMAE << 0x02)
+                        Local4 = (PM6E << One)
+                        Local3 |= Local4
+                        Local0 = (PM3E | Local3)
+                        Local3 = (PMPT << 0x04)
+                        Local0 |= Local3
+                        Local3 = (PSAE << 0x02)
+                        Local4 = (PS6E << One)
+                        Local3 |= Local4
+                        Local1 = (PS3E | Local3)
+                        Local3 = (PSPT << 0x04)
+                        Local1 |= Local3
+                        GMPT = PMRI /* \_SB_.PCI0.SAT1.PMRI */
+                        GMUE = Local0
+                        GMUT = PMUT /* \_SB_.PCI0.SAT1.PMUT */
+                        GMCR = PMCR /* \_SB_.PCI0.SAT1.PMCR */
+                        GSPT = PSRI /* \_SB_.PCI0.SAT1.PSRI */
+                        GSUE = Local1
+                        GSUT = PSUT /* \_SB_.PCI0.SAT1.PSUT */
+                        GSCR = PSCR /* \_SB_.PCI0.SAT1.PSCR */
                         STM ()
-                        Store (GMPT, PMRI) /* \_SB_.PCI0.SAT1.PMRI */
-                        Store (GMUE, Local0)
-                        Store (GMUT, PMUT) /* \_SB_.PCI0.SAT1.PMUT */
-                        Store (GMCR, PMCR) /* \_SB_.PCI0.SAT1.PMCR */
-                        Store (GSUE, Local1)
-                        Store (GSUT, PSUT) /* \_SB_.PCI0.SAT1.PSUT */
-                        Store (GSCR, PSCR) /* \_SB_.PCI0.SAT1.PSCR */
-                        If (And (Local0, One))
+                        PMRI = GMPT /* \_SB_.PCI0.SAT1.GMPT */
+                        Local0 = GMUE /* \_SB_.PCI0.SAT1.GMUE */
+                        PMUT = GMUT /* \_SB_.PCI0.SAT1.GMUT */
+                        PMCR = GMCR /* \_SB_.PCI0.SAT1.GMCR */
+                        Local1 = GSUE /* \_SB_.PCI0.SAT1.GSUE */
+                        PSUT = GSUT /* \_SB_.PCI0.SAT1.GSUT */
+                        PSCR = GSCR /* \_SB_.PCI0.SAT1.GSCR */
+                        If ((Local0 & One))
                         {
-                            Store (One, PM3E) /* \_SB_.PCI0.SAT1.PM3E */
+                            PM3E = One
                         }
                         Else
                         {
-                            Store (Zero, PM3E) /* \_SB_.PCI0.SAT1.PM3E */
+                            PM3E = Zero
                         }
 
-                        If (And (Local0, 0x02))
+                        If ((Local0 & 0x02))
                         {
-                            Store (One, PM6E) /* \_SB_.PCI0.SAT1.PM6E */
+                            PM6E = One
                         }
                         Else
                         {
-                            Store (Zero, PM6E) /* \_SB_.PCI0.SAT1.PM6E */
+                            PM6E = Zero
                         }
 
-                        If (And (Local0, 0x04))
+                        If ((Local0 & 0x04))
                         {
-                            Store (One, PMAE) /* \_SB_.PCI0.SAT1.PMAE */
+                            PMAE = One
                         }
                         Else
                         {
-                            Store (Zero, PMAE) /* \_SB_.PCI0.SAT1.PMAE */
+                            PMAE = Zero
                         }
 
-                        If (And (Local1, One))
+                        If ((Local1 & One))
                         {
-                            Store (One, PS3E) /* \_SB_.PCI0.SAT1.PS3E */
+                            PS3E = One
                         }
                         Else
                         {
-                            Store (Zero, PS3E) /* \_SB_.PCI0.SAT1.PS3E */
+                            PS3E = Zero
                         }
 
-                        If (And (Local1, 0x02))
+                        If ((Local1 & 0x02))
                         {
-                            Store (One, PS6E) /* \_SB_.PCI0.SAT1.PS6E */
+                            PS6E = One
                         }
                         Else
                         {
-                            Store (Zero, PS6E) /* \_SB_.PCI0.SAT1.PS6E */
+                            PS6E = Zero
                         }
 
-                        If (And (Local1, 0x04))
+                        If ((Local1 & 0x04))
                         {
-                            Store (One, PSAE) /* \_SB_.PCI0.SAT1.PSAE */
+                            PSAE = One
                         }
                         Else
                         {
-                            Store (Zero, PSAE) /* \_SB_.PCI0.SAT1.PSAE */
+                            PSAE = Zero
                         }
 
-                        Store (GTF (Zero, Arg1), ATA0) /* \_SB_.PCI0.SAT1.ATA0 */
-                        Store (GTF (One, Arg2), ATA1) /* \_SB_.PCI0.SAT1.ATA1 */
+                        ATA0 = GTF (Zero, Arg1)
+                        ATA1 = GTF (One, Arg2)
                     }
 
                     Device (DRV0)
@@ -4462,111 +4337,111 @@ DefinitionBlock ("acpi.aml", "DSDT", 1, "A0994", "A0994000", 0x00000000)
                     Name (_ADR, One)  // _ADR: Address
                     Method (_GTM, 0, NotSerialized)  // _GTM: Get Timing Mode
                     {
-                        ShiftLeft (SSCR, One, Local1)
-                        Or (SMCR, Local1, Local0)
-                        ShiftLeft (SMAE, 0x02, Local3)
-                        ShiftLeft (SM6E, One, Local4)
-                        Or (Local3, Local4, Local3)
-                        Or (SM3E, Local3, Local1)
-                        ShiftLeft (SMPT, 0x04, Local3)
-                        Or (Local1, Local3, Local1)
-                        ShiftLeft (SSAE, 0x02, Local3)
-                        ShiftLeft (SS6E, One, Local4)
-                        Or (Local3, Local4, Local3)
-                        Or (SS3E, Local3, Local2)
-                        ShiftLeft (SSPT, 0x04, Local3)
-                        Or (Local2, Local3, Local2)
+                        Local1 = (SSCR << One)
+                        Local0 = (SMCR | Local1)
+                        Local3 = (SMAE << 0x02)
+                        Local4 = (SM6E << One)
+                        Local3 |= Local4
+                        Local1 = (SM3E | Local3)
+                        Local3 = (SMPT << 0x04)
+                        Local1 |= Local3
+                        Local3 = (SSAE << 0x02)
+                        Local4 = (SS6E << One)
+                        Local3 |= Local4
+                        Local2 = (SS3E | Local3)
+                        Local3 = (SSPT << 0x04)
+                        Local2 |= Local3
                         Return (GTM (SMRI, Local1, SMUT, SSRI, Local2, SSUT, Local0))
                     }
 
                     Method (_STM, 3, NotSerialized)  // _STM: Set Timing Mode
                     {
-                        Store (Arg0, Debug)
-                        Store (Arg0, TMD0) /* \_SB_.PCI0.SAT1.TMD0 */
-                        ShiftLeft (SMAE, 0x02, Local3)
-                        ShiftLeft (SM6E, One, Local4)
-                        Or (Local3, Local4, Local3)
-                        Or (SM3E, Local3, Local0)
-                        ShiftLeft (SMPT, 0x04, Local3)
-                        Or (Local0, Local3, Local0)
-                        ShiftLeft (SSAE, 0x02, Local3)
-                        ShiftLeft (SS6E, One, Local4)
-                        Or (Local3, Local4, Local3)
-                        Or (SS3E, Local3, Local1)
-                        ShiftLeft (SSPT, 0x04, Local3)
-                        Or (Local1, Local3, Local1)
-                        Store (SMRI, GMPT) /* \_SB_.PCI0.SAT1.GMPT */
-                        Store (Local0, GMUE) /* \_SB_.PCI0.SAT1.GMUE */
-                        Store (SMUT, GMUT) /* \_SB_.PCI0.SAT1.GMUT */
-                        Store (SMCR, GMCR) /* \_SB_.PCI0.SAT1.GMCR */
-                        Store (SSRI, GSPT) /* \_SB_.PCI0.SAT1.GSPT */
-                        Store (Local1, GSUE) /* \_SB_.PCI0.SAT1.GSUE */
-                        Store (SSUT, GSUT) /* \_SB_.PCI0.SAT1.GSUT */
-                        Store (SSCR, GSCR) /* \_SB_.PCI0.SAT1.GSCR */
+                        Debug = Arg0
+                        TMD0 = Arg0
+                        Local3 = (SMAE << 0x02)
+                        Local4 = (SM6E << One)
+                        Local3 |= Local4
+                        Local0 = (SM3E | Local3)
+                        Local3 = (SMPT << 0x04)
+                        Local0 |= Local3
+                        Local3 = (SSAE << 0x02)
+                        Local4 = (SS6E << One)
+                        Local3 |= Local4
+                        Local1 = (SS3E | Local3)
+                        Local3 = (SSPT << 0x04)
+                        Local1 |= Local3
+                        GMPT = SMRI /* \_SB_.PCI0.SAT1.SMRI */
+                        GMUE = Local0
+                        GMUT = SMUT /* \_SB_.PCI0.SAT1.SMUT */
+                        GMCR = SMCR /* \_SB_.PCI0.SAT1.SMCR */
+                        GSPT = SSRI /* \_SB_.PCI0.SAT1.SSRI */
+                        GSUE = Local1
+                        GSUT = SSUT /* \_SB_.PCI0.SAT1.SSUT */
+                        GSCR = SSCR /* \_SB_.PCI0.SAT1.SSCR */
                         STM ()
-                        Store (GMPT, SMRI) /* \_SB_.PCI0.SAT1.SMRI */
-                        Store (GMUE, Local0)
-                        Store (GMUT, SMUT) /* \_SB_.PCI0.SAT1.SMUT */
-                        Store (GMCR, SMCR) /* \_SB_.PCI0.SAT1.SMCR */
-                        Store (GSUE, Local1)
-                        Store (GSUT, SSUT) /* \_SB_.PCI0.SAT1.SSUT */
-                        Store (GSCR, SSCR) /* \_SB_.PCI0.SAT1.SSCR */
-                        If (And (Local0, One))
+                        SMRI = GMPT /* \_SB_.PCI0.SAT1.GMPT */
+                        Local0 = GMUE /* \_SB_.PCI0.SAT1.GMUE */
+                        SMUT = GMUT /* \_SB_.PCI0.SAT1.GMUT */
+                        SMCR = GMCR /* \_SB_.PCI0.SAT1.GMCR */
+                        Local1 = GSUE /* \_SB_.PCI0.SAT1.GSUE */
+                        SSUT = GSUT /* \_SB_.PCI0.SAT1.GSUT */
+                        SSCR = GSCR /* \_SB_.PCI0.SAT1.GSCR */
+                        If ((Local0 & One))
                         {
-                            Store (One, SM3E) /* \_SB_.PCI0.SAT1.SM3E */
+                            SM3E = One
                         }
                         Else
                         {
-                            Store (Zero, SM3E) /* \_SB_.PCI0.SAT1.SM3E */
+                            SM3E = Zero
                         }
 
-                        If (And (Local0, 0x02))
+                        If ((Local0 & 0x02))
                         {
-                            Store (One, SM6E) /* \_SB_.PCI0.SAT1.SM6E */
+                            SM6E = One
                         }
                         Else
                         {
-                            Store (Zero, SM6E) /* \_SB_.PCI0.SAT1.SM6E */
+                            SM6E = Zero
                         }
 
-                        If (And (Local0, 0x04))
+                        If ((Local0 & 0x04))
                         {
-                            Store (One, SMAE) /* \_SB_.PCI0.SAT1.SMAE */
+                            SMAE = One
                         }
                         Else
                         {
-                            Store (Zero, SMAE) /* \_SB_.PCI0.SAT1.SMAE */
+                            SMAE = Zero
                         }
 
-                        If (And (Local1, One))
+                        If ((Local1 & One))
                         {
-                            Store (One, SS3E) /* \_SB_.PCI0.SAT1.SS3E */
+                            SS3E = One
                         }
                         Else
                         {
-                            Store (Zero, SS3E) /* \_SB_.PCI0.SAT1.SS3E */
+                            SS3E = Zero
                         }
 
-                        If (And (Local1, 0x02))
+                        If ((Local1 & 0x02))
                         {
-                            Store (One, SS6E) /* \_SB_.PCI0.SAT1.SS6E */
+                            SS6E = One
                         }
                         Else
                         {
-                            Store (Zero, SS6E) /* \_SB_.PCI0.SAT1.SS6E */
+                            SS6E = Zero
                         }
 
-                        If (And (Local1, 0x04))
+                        If ((Local1 & 0x04))
                         {
-                            Store (One, SSAE) /* \_SB_.PCI0.SAT1.SSAE */
+                            SSAE = One
                         }
                         Else
                         {
-                            Store (Zero, SSAE) /* \_SB_.PCI0.SAT1.SSAE */
+                            SSAE = Zero
                         }
 
-                        Store (GTF (Zero, Arg1), ATA2) /* \_SB_.PCI0.SAT1.ATA2 */
-                        Store (GTF (One, Arg2), ATA3) /* \_SB_.PCI0.SAT1.ATA3 */
+                        ATA2 = GTF (Zero, Arg1)
+                        ATA3 = GTF (One, Arg2)
                     }
 
                     Device (DRV0)
@@ -4590,76 +4465,72 @@ DefinitionBlock ("acpi.aml", "DSDT", 1, "A0994", "A0994000", 0x00000000)
 
                 Method (GTM, 7, Serialized)
                 {
-                    Store (Ones, PIO0) /* \_SB_.PCI0.SAT1.PIO0 */
-                    Store (Ones, PIO1) /* \_SB_.PCI0.SAT1.PIO1 */
-                    Store (Ones, DMA0) /* \_SB_.PCI0.SAT1.DMA0 */
-                    Store (Ones, DMA1) /* \_SB_.PCI0.SAT1.DMA1 */
-                    Store (0x10, CHNF) /* \_SB_.PCI0.SAT1.CHNF */
-                    If (REGF) {}
+                    PIO0 = Ones
+                    PIO1 = Ones
+                    DMA0 = Ones
+                    DMA1 = Ones
+                    CHNF = 0x10
+                    If (REGF){}
                     Else
                     {
                         Return (TMD0) /* \_SB_.PCI0.SAT1.TMD0 */
                     }
 
-                    If (And (Arg1, 0x20))
+                    If ((Arg1 & 0x20))
                     {
-                        Or (CHNF, 0x02, CHNF) /* \_SB_.PCI0.SAT1.CHNF */
+                        CHNF |= 0x02
                     }
 
-                    Store (Match (DerefOf (Index (TIM0, One)), MEQ, Arg0, MTR, 
-                        Zero, Zero), Local6)
-                    Store (DerefOf (Index (DerefOf (Index (TIM0, Zero)), Local6)), 
-                        Local7)
-                    Store (Local7, DMA0) /* \_SB_.PCI0.SAT1.DMA0 */
-                    Store (Local7, PIO0) /* \_SB_.PCI0.SAT1.PIO0 */
-                    If (And (Arg4, 0x20))
+                    Local6 = Match (DerefOf (TIM0 [One]), MEQ, Arg0, MTR, Zero, 
+                        Zero)
+                    Local7 = DerefOf (DerefOf (TIM0 [Zero]) [Local6])
+                    DMA0 = Local7
+                    PIO0 = Local7
+                    If ((Arg4 & 0x20))
                     {
-                        Or (CHNF, 0x08, CHNF) /* \_SB_.PCI0.SAT1.CHNF */
+                        CHNF |= 0x08
                     }
 
-                    Store (Match (DerefOf (Index (TIM0, 0x02)), MEQ, Arg3, MTR, 
-                        Zero, Zero), Local6)
-                    Store (DerefOf (Index (DerefOf (Index (TIM0, Zero)), Local6)), 
-                        Local7)
-                    Store (Local7, DMA1) /* \_SB_.PCI0.SAT1.DMA1 */
-                    Store (Local7, PIO1) /* \_SB_.PCI0.SAT1.PIO1 */
-                    If (And (Arg1, 0x07))
+                    Local6 = Match (DerefOf (TIM0 [0x02]), MEQ, Arg3, MTR, Zero, 
+                        Zero)
+                    Local7 = DerefOf (DerefOf (TIM0 [Zero]) [Local6])
+                    DMA1 = Local7
+                    PIO1 = Local7
+                    If ((Arg1 & 0x07))
                     {
-                        Store (Arg2, Local5)
-                        If (And (Arg1, 0x02))
+                        Local5 = Arg2
+                        If ((Arg1 & 0x02))
                         {
-                            Add (Local5, 0x02, Local5)
+                            Local5 += 0x02
                         }
 
-                        If (And (Arg1, 0x04))
+                        If ((Arg1 & 0x04))
                         {
-                            Add (Local5, 0x04, Local5)
+                            Local5 += 0x04
                         }
 
-                        Store (DerefOf (Index (DerefOf (Index (TIM0, 0x03)), Local5)), 
-                            DMA0) /* \_SB_.PCI0.SAT1.DMA0 */
-                        Or (CHNF, One, CHNF) /* \_SB_.PCI0.SAT1.CHNF */
+                        DMA0 = DerefOf (DerefOf (TIM0 [0x03]) [Local5])
+                        CHNF |= One
                     }
 
-                    If (And (Arg4, 0x07))
+                    If ((Arg4 & 0x07))
                     {
-                        Store (Arg5, Local5)
-                        If (And (Arg4, 0x02))
+                        Local5 = Arg5
+                        If ((Arg4 & 0x02))
                         {
-                            Add (Local5, 0x02, Local5)
+                            Local5 += 0x02
                         }
 
-                        If (And (Arg4, 0x04))
+                        If ((Arg4 & 0x04))
                         {
-                            Add (Local5, 0x04, Local5)
+                            Local5 += 0x04
                         }
 
-                        Store (DerefOf (Index (DerefOf (Index (TIM0, 0x03)), Local5)), 
-                            DMA1) /* \_SB_.PCI0.SAT1.DMA1 */
-                        Or (CHNF, 0x04, CHNF) /* \_SB_.PCI0.SAT1.CHNF */
+                        DMA1 = DerefOf (DerefOf (TIM0 [0x03]) [Local5])
+                        CHNF |= 0x04
                     }
 
-                    Store (TMD0, Debug)
+                    Debug = TMD0 /* \_SB_.PCI0.SAT1.TMD0 */
                     Return (TMD0) /* \_SB_.PCI0.SAT1.TMD0 */
                 }
 
@@ -4667,152 +4538,142 @@ DefinitionBlock ("acpi.aml", "DSDT", 1, "A0994", "A0994000", 0x00000000)
                 {
                     If (REGF)
                     {
-                        Store (Zero, GMUE) /* \_SB_.PCI0.SAT1.GMUE */
-                        Store (Zero, GMUT) /* \_SB_.PCI0.SAT1.GMUT */
-                        Store (Zero, GSUE) /* \_SB_.PCI0.SAT1.GSUE */
-                        Store (Zero, GSUT) /* \_SB_.PCI0.SAT1.GSUT */
-                        If (And (CHNF, One))
+                        GMUE = Zero
+                        GMUT = Zero
+                        GSUE = Zero
+                        GSUT = Zero
+                        If ((CHNF & One))
                         {
-                            Store (Match (DerefOf (Index (TIM0, 0x03)), MLE, DMA0, MTR, 
-                                Zero, Zero), Local0)
-                            If (LGreater (Local0, 0x05))
+                            Local0 = Match (DerefOf (TIM0 [0x03]), MLE, DMA0, MTR, Zero, 
+                                Zero)
+                            If ((Local0 > 0x05))
                             {
-                                Store (0x05, Local0)
+                                Local0 = 0x05
                             }
 
-                            Store (DerefOf (Index (DerefOf (Index (TIM0, 0x04)), Local0)), 
-                                GMUT) /* \_SB_.PCI0.SAT1.GMUT */
-                            Or (GMUE, One, GMUE) /* \_SB_.PCI0.SAT1.GMUE */
-                            If (LGreater (Local0, 0x02))
+                            GMUT = DerefOf (DerefOf (TIM0 [0x04]) [Local0])
+                            GMUE |= One
+                            If ((Local0 > 0x02))
                             {
-                                Or (GMUE, 0x02, GMUE) /* \_SB_.PCI0.SAT1.GMUE */
+                                GMUE |= 0x02
                             }
 
-                            If (LGreater (Local0, 0x04))
+                            If ((Local0 > 0x04))
                             {
-                                And (GMUE, 0xFD, GMUE) /* \_SB_.PCI0.SAT1.GMUE */
-                                Or (GMUE, 0x04, GMUE) /* \_SB_.PCI0.SAT1.GMUE */
+                                GMUE &= 0xFD
+                                GMUE |= 0x04
                             }
                         }
-                        Else
+                        ElseIf (((PIO0 == Ones) | (PIO0 == Zero)))
                         {
-                            If (Or (LEqual (PIO0, Ones), LEqual (PIO0, Zero)))
+                            If (((DMA0 < Ones) & (DMA0 > Zero)))
                             {
-                                If (And (LLess (DMA0, Ones), LGreater (DMA0, Zero)))
-                                {
-                                    Store (DMA0, PIO0) /* \_SB_.PCI0.SAT1.PIO0 */
-                                    Or (GMUE, 0x80, GMUE) /* \_SB_.PCI0.SAT1.GMUE */
-                                }
+                                PIO0 = DMA0 /* \_SB_.PCI0.SAT1.DMA0 */
+                                GMUE |= 0x80
                             }
                         }
 
-                        If (And (CHNF, 0x04))
+                        If ((CHNF & 0x04))
                         {
-                            Store (Match (DerefOf (Index (TIM0, 0x03)), MLE, DMA1, MTR, 
-                                Zero, Zero), Local0)
-                            If (LGreater (Local0, 0x05))
+                            Local0 = Match (DerefOf (TIM0 [0x03]), MLE, DMA1, MTR, Zero, 
+                                Zero)
+                            If ((Local0 > 0x05))
                             {
-                                Store (0x05, Local0)
+                                Local0 = 0x05
                             }
 
-                            Store (DerefOf (Index (DerefOf (Index (TIM0, 0x04)), Local0)), 
-                                GSUT) /* \_SB_.PCI0.SAT1.GSUT */
-                            Or (GSUE, One, GSUE) /* \_SB_.PCI0.SAT1.GSUE */
-                            If (LGreater (Local0, 0x02))
+                            GSUT = DerefOf (DerefOf (TIM0 [0x04]) [Local0])
+                            GSUE |= One
+                            If ((Local0 > 0x02))
                             {
-                                Or (GSUE, 0x02, GSUE) /* \_SB_.PCI0.SAT1.GSUE */
+                                GSUE |= 0x02
                             }
 
-                            If (LGreater (Local0, 0x04))
+                            If ((Local0 > 0x04))
                             {
-                                And (GSUE, 0xFD, GSUE) /* \_SB_.PCI0.SAT1.GSUE */
-                                Or (GSUE, 0x04, GSUE) /* \_SB_.PCI0.SAT1.GSUE */
+                                GSUE &= 0xFD
+                                GSUE |= 0x04
                             }
                         }
-                        Else
+                        ElseIf (((PIO1 == Ones) | (PIO1 == Zero)))
                         {
-                            If (Or (LEqual (PIO1, Ones), LEqual (PIO1, Zero)))
+                            If (((DMA1 < Ones) & (DMA1 > Zero)))
                             {
-                                If (And (LLess (DMA1, Ones), LGreater (DMA1, Zero)))
-                                {
-                                    Store (DMA1, PIO1) /* \_SB_.PCI0.SAT1.PIO1 */
-                                    Or (GSUE, 0x80, GSUE) /* \_SB_.PCI0.SAT1.GSUE */
-                                }
+                                PIO1 = DMA1 /* \_SB_.PCI0.SAT1.DMA1 */
+                                GSUE |= 0x80
                             }
                         }
 
-                        If (And (CHNF, 0x02))
+                        If ((CHNF & 0x02))
                         {
-                            Or (GMUE, 0x20, GMUE) /* \_SB_.PCI0.SAT1.GMUE */
+                            GMUE |= 0x20
                         }
 
-                        If (And (CHNF, 0x08))
+                        If ((CHNF & 0x08))
                         {
-                            Or (GSUE, 0x20, GSUE) /* \_SB_.PCI0.SAT1.GSUE */
+                            GSUE |= 0x20
                         }
 
-                        And (Match (DerefOf (Index (TIM0, Zero)), MGE, PIO0, MTR, 
-                            Zero, Zero), 0x07, Local0)
-                        Store (DerefOf (Index (DerefOf (Index (TIM0, One)), Local0)), 
-                            Local1)
-                        Store (Local1, GMPT) /* \_SB_.PCI0.SAT1.GMPT */
-                        If (LLess (Local0, 0x03))
+                        Local0 = (Match (DerefOf (TIM0 [Zero]), MGE, PIO0, MTR, Zero, 
+                            Zero) & 0x07)
+                        Local1 = DerefOf (DerefOf (TIM0 [One]) [Local0])
+                        GMPT = Local1
+                        If ((Local0 < 0x03))
                         {
-                            Or (GMUE, 0x50, GMUE) /* \_SB_.PCI0.SAT1.GMUE */
+                            GMUE |= 0x50
                         }
 
-                        And (Match (DerefOf (Index (TIM0, Zero)), MGE, PIO1, MTR, 
-                            Zero, Zero), 0x07, Local0)
-                        Store (DerefOf (Index (DerefOf (Index (TIM0, 0x02)), Local0)), 
-                            Local1)
-                        Store (Local1, GSPT) /* \_SB_.PCI0.SAT1.GSPT */
-                        If (LLess (Local0, 0x03))
+                        Local0 = (Match (DerefOf (TIM0 [Zero]), MGE, PIO1, MTR, Zero, 
+                            Zero) & 0x07)
+                        Local1 = DerefOf (DerefOf (TIM0 [0x02]) [Local0])
+                        GSPT = Local1
+                        If ((Local0 < 0x03))
                         {
-                            Or (GSUE, 0x50, GSUE) /* \_SB_.PCI0.SAT1.GSUE */
+                            GSUE |= 0x50
                         }
                     }
                 }
 
                 Name (AT01, Buffer (0x07)
                 {
-                     0x03, 0x00, 0x00, 0x00, 0x00, 0x00, 0xEF         /* ....... */
+                     0x03, 0x00, 0x00, 0x00, 0x00, 0x00, 0xEF         // .......
                 })
                 Name (AT02, Buffer (0x07)
                 {
-                     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x90         /* ....... */
+                     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x90         // .......
                 })
                 Name (AT03, Buffer (0x07)
                 {
-                     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xC6         /* ....... */
+                     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xC6         // .......
                 })
                 Name (AT04, Buffer (0x07)
                 {
-                     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x91         /* ....... */
+                     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x91         // .......
                 })
-                Name (ATA0, Buffer (0x1D) {})
-                Name (ATA1, Buffer (0x1D) {})
-                Name (ATA2, Buffer (0x1D) {})
-                Name (ATA3, Buffer (0x1D) {})
-                Name (ATAB, Buffer (0x1D) {})
+                Name (ATA0, Buffer (0x1D){})
+                Name (ATA1, Buffer (0x1D){})
+                Name (ATA2, Buffer (0x1D){})
+                Name (ATA3, Buffer (0x1D){})
+                Name (ATAB, Buffer (0x1D){})
                 CreateByteField (ATAB, Zero, CMDC)
                 Method (GTFB, 3, Serialized)
                 {
-                    Multiply (CMDC, 0x38, Local0)
-                    Add (Local0, 0x08, Local1)
+                    Local0 = (CMDC * 0x38)
+                    Local1 = (Local0 + 0x08)
                     CreateField (ATAB, Local1, 0x38, CMDX)
-                    Multiply (CMDC, 0x07, Local0)
-                    CreateByteField (ATAB, Add (Local0, 0x02), A001)
-                    CreateByteField (ATAB, Add (Local0, 0x06), A005)
-                    Store (Arg0, CMDX) /* \_SB_.PCI0.SAT1.GTFB.CMDX */
-                    Store (Arg1, A001) /* \_SB_.PCI0.SAT1.GTFB.A001 */
-                    Store (Arg2, A005) /* \_SB_.PCI0.SAT1.GTFB.A005 */
-                    Increment (CMDC)
+                    Local0 = (CMDC * 0x07)
+                    CreateByteField (ATAB, (Local0 + 0x02), A001)
+                    CreateByteField (ATAB, (Local0 + 0x06), A005)
+                    CMDX = Arg0
+                    A001 = Arg1
+                    A005 = Arg2
+                    CMDC++
                 }
 
                 Method (GTF, 2, Serialized)
                 {
-                    Store (Arg1, Debug)
-                    Store (Zero, CMDC) /* \_SB_.PCI0.SAT1.CMDC */
+                    Debug = Arg1
+                    CMDC = Zero
                     Name (ID49, 0x0C00)
                     Name (ID59, Zero)
                     Name (ID53, 0x04)
@@ -4821,111 +4682,102 @@ DefinitionBlock ("acpi.aml", "DSDT", 1, "A0994", "A0994000", 0x00000000)
                     Name (IRDY, One)
                     Name (PIOT, Zero)
                     Name (DMAT, Zero)
-                    If (LEqual (SizeOf (Arg1), 0x0200))
+                    If ((SizeOf (Arg1) == 0x0200))
                     {
                         CreateWordField (Arg1, 0x62, IW49)
-                        Store (IW49, ID49) /* \_SB_.PCI0.SAT1.GTF_.ID49 */
+                        ID49 = IW49 /* \_SB_.PCI0.SAT1.GTF_.IW49 */
                         CreateWordField (Arg1, 0x6A, IW53)
-                        Store (IW53, ID53) /* \_SB_.PCI0.SAT1.GTF_.ID53 */
+                        ID53 = IW53 /* \_SB_.PCI0.SAT1.GTF_.IW53 */
                         CreateWordField (Arg1, 0x7E, IW63)
-                        Store (IW63, ID63) /* \_SB_.PCI0.SAT1.GTF_.ID63 */
+                        ID63 = IW63 /* \_SB_.PCI0.SAT1.GTF_.IW63 */
                         CreateWordField (Arg1, 0x76, IW59)
-                        Store (IW59, ID59) /* \_SB_.PCI0.SAT1.GTF_.ID59 */
+                        ID59 = IW59 /* \_SB_.PCI0.SAT1.GTF_.IW59 */
                         CreateWordField (Arg1, 0xB0, IW88)
-                        Store (IW88, ID88) /* \_SB_.PCI0.SAT1.GTF_.ID88 */
+                        ID88 = IW88 /* \_SB_.PCI0.SAT1.GTF_.IW88 */
                     }
 
-                    Store (0xA0, Local7)
+                    Local7 = 0xA0
                     If (Arg0)
                     {
-                        Store (0xB0, Local7)
-                        And (CHNF, 0x08, IRDY) /* \_SB_.PCI0.SAT1.GTF_.IRDY */
-                        If (And (CHNF, 0x10))
+                        Local7 = 0xB0
+                        IRDY = (CHNF & 0x08)
+                        If ((CHNF & 0x10))
                         {
-                            Store (PIO1, PIOT) /* \_SB_.PCI0.SAT1.GTF_.PIOT */
+                            PIOT = PIO1 /* \_SB_.PCI0.SAT1.PIO1 */
                         }
                         Else
                         {
-                            Store (PIO0, PIOT) /* \_SB_.PCI0.SAT1.GTF_.PIOT */
+                            PIOT = PIO0 /* \_SB_.PCI0.SAT1.PIO0 */
                         }
 
-                        If (And (CHNF, 0x04))
+                        If ((CHNF & 0x04))
                         {
-                            If (And (CHNF, 0x10))
+                            If ((CHNF & 0x10))
                             {
-                                Store (DMA1, DMAT) /* \_SB_.PCI0.SAT1.GTF_.DMAT */
+                                DMAT = DMA1 /* \_SB_.PCI0.SAT1.DMA1 */
                             }
                             Else
                             {
-                                Store (DMA0, DMAT) /* \_SB_.PCI0.SAT1.GTF_.DMAT */
+                                DMAT = DMA0 /* \_SB_.PCI0.SAT1.DMA0 */
                             }
                         }
                     }
                     Else
                     {
-                        And (CHNF, 0x02, IRDY) /* \_SB_.PCI0.SAT1.GTF_.IRDY */
-                        Store (PIO0, PIOT) /* \_SB_.PCI0.SAT1.GTF_.PIOT */
-                        If (And (CHNF, One))
+                        IRDY = (CHNF & 0x02)
+                        PIOT = PIO0 /* \_SB_.PCI0.SAT1.PIO0 */
+                        If ((CHNF & One))
                         {
-                            Store (DMA0, DMAT) /* \_SB_.PCI0.SAT1.GTF_.DMAT */
+                            DMAT = DMA0 /* \_SB_.PCI0.SAT1.DMA0 */
                         }
                     }
 
-                    If (LAnd (LAnd (And (ID53, 0x04), And (ID88, 0xFF00
-                        )), DMAT))
+                    If ((((ID53 & 0x04) && (ID88 & 0xFF00)) && DMAT))
                     {
-                        Store (Match (DerefOf (Index (TIM0, 0x03)), MLE, DMAT, MTR, 
-                            Zero, Zero), Local1)
-                        If (LGreater (Local1, 0x05))
+                        Local1 = Match (DerefOf (TIM0 [0x03]), MLE, DMAT, MTR, Zero, 
+                            Zero)
+                        If ((Local1 > 0x05))
                         {
-                            Store (0x05, Local1)
+                            Local1 = 0x05
                         }
 
-                        GTFB (AT01, Or (0x40, Local1), Local7)
+                        GTFB (AT01, (0x40 | Local1), Local7)
                     }
-                    Else
+                    ElseIf (((ID63 & 0xFF00) && PIOT))
                     {
-                        If (LAnd (And (ID63, 0xFF00), PIOT))
-                        {
-                            And (Match (DerefOf (Index (TIM0, Zero)), MGE, PIOT, MTR, 
-                                Zero, Zero), 0x03, Local0)
-                            Or (0x20, DerefOf (Index (DerefOf (Index (TIM0, 0x07)), Local0
-                                )), Local1)
-                            GTFB (AT01, Local1, Local7)
-                        }
+                        Local0 = (Match (DerefOf (TIM0 [Zero]), MGE, PIOT, MTR, Zero, 
+                            Zero) & 0x03)
+                        Local1 = (0x20 | DerefOf (DerefOf (TIM0 [0x07]) [Local0]))
+                        GTFB (AT01, Local1, Local7)
                     }
 
                     If (IRDY)
                     {
-                        And (Match (DerefOf (Index (TIM0, Zero)), MGE, PIOT, MTR, 
-                            Zero, Zero), 0x07, Local0)
-                        Or (0x08, DerefOf (Index (DerefOf (Index (TIM0, 0x06)), Local0
-                            )), Local1)
+                        Local0 = (Match (DerefOf (TIM0 [Zero]), MGE, PIOT, MTR, Zero, 
+                            Zero) & 0x07)
+                        Local1 = (0x08 | DerefOf (DerefOf (TIM0 [0x06]) [Local0]))
                         GTFB (AT01, Local1, Local7)
                     }
-                    Else
+                    ElseIf ((ID49 & 0x0400))
                     {
-                        If (And (ID49, 0x0400))
-                        {
-                            GTFB (AT01, One, Local7)
-                        }
+                        GTFB (AT01, One, Local7)
                     }
 
-                    If (LAnd (And (ID59, 0x0100), And (ID59, 0xFF)))
+                    If (((ID59 & 0x0100) && (ID59 & 0xFF)))
                     {
-                        GTFB (AT03, And (ID59, 0xFF), Local7)
+                        GTFB (AT03, (ID59 & 0xFF), Local7)
                     }
 
-                    Store (ATAB, Debug)
+                    Debug = ATAB /* \_SB_.PCI0.SAT1.ATAB */
                     Return (ATAB) /* \_SB_.PCI0.SAT1.ATAB */
                 }
 
                 Method (RATA, 1, NotSerialized)
                 {
                     CreateByteField (Arg0, Zero, CMDN)
-                    Multiply (CMDN, 0x38, Local0)
+                    Local0 = (CMDN * 0x38)
                     CreateField (Arg0, 0x08, Local0, RETB)
-                    Store (RETB, Debug)
+                    Debug = RETB /* \_SB_.PCI0.SAT1.RATA.RETB */
                     Return (Concatenate (RETB, FZTF))
                 }
             }
@@ -5050,7 +4902,7 @@ DefinitionBlock ("acpi.aml", "DSDT", 1, "A0994", "A0994000", 0x00000000)
 
                 Method (_S3D, 0, NotSerialized)  // _S3D: S3 Device State
                 {
-                    If (LOr (LEqual (OSFL (), One), LEqual (OSFL (), 0x02)))
+                    If (((OSFL () == One) || (OSFL () == 0x02)))
                     {
                         Return (0x02)
                     }
@@ -5064,11 +4916,11 @@ DefinitionBlock ("acpi.aml", "DSDT", 1, "A0994", "A0994000", 0x00000000)
                 {
                     If (Arg0)
                     {
-                        Store (0x03, USBW) /* \_SB_.PCI0.USB0.USBW */
+                        USBW = 0x03
                     }
                     Else
                     {
-                        Store (Zero, USBW) /* \_SB_.PCI0.USB0.USBW */
+                        USBW = Zero
                     }
                 }
 
@@ -5090,7 +4942,7 @@ DefinitionBlock ("acpi.aml", "DSDT", 1, "A0994", "A0994000", 0x00000000)
 
                 Method (_S3D, 0, NotSerialized)  // _S3D: S3 Device State
                 {
-                    If (LOr (LEqual (OSFL (), One), LEqual (OSFL (), 0x02)))
+                    If (((OSFL () == One) || (OSFL () == 0x02)))
                     {
                         Return (0x02)
                     }
@@ -5104,11 +4956,11 @@ DefinitionBlock ("acpi.aml", "DSDT", 1, "A0994", "A0994000", 0x00000000)
                 {
                     If (Arg0)
                     {
-                        Store (0x03, USBW) /* \_SB_.PCI0.USB1.USBW */
+                        USBW = 0x03
                     }
                     Else
                     {
-                        Store (Zero, USBW) /* \_SB_.PCI0.USB1.USBW */
+                        USBW = Zero
                     }
                 }
 
@@ -5130,7 +4982,7 @@ DefinitionBlock ("acpi.aml", "DSDT", 1, "A0994", "A0994000", 0x00000000)
 
                 Method (_S3D, 0, NotSerialized)  // _S3D: S3 Device State
                 {
-                    If (LOr (LEqual (OSFL (), One), LEqual (OSFL (), 0x02)))
+                    If (((OSFL () == One) || (OSFL () == 0x02)))
                     {
                         Return (0x02)
                     }
@@ -5144,11 +4996,11 @@ DefinitionBlock ("acpi.aml", "DSDT", 1, "A0994", "A0994000", 0x00000000)
                 {
                     If (Arg0)
                     {
-                        Store (0x03, USBW) /* \_SB_.PCI0.USB2.USBW */
+                        USBW = 0x03
                     }
                     Else
                     {
-                        Store (Zero, USBW) /* \_SB_.PCI0.USB2.USBW */
+                        USBW = Zero
                     }
                 }
 
@@ -5170,7 +5022,7 @@ DefinitionBlock ("acpi.aml", "DSDT", 1, "A0994", "A0994000", 0x00000000)
 
                 Method (_S3D, 0, NotSerialized)  // _S3D: S3 Device State
                 {
-                    If (LOr (LEqual (OSFL (), One), LEqual (OSFL (), 0x02)))
+                    If (((OSFL () == One) || (OSFL () == 0x02)))
                     {
                         Return (0x02)
                     }
@@ -5184,11 +5036,11 @@ DefinitionBlock ("acpi.aml", "DSDT", 1, "A0994", "A0994000", 0x00000000)
                 {
                     If (Arg0)
                     {
-                        Store (0x03, USBW) /* \_SB_.PCI0.USB3.USBW */
+                        USBW = 0x03
                     }
                     Else
                     {
-                        Store (Zero, USBW) /* \_SB_.PCI0.USB3.USBW */
+                        USBW = Zero
                     }
                 }
 
@@ -5210,7 +5062,7 @@ DefinitionBlock ("acpi.aml", "DSDT", 1, "A0994", "A0994000", 0x00000000)
 
                 Method (_S3D, 0, NotSerialized)  // _S3D: S3 Device State
                 {
-                    If (LOr (LEqual (OSFL (), One), LEqual (OSFL (), 0x02)))
+                    If (((OSFL () == One) || (OSFL () == 0x02)))
                     {
                         Return (0x02)
                     }
@@ -5224,11 +5076,11 @@ DefinitionBlock ("acpi.aml", "DSDT", 1, "A0994", "A0994000", 0x00000000)
                 {
                     If (Arg0)
                     {
-                        Store (0x03, USBW) /* \_SB_.PCI0.USB4.USBW */
+                        USBW = 0x03
                     }
                     Else
                     {
-                        Store (Zero, USBW) /* \_SB_.PCI0.USB4.USBW */
+                        USBW = Zero
                     }
                 }
 
@@ -5250,7 +5102,7 @@ DefinitionBlock ("acpi.aml", "DSDT", 1, "A0994", "A0994000", 0x00000000)
 
                 Method (_S3D, 0, NotSerialized)  // _S3D: S3 Device State
                 {
-                    If (LOr (LEqual (OSFL (), One), LEqual (OSFL (), 0x02)))
+                    If (((OSFL () == One) || (OSFL () == 0x02)))
                     {
                         Return (0x02)
                     }
@@ -5264,11 +5116,11 @@ DefinitionBlock ("acpi.aml", "DSDT", 1, "A0994", "A0994000", 0x00000000)
                 {
                     If (Arg0)
                     {
-                        Store (0x03, USBW) /* \_SB_.PCI0.USB5.USBW */
+                        USBW = 0x03
                     }
                     Else
                     {
-                        Store (Zero, USBW) /* \_SB_.PCI0.USB5.USBW */
+                        USBW = Zero
                     }
                 }
 
@@ -5290,7 +5142,7 @@ DefinitionBlock ("acpi.aml", "DSDT", 1, "A0994", "A0994000", 0x00000000)
 
                 Method (_S3D, 0, NotSerialized)  // _S3D: S3 Device State
                 {
-                    If (LOr (LEqual (OSFL (), One), LEqual (OSFL (), 0x02)))
+                    If (((OSFL () == One) || (OSFL () == 0x02)))
                     {
                         Return (0x02)
                     }
@@ -5304,11 +5156,11 @@ DefinitionBlock ("acpi.aml", "DSDT", 1, "A0994", "A0994000", 0x00000000)
                 {
                     If (Arg0)
                     {
-                        Store (0x03, USBW) /* \_SB_.PCI0.USB6.USBW */
+                        USBW = 0x03
                     }
                     Else
                     {
-                        Store (Zero, USBW) /* \_SB_.PCI0.USB6.USBW */
+                        USBW = Zero
                     }
                 }
 
@@ -5340,7 +5192,7 @@ DefinitionBlock ("acpi.aml", "DSDT", 1, "A0994", "A0994000", 0x00000000)
 
         Scope (\_GPE)
         {
-            Method (_L09, 0, NotSerialized)  // _Lxx: Level-Triggered GPE
+            Method (_L09, 0, NotSerialized)  // _Lxx: Level-Triggered GPE, xx=0x00-0xFF
             {
                 Notify (\_SB.PCI0.P0P2, 0x02) // Device Wake
                 Notify (\_SB.PCI0.P0P5, 0x02) // Device Wake
@@ -5352,61 +5204,61 @@ DefinitionBlock ("acpi.aml", "DSDT", 1, "A0994", "A0994000", 0x00000000)
                 Notify (\_SB.PWRB, 0x02) // Device Wake
             }
 
-            Method (_L0B, 0, NotSerialized)  // _Lxx: Level-Triggered GPE
+            Method (_L0B, 0, NotSerialized)  // _Lxx: Level-Triggered GPE, xx=0x00-0xFF
             {
                 Notify (\_SB.PCI0.P0P1, 0x02) // Device Wake
                 Notify (\_SB.PWRB, 0x02) // Device Wake
             }
 
-            Method (_L08, 0, NotSerialized)  // _Lxx: Level-Triggered GPE
+            Method (_L08, 0, NotSerialized)  // _Lxx: Level-Triggered GPE, xx=0x00-0xFF
             {
                 \_SB.PCI0.SBRG.SIOH ()
             }
 
-            Method (_L1D, 0, NotSerialized)  // _Lxx: Level-Triggered GPE
+            Method (_L1D, 0, NotSerialized)  // _Lxx: Level-Triggered GPE, xx=0x00-0xFF
             {
                 \_SB.PCI0.SBRG.SIOH ()
             }
 
-            Method (_L0D, 0, NotSerialized)  // _Lxx: Level-Triggered GPE
+            Method (_L0D, 0, NotSerialized)  // _Lxx: Level-Triggered GPE, xx=0x00-0xFF
             {
                 Notify (\_SB.PCI0.EUSB, 0x02) // Device Wake
                 Notify (\_SB.PCI0.USBE, 0x02) // Device Wake
                 Notify (\_SB.PWRB, 0x02) // Device Wake
             }
 
-            Method (_L03, 0, NotSerialized)  // _Lxx: Level-Triggered GPE
+            Method (_L03, 0, NotSerialized)  // _Lxx: Level-Triggered GPE, xx=0x00-0xFF
             {
                 Notify (\_SB.PCI0.USB0, 0x02) // Device Wake
                 Notify (\_SB.PWRB, 0x02) // Device Wake
             }
 
-            Method (_L04, 0, NotSerialized)  // _Lxx: Level-Triggered GPE
+            Method (_L04, 0, NotSerialized)  // _Lxx: Level-Triggered GPE, xx=0x00-0xFF
             {
                 Notify (\_SB.PCI0.USB1, 0x02) // Device Wake
                 Notify (\_SB.PWRB, 0x02) // Device Wake
             }
 
-            Method (_L0C, 0, NotSerialized)  // _Lxx: Level-Triggered GPE
+            Method (_L0C, 0, NotSerialized)  // _Lxx: Level-Triggered GPE, xx=0x00-0xFF
             {
                 Notify (\_SB.PCI0.USB2, 0x02) // Device Wake
                 Notify (\_SB.PWRB, 0x02) // Device Wake
             }
 
-            Method (_L0E, 0, NotSerialized)  // _Lxx: Level-Triggered GPE
+            Method (_L0E, 0, NotSerialized)  // _Lxx: Level-Triggered GPE, xx=0x00-0xFF
             {
                 Notify (\_SB.PCI0.USB3, 0x02) // Device Wake
                 Notify (\_SB.PCI0.USB4, 0x02) // Device Wake
                 Notify (\_SB.PWRB, 0x02) // Device Wake
             }
 
-            Method (_L05, 0, NotSerialized)  // _Lxx: Level-Triggered GPE
+            Method (_L05, 0, NotSerialized)  // _Lxx: Level-Triggered GPE, xx=0x00-0xFF
             {
                 Notify (\_SB.PCI0.USB5, 0x02) // Device Wake
                 Notify (\_SB.PWRB, 0x02) // Device Wake
             }
 
-            Method (_L20, 0, NotSerialized)  // _Lxx: Level-Triggered GPE
+            Method (_L20, 0, NotSerialized)  // _Lxx: Level-Triggered GPE, xx=0x00-0xFF
             {
                 Notify (\_SB.PCI0.USB6, 0x02) // Device Wake
                 Notify (\_SB.PWRB, 0x02) // Device Wake
@@ -5472,71 +5324,53 @@ DefinitionBlock ("acpi.aml", "DSDT", 1, "A0994", "A0994000", 0x00000000)
         })
         Method (GIT0, 1, NotSerialized)
         {
-            Name (T_0, Zero)  // T_x: Emitted by ASL Compiler
-            Store (And (Arg0, 0xFFFF), T_0) /* \_SB_.PCI0.SBRG.ASOC.GIT0.T_0 */
-            If (LEqual (T_0, Zero))
+            Name (_T_0, Zero)  // _T_x: Emitted by ASL Compiler, x=0-9, A-Z
+            _T_0 = (Arg0 & 0xFFFF)
+            If ((_T_0 == Zero))
             {
-                Store (Zero, ASB1) /* \_SB_.PCI0.SBRG.ASOC.ASB1 */
+                ASB1 = Zero
+            }
+            ElseIf ((_T_0 == One))
+            {
+                ASB1 = One
+            }
+            ElseIf ((_T_0 == 0x02))
+            {
+                ASB1 = 0x02
+            }
+            ElseIf ((_T_0 == 0x03))
+            {
+                ASB1 = 0x03
             }
             Else
             {
-                If (LEqual (T_0, One))
-                {
-                    Store (One, ASB1) /* \_SB_.PCI0.SBRG.ASOC.ASB1 */
-                }
-                Else
-                {
-                    If (LEqual (T_0, 0x02))
-                    {
-                        Store (0x02, ASB1) /* \_SB_.PCI0.SBRG.ASOC.ASB1 */
-                    }
-                    Else
-                    {
-                        If (LEqual (T_0, 0x03))
-                        {
-                            Store (0x03, ASB1) /* \_SB_.PCI0.SBRG.ASOC.ASB1 */
-                        }
-                        Else
-                        {
-                            Store (Zero, ASB0) /* \_SB_.PCI0.SBRG.ASOC.ASB0 */
-                        }
-                    }
-                }
+                ASB0 = Zero
             }
         }
 
         Method (SIT0, 3, NotSerialized)
         {
-            Name (T_0, Zero)  // T_x: Emitted by ASL Compiler
-            Store (And (Arg0, 0xFFFF), T_0) /* \_SB_.PCI0.SBRG.ASOC.SIT0.T_0 */
-            If (LEqual (T_0, Zero))
+            Name (_T_0, Zero)  // _T_x: Emitted by ASL Compiler, x=0-9, A-Z
+            _T_0 = (Arg0 & 0xFFFF)
+            If ((_T_0 == Zero))
             {
-                Store (0x0300, DBG8) /* \DBG8 */
+                DBG8 = 0x0300
+            }
+            ElseIf ((_T_0 == One))
+            {
+                DBG8 = 0x0301
+            }
+            ElseIf ((_T_0 == 0x02))
+            {
+                DBG8 = 0x0302
+            }
+            ElseIf ((_T_0 == 0x03))
+            {
+                DBG8 = 0x0303
             }
             Else
             {
-                If (LEqual (T_0, One))
-                {
-                    Store (0x0301, DBG8) /* \DBG8 */
-                }
-                Else
-                {
-                    If (LEqual (T_0, 0x02))
-                    {
-                        Store (0x0302, DBG8) /* \DBG8 */
-                    }
-                    Else
-                    {
-                        If (LEqual (T_0, 0x03))
-                        {
-                            Store (0x0303, DBG8) /* \DBG8 */
-                        }
-                        Else
-                        {
-                            Store (Zero, ASB0) /* \_SB_.PCI0.SBRG.ASOC.ASB0 */
-                        }
-                    }
-                }
+                ASB0 = Zero
             }
         }
     }
@@ -5615,500 +5449,470 @@ DefinitionBlock ("acpi.aml", "DSDT", 1, "A0994", "A0994000", 0x00000000)
         Name (IDEX, Zero)
         Method (GIT3, 1, NotSerialized)
         {
-            Name (T_0, Zero)  // T_x: Emitted by ASL Compiler
-            Store (And (Arg0, 0xFFFF), T_0) /* \_SB_.PCI0.SBRG.ASOC.GIT3.T_0 */
-            If (LEqual (T_0, 0x11))
+            Name (_T_0, Zero)  // _T_x: Emitted by ASL Compiler, x=0-9, A-Z
+            _T_0 = (Arg0 & 0xFFFF)
+            If ((_T_0 == 0x11))
             {
-                Subtract (GNVS (0xA6C8), 0xC8, ASB1) /* \_SB_.PCI0.SBRG.ASOC.ASB1 */
+                ASB1 = (GNVS (0xA6C8) - 0xC8)
             }
-            Else
+            ElseIf ((_T_0 == 0x13))
             {
-                If (LEqual (T_0, 0x13))
+                If (((Local0 = (GCAX (One) & 0x0FF0)) > 0x06F0))
                 {
-                    If (LGreater (And (GCAX (One), 0x0FF0, Local0), 0x06F0))
+                    Local0 = GMAX (0x2C)
+                    Local2 = ((Local0 >> 0x08) & 0xFF)
+                    Local1 = (Local0 & 0xFF)
+                    Local0 = (Local1 - Local2)
+                    Local7 = GMDX (0x0198)
+                    Local7 = ((Local7 >> 0x08) & 0xFF)
+                    If ((Local7 < Local0))
                     {
-                        Store (GMAX (0x2C), Local0)
-                        And (ShiftRight (Local0, 0x08), 0xFF, Local2)
-                        And (Local0, 0xFF, Local1)
-                        Subtract (Local1, Local2, Local0)
-                        Store (GMDX (0x0198), Local7)
-                        And (ShiftRight (Local7, 0x08), 0xFF, Local7)
-                        If (LLess (Local7, Local0))
-                        {
-                            Store (Local1, Local7)
-                        }
+                        Local7 = Local1
                     }
-                    Else
-                    {
-                        Store (GMDX (0x0198), Local0)
-                        And (ShiftRight (Local0, 0x08), 0x1F, Local1)
-                        Store (Local1, Local7)
-                        Store (GMAX (0x0198), Local0)
-                        And (ShiftRight (Local0, 0x18), 0x1F, Local0)
-                    }
-
-                    If (LEqual (GNVS (0x1651), Zero))
-                    {
-                        If (And (GMAX (0x17), 0x00800000))
-                        {
-                            Store (ShiftRight (And (GMAX (0x17), 0x4000), 0x0E), Local5)
-                            Store (Subtract (Local7, Local0), Local4)
-                            Multiply (Local4, 0x02, Local6)
-                            Add (Local6, Local5, ASB1) /* \_SB_.PCI0.SBRG.ASOC.ASB1 */
-                        }
-                        Else
-                        {
-                            Store (Subtract (Local7, Local0), ASB1) /* \_SB_.PCI0.SBRG.ASOC.ASB1 */
-                        }
-                    }
-                    Else
-                    {
-                        If (And (GMAX (0x17), 0x00800000))
-                        {
-                            Store (ShiftRight (And (GNVS (0x8298), 0x40), 0x06), Local5)
-                            Store (Subtract (And (GNVS (0x8298), 0x1F), Local0), Local4)
-                            Multiply (Local4, 0x02, Local6)
-                            Add (Local6, Local5, ASB1) /* \_SB_.PCI0.SBRG.ASOC.ASB1 */
-                        }
-                        Else
-                        {
-                            Store (Subtract (And (GNVS (0x8298), 0x1F), Local0), ASB1) /* \_SB_.PCI0.SBRG.ASOC.ASB1 */
-                        }
-                    }
-
-                    Store (ASB1, IDEX) /* \_SB_.PCI0.SBRG.ASOC.IDEX */
                 }
                 Else
                 {
-                    If (LEqual (T_0, 0x32))
+                    Local0 = GMDX (0x0198)
+                    Local1 = ((Local0 >> 0x08) & 0x1F)
+                    Local7 = Local1
+                    Local0 = GMAX (0x0198)
+                    Local0 = ((Local0 >> 0x18) & 0x1F)
+                }
+
+                If ((GNVS (0x1651) == Zero))
+                {
+                    If ((GMAX (0x17) & 0x00800000))
                     {
-                        Store (GNVS (0x53A0), ASB1) /* \_SB_.PCI0.SBRG.ASOC.ASB1 */
+                        Local5 = ((GMAX (0x17) & 0x4000) >> 0x0E)
+                        Local4 = (Local7 - Local0)
+                        Local6 = (Local4 * 0x02)
+                        ASB1 = (Local6 + Local5)
                     }
                     Else
                     {
-                        If (LEqual (T_0, 0x31))
-                        {
-                            Store (GNVS (0x4448), ASB1) /* \_SB_.PCI0.SBRG.ASOC.ASB1 */
-                        }
-                        Else
-                        {
-                            If (LEqual (T_0, 0x51))
-                            {
-                                Store (GNVS (0x6368), ASB1) /* \_SB_.PCI0.SBRG.ASOC.ASB1 */
-                            }
-                            Else
-                            {
-                                Store (Zero, ASB0) /* \_SB_.PCI0.SBRG.ASOC.ASB0 */
-                            }
-                        }
+                        ASB1 = (Local7 - Local0)
                     }
                 }
+                ElseIf ((GMAX (0x17) & 0x00800000))
+                {
+                    Local5 = ((GNVS (0x8298) & 0x40) >> 0x06)
+                    Local4 = ((GNVS (0x8298) & 0x1F) - Local0)
+                    Local6 = (Local4 * 0x02)
+                    ASB1 = (Local6 + Local5)
+                }
+                Else
+                {
+                    ASB1 = ((GNVS (0x8298) & 0x1F) - Local0)
+                }
+
+                IDEX = ASB1 /* \_SB_.PCI0.SBRG.ASOC.ASB1 */
+            }
+            ElseIf ((_T_0 == 0x32))
+            {
+                ASB1 = GNVS (0x53A0)
+            }
+            ElseIf ((_T_0 == 0x31))
+            {
+                ASB1 = GNVS (0x4448)
+            }
+            ElseIf ((_T_0 == 0x51))
+            {
+                ASB1 = GNVS (0x6368)
+            }
+            Else
+            {
+                ASB0 = Zero
             }
         }
 
         Method (SIT3, 3, NotSerialized)
         {
-            Name (T_0, Zero)  // T_x: Emitted by ASL Compiler
-            Store (And (Arg0, 0xFFFF), T_0) /* \_SB_.PCI0.SBRG.ASOC.SIT3.T_0 */
-            If (LEqual (T_0, 0x11))
+            Name (_T_0, Zero)  // _T_x: Emitted by ASL Compiler, x=0-9, A-Z
+            _T_0 = (Arg0 & 0xFFFF)
+            If ((_T_0 == 0x11))
             {
-                Add (Arg1, 0xC8, Local2)
-                If (LNotEqual (GNVS (0xA6C8), Local2))
+                Local2 = (Arg1 + 0xC8)
+                If ((GNVS (0xA6C8) != Local2))
                 {
-                    Subtract (GNVS (0xA6C8), 0xC8, Local1)
-                    Multiply (Local1, 0x03, Local0)
+                    Local1 = (GNVS (0xA6C8) - 0xC8)
+                    Local0 = (Local1 * 0x03)
                     CreateByteField (MNBF, Local0, CB04)
                     CreateWordField (CLKR, 0x0B, CBMN)
-                    Store (RBLK (0xD2, Zero, 0x13), CLKR) /* \_SB_.PCI0.SBRG.ASOC.CLKR */
-                    Multiply (Arg1, 0x03, Local0)
+                    CLKR = RBLK (0xD2, Zero, 0x13)
+                    Local0 = (Arg1 * 0x03)
                     CreateByteField (MNBF, Local0, MN04)
-                    CreateWordField (MNBF, Increment (Local0), MNVL)
-                    If (LEqual (CB04, MN04))
+                    CreateWordField (MNBF, Local0++, MNVL)
+                    If ((CB04 == MN04))
                     {
-                        If (And (Arg2, One))
+                        If ((Arg2 & One))
                         {
-                            Store (MNVL, CBMN) /* \_SB_.PCI0.SBRG.ASOC.SIT3.CBMN */
+                            CBMN = MNVL /* \_SB_.PCI0.SBRG.ASOC.SIT3.MNVL */
                             WBLK (0xD2, Zero, 0x13, CLKR)
                         }
                     }
                     Else
                     {
-                        Or (ASB0, 0x02, ASB0) /* \_SB_.PCI0.SBRG.ASOC.ASB0 */
+                        ASB0 |= 0x02
                     }
 
-                    If (And (Arg2, One))
+                    If ((Arg2 & One))
                     {
                         SNVS (0xA6C8, Local2)
                     }
                 }
             }
-            Else
+            ElseIf ((_T_0 == 0x13))
             {
-                If (LEqual (T_0, 0x13))
+                If ((IDEX != Arg1))
                 {
-                    If (LNotEqual (IDEX, Arg1))
+                    If ((Arg2 & One))
                     {
-                        If (And (Arg2, One))
+                        SNVS (0x3510, 0x04)
+                        SNVS (0x1651, One)
+                        If (((Local0 = (GCAX (One) & 0x0FF0)) > 0x06F0))
                         {
-                            SNVS (0x3510, 0x04)
-                            SNVS (0x1651, One)
-                            If (LGreater (And (GCAX (One), 0x0FF0, Local0), 0x06F0))
-                            {
-                                Store (GMAX (0x2C), Local0)
-                                And (ShiftRight (Local0, 0x08), 0xFF, Local2)
-                                And (Local0, 0xFF, Local1)
-                                Subtract (Local1, Local2, Local3)
-                            }
-                            Else
-                            {
-                                Store (GMDX (0x0198), Local0)
-                                And (ShiftRight (Local0, 0x08), 0x1F, Local1)
-                                Store (GMAX (0x0198), Local0)
-                                And (ShiftRight (Local0, 0x18), 0x1F, Local3)
-                            }
-
-                            If (And (GMAX (0x17), 0x00800000))
-                            {
-                                Store (Arg1, Local2)
-                                And (Local2, One, Local0)
-                                ShiftRight (Local2, One, Arg1)
-                                Add (Arg1, Local3, Arg1)
-                            }
-                            Else
-                            {
-                                Store (Zero, Local0)
-                                Add (Arg1, Local3, Arg1)
-                            }
-
-                            Or (Arg1, ShiftLeft (Local0, 0x06), Arg1)
-                            SNVS (0x8298, Arg1)
-                        }
-
-                        Or (ASB0, 0x02, ASB0) /* \_SB_.PCI0.SBRG.ASOC.ASB0 */
-                    }
-                }
-                Else
-                {
-                    If (LEqual (T_0, 0x32))
-                    {
-                        If (LNotEqual (GNVS (0x53A0), Arg1))
-                        {
-                            If (LEqual (Arg1, Zero))
-                            {
-                                Or (ASB0, 0x02, ASB0) /* \_SB_.PCI0.SBRG.ASOC.ASB0 */
-                            }
-                            Else
-                            {
-                                If (And (Arg2, One))
-                                {
-                                    Subtract (Arg1, One, Local1)
-                                    WBYT (0x3C, 0x10, Local1)
-                                    WBYT (0x3C, 0x11, One)
-                                    WBYT (0x3C, 0x12, One)
-                                    WBYT (0x3C, 0x40, 0x02)
-                                    ENFG (0x09)
-                                    And (OPT5, 0x1F, Local1)
-                                    Store (0x10, Local3)
-                                    ShiftLeft (Subtract (Local3, Arg1), 0x04, Local2)
-                                    And (Local2, 0xE0, Local2)
-                                    Or (Local1, Local2, OPT5) /* \_SB_.PCI0.SBRG.OPT5 */
-                                }
-                            }
-
-                            If (And (Arg2, One))
-                            {
-                                SNVS (0x53A0, Arg1)
-                            }
-                        }
-                    }
-                    Else
-                    {
-                        If (LEqual (T_0, 0x31))
-                        {
-                            If (LNotEqual (GNVS (0x4448), Arg1))
-                            {
-                                If (And (Arg2, One))
-                                {
-                                    SNVS (0x4448, Arg1)
-                                }
-
-                                Or (ASB0, 0x02, ASB0) /* \_SB_.PCI0.SBRG.ASOC.ASB0 */
-                            }
+                            Local0 = GMAX (0x2C)
+                            Local2 = ((Local0 >> 0x08) & 0xFF)
+                            Local1 = (Local0 & 0xFF)
+                            Local3 = (Local1 - Local2)
                         }
                         Else
                         {
-                            If (LEqual (T_0, 0x51))
-                            {
-                                If (LNotEqual (GNVS (0x6368), Arg1))
-                                {
-                                    If (And (Arg2, One))
-                                    {
-                                        SNVS (0x6368, Arg1)
-                                    }
-
-                                    Or (ASB0, 0x02, ASB0) /* \_SB_.PCI0.SBRG.ASOC.ASB0 */
-                                }
-                            }
-                            Else
-                            {
-                                Store (Zero, ASB0) /* \_SB_.PCI0.SBRG.ASOC.ASB0 */
-                            }
+                            Local0 = GMDX (0x0198)
+                            Local1 = ((Local0 >> 0x08) & 0x1F)
+                            Local0 = GMAX (0x0198)
+                            Local3 = ((Local0 >> 0x18) & 0x1F)
                         }
+
+                        If ((GMAX (0x17) & 0x00800000))
+                        {
+                            Local2 = Arg1
+                            Local0 = (Local2 & One)
+                            Arg1 = (Local2 >> One)
+                            Arg1 += Local3
+                        }
+                        Else
+                        {
+                            Local0 = Zero
+                            Arg1 += Local3
+                        }
+
+                        Arg1 |= (Local0 << 0x06)
+                        SNVS (0x8298, Arg1)
+                    }
+
+                    ASB0 |= 0x02
+                }
+            }
+            ElseIf ((_T_0 == 0x32))
+            {
+                If ((GNVS (0x53A0) != Arg1))
+                {
+                    If ((Arg1 == Zero))
+                    {
+                        ASB0 |= 0x02
+                    }
+                    ElseIf ((Arg2 & One))
+                    {
+                        Local1 = (Arg1 - One)
+                        WBYT (0x3C, 0x10, Local1)
+                        WBYT (0x3C, 0x11, One)
+                        WBYT (0x3C, 0x12, One)
+                        WBYT (0x3C, 0x40, 0x02)
+                        ENFG (0x09)
+                        Local1 = (OPT5 & 0x1F)
+                        Local3 = 0x10
+                        Local2 = ((Local3 - Arg1) << 0x04)
+                        Local2 &= 0xE0
+                        OPT5 = (Local1 | Local2)
+                    }
+
+                    If ((Arg2 & One))
+                    {
+                        SNVS (0x53A0, Arg1)
                     }
                 }
+            }
+            ElseIf ((_T_0 == 0x31))
+            {
+                If ((GNVS (0x4448) != Arg1))
+                {
+                    If ((Arg2 & One))
+                    {
+                        SNVS (0x4448, Arg1)
+                    }
+
+                    ASB0 |= 0x02
+                }
+            }
+            ElseIf ((_T_0 == 0x51))
+            {
+                If ((GNVS (0x6368) != Arg1))
+                {
+                    If ((Arg2 & One))
+                    {
+                        SNVS (0x6368, Arg1)
+                    }
+
+                    ASB0 |= 0x02
+                }
+            }
+            Else
+            {
+                ASB0 = Zero
             }
         }
 
         Name (CLKR, Buffer (0x18)
         {
-            /* 0000 */  0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,  /* ........ */
-            /* 0008 */  0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,  /* ........ */
-            /* 0010 */  0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00   /* ........ */
+            /* 0000 */  0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,  // ........
+            /* 0008 */  0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,  // ........
+            /* 0010 */  0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00   // ........
         })
         Name (PCEF, Buffer (0x68)
         {
-            /* 0000 */  0x9F, 0xD8, 0x9F, 0xD8, 0x9C, 0xC5, 0x62, 0xF2,  /* ......b. */
-            /* 0008 */  0x5B, 0xC2, 0xD2, 0x82, 0x21, 0xF2, 0x9A, 0xC0,  /* [...!... */
-            /* 0010 */  0x13, 0x8E, 0xDD, 0xDA, 0x1F, 0xEC, 0xDA, 0xC7,  /* ........ */
-            /* 0018 */  0xE1, 0xFF, 0x9F, 0xF2, 0x1C, 0xDD, 0x54, 0x9F,  /* ......T. */
-            /* 0020 */  0x1F, 0xF9, 0xDB, 0xDA, 0xD0, 0x82, 0x5E, 0xF7,  /* ......^. */
-            /* 0028 */  0x1D, 0xF1, 0x15, 0xB0, 0xDA, 0xDB, 0x98, 0xCC,  /* ........ */
-            /* 0030 */  0x16, 0xBD, 0x9C, 0xF2, 0x59, 0xDA, 0x19, 0xDC,  /* ....Y... */
-            /* 0038 */  0xD9, 0xDD, 0x99, 0xDF, 0x5A, 0xEA, 0xD6, 0xC7,  /* ....Z... */
-            /* 0040 */  0xD9, 0xE4, 0x58, 0xDD, 0x9A, 0xF1, 0x57, 0xD7,  /* ..X...W. */
-            /* 0048 */  0x15, 0xC6, 0x1A, 0xF7, 0x96, 0xD2, 0xD4, 0xC0,  /* ........ */
-            /* 0050 */  0x18, 0xE9, 0x12, 0xB0, 0x52, 0xB1, 0x18, 0xEE,  /* ....R... */
-            /* 0058 */  0xD3, 0xBD, 0x56, 0xDD, 0x18, 0xF3, 0xCE, 0x8E,  /* ..V..... */
-            /* 0060 */  0x0F, 0x9A, 0xD7, 0xED, 0xD8, 0xF9, 0x15, 0xDC   /* ........ */
+            /* 0000 */  0x9F, 0xD8, 0x9F, 0xD8, 0x9C, 0xC5, 0x62, 0xF2,  // ......b.
+            /* 0008 */  0x5B, 0xC2, 0xD2, 0x82, 0x21, 0xF2, 0x9A, 0xC0,  // [...!...
+            /* 0010 */  0x13, 0x8E, 0xDD, 0xDA, 0x1F, 0xEC, 0xDA, 0xC7,  // ........
+            /* 0018 */  0xE1, 0xFF, 0x9F, 0xF2, 0x1C, 0xDD, 0x54, 0x9F,  // ......T.
+            /* 0020 */  0x1F, 0xF9, 0xDB, 0xDA, 0xD0, 0x82, 0x5E, 0xF7,  // ......^.
+            /* 0028 */  0x1D, 0xF1, 0x15, 0xB0, 0xDA, 0xDB, 0x98, 0xCC,  // ........
+            /* 0030 */  0x16, 0xBD, 0x9C, 0xF2, 0x59, 0xDA, 0x19, 0xDC,  // ....Y...
+            /* 0038 */  0xD9, 0xDD, 0x99, 0xDF, 0x5A, 0xEA, 0xD6, 0xC7,  // ....Z...
+            /* 0040 */  0xD9, 0xE4, 0x58, 0xDD, 0x9A, 0xF1, 0x57, 0xD7,  // ..X...W.
+            /* 0048 */  0x15, 0xC6, 0x1A, 0xF7, 0x96, 0xD2, 0xD4, 0xC0,  // ........
+            /* 0050 */  0x18, 0xE9, 0x12, 0xB0, 0x52, 0xB1, 0x18, 0xEE,  // ....R...
+            /* 0058 */  0xD3, 0xBD, 0x56, 0xDD, 0x18, 0xF3, 0xCE, 0x8E,  // ..V.....
+            /* 0060 */  0x0F, 0x9A, 0xD7, 0xED, 0xD8, 0xF9, 0x15, 0xDC   // ........
         })
         Name (MNBF, Buffer (0x070B)
         {
-            /* 0000 */  0x01, 0x64, 0xFC, 0x01, 0x5F, 0xDA, 0x01, 0xA1,  /* .d.._... */
-            /* 0008 */  0xE9, 0x01, 0xE2, 0xF1, 0x01, 0x98, 0xAB, 0x01,  /* ........ */
-            /* 0010 */  0x5D, 0xD0, 0x01, 0x5D, 0xD1, 0x01, 0x23, 0xFE,  /* ]..]..#. */
-            /* 0018 */  0x01, 0x15, 0x99, 0x01, 0x1C, 0xCD, 0x01, 0x5A,  /* .......Z */
-            /* 0020 */  0xBF, 0x01, 0xA0, 0xEC, 0x01, 0xA2, 0xFC, 0x01,  /* ........ */
-            /* 0028 */  0xD3, 0x8D, 0x01, 0x22, 0xFF, 0x01, 0xD8, 0xB4,  /* ...".... */
-            /* 0030 */  0x01, 0xD3, 0x8F, 0x01, 0x60, 0xF3, 0x01, 0x21,  /* ....`..! */
-            /* 0038 */  0xFC, 0x01, 0xA0, 0xF5, 0x01, 0x57, 0xB1, 0x03,  /* .....W.. */
-            /* 0040 */  0xA7, 0x96, 0x03, 0x7F, 0xF4, 0x03, 0xA1, 0x80,  /* ........ */
-            /* 0048 */  0x03, 0xBE, 0xF2, 0x03, 0xB1, 0xC0, 0x03, 0x73,  /* .......s */
-            /* 0050 */  0xC9, 0x03, 0xFE, 0xF5, 0x03, 0x35, 0xD3, 0x03,  /* .....5.. */
-            /* 0058 */  0x35, 0xD4, 0x03, 0x3E, 0xF9, 0x03, 0xF4, 0xD1,  /* 5..>.... */
-            /* 0060 */  0x03, 0xB1, 0xC6, 0x03, 0x7E, 0xFC, 0x03, 0xE0,  /* ....~... */
-            /* 0068 */  0x82, 0x03, 0x3A, 0xEE, 0x03, 0x7C, 0xF7, 0x03,  /* ..:..|.. */
-            /* 0070 */  0xAF, 0xC2, 0x03, 0xBD, 0xFD, 0x03, 0x34, 0xD9,  /* ......4. */
-            /* 0078 */  0x03, 0x7B, 0xF7, 0x03, 0xEA, 0xB0, 0x03, 0x69,  /* .{.....i */
-            /* 0080 */  0xAD, 0x03, 0xE4, 0x98, 0x03, 0x6F, 0xC8, 0x03,  /* .....o.. */
-            /* 0088 */  0x36, 0xE7, 0x03, 0x77, 0xEC, 0x03, 0xB8, 0xF1,  /* 6..w.... */
-            /* 0090 */  0x03, 0xB8, 0xF2, 0x03, 0x2E, 0xC8, 0x03, 0x34,  /* .......4 */
-            /* 0098 */  0xE3, 0x03, 0x60, 0x8C, 0x03, 0x37, 0xF2, 0x03,  /* ..`..7.. */
-            /* 00A0 */  0x37, 0xF3, 0x03, 0xB6, 0xEF, 0x03, 0xE5, 0xA4,  /* 7....... */
-            /* 00A8 */  0x03, 0xB2, 0xDF, 0x03, 0xA8, 0xB3, 0x03, 0x72,  /* .......r */
-            /* 00B0 */  0xE1, 0x03, 0x78, 0xFD, 0x03, 0x32, 0xE3, 0x03,  /* ..x..2.. */
-            /* 00B8 */  0xF0, 0xDA, 0x03, 0xF2, 0xE4, 0x03, 0x6E, 0xD3,  /* ......n. */
-            /* 00C0 */  0x03, 0x29, 0xBD, 0x03, 0xB7, 0xFE, 0x03, 0x36,  /* .).....6 */
-            /* 00C8 */  0xFC, 0x03, 0xEC, 0xCD, 0x03, 0x9F, 0xF1, 0x03,  /* ........ */
-            /* 00D0 */  0xE0, 0x96, 0x03, 0xA3, 0xA5, 0x03, 0xB5, 0xFB,  /* ........ */
-            /* 00D8 */  0x03, 0x65, 0xB0, 0x03, 0x71, 0xEA, 0x03, 0xDF,  /* .e..q... */
-            /* 00E0 */  0x94, 0x03, 0x26, 0xB7, 0x03, 0xB3, 0xF6, 0x03,  /* ..&..... */
-            /* 00E8 */  0x74, 0xFC, 0x03, 0x64, 0xAF, 0x03, 0xB0, 0xEA,  /* t..d.... */
-            /* 00F0 */  0x03, 0x71, 0xF0, 0x03, 0xB0, 0xEB, 0x03, 0xAE,  /* .q...... */
-            /* 00F8 */  0xE2, 0x03, 0x6F, 0xE8, 0x03, 0x31, 0xF3, 0x03,  /* ..o..1.. */
-            /* 0100 */  0x2A, 0xD1, 0x03, 0xE8, 0xC7, 0x03, 0xAC, 0xDC,  /* *....... */
-            /* 0108 */  0x03, 0x23, 0xB0, 0x03, 0xE6, 0xBF, 0x03, 0x2F,  /* .#...../ */
-            /* 0110 */  0xEE, 0x03, 0x25, 0xBC, 0x03, 0x61, 0xA8, 0x03,  /* ..%..a.. */
-            /* 0118 */  0x5C, 0x8F, 0x02, 0x2D, 0xE7, 0x02, 0x70, 0xF7,  /* \..-..p. */
-            /* 0120 */  0x02, 0x71, 0xFD, 0x02, 0x67, 0xCA, 0x02, 0xA0,  /* .q..g... */
-            /* 0128 */  0xA6, 0x02, 0xA2, 0xB1, 0x02, 0x2A, 0xDC, 0x02,  /* .....*.. */
-            /* 0130 */  0x6C, 0xE7, 0x02, 0xEB, 0xE2, 0x02, 0xE5, 0xC3,  /* l....... */
-            /* 0138 */  0x02, 0x6B, 0xE4, 0x02, 0x2B, 0xE5, 0x02, 0x23,  /* .k..+..# */
-            /* 0140 */  0xBB, 0x02, 0x62, 0xB6, 0x02, 0x2D, 0xF2, 0x02,  /* ..b..-.. */
-            /* 0148 */  0x2B, 0xE8, 0x02, 0xEB, 0xE8, 0x02, 0xAB, 0xE9,  /* +....... */
-            /* 0150 */  0x02, 0x6B, 0xEA, 0x02, 0x2B, 0xEB, 0x02, 0xEB,  /* .k..+... */
-            /* 0158 */  0xEB, 0x02, 0x2C, 0xF2, 0x02, 0x6B, 0xED, 0x02,  /* ..,..k.. */
-            /* 0160 */  0x2B, 0xEE, 0x02, 0xEB, 0xEE, 0x02, 0xAB, 0xEF,  /* +....... */
-            /* 0168 */  0x02, 0x6B, 0xF0, 0x02, 0xDF, 0xAD, 0x02, 0x2D,  /* .k.....- */
-            /* 0170 */  0xFD, 0x02, 0xE2, 0xBF, 0x02, 0x23, 0xC6, 0x02,  /* .....#.. */
-            /* 0178 */  0x2B, 0xF4, 0x02, 0xEB, 0xF4, 0x02, 0x65, 0xD3,  /* +.....e. */
-            /* 0180 */  0x02, 0x6B, 0xF6, 0x02, 0xEC, 0xFC, 0x02, 0x2A,  /* .k.....* */
-            /* 0188 */  0xF2, 0x02, 0xA2, 0xC4, 0x02, 0xA0, 0xB9, 0x02,  /* ........ */
-            /* 0190 */  0x62, 0xC6, 0x02, 0xDC, 0xA3, 0x02, 0xA9, 0xF0,  /* b....... */
-            /* 0198 */  0x02, 0x9E, 0xB0, 0x02, 0xEB, 0xFD, 0x02, 0xAB,  /* ........ */
-            /* 01A0 */  0xFE, 0x02, 0x1F, 0xB8, 0x02, 0xA0, 0xBE, 0x02,  /* ........ */
-            /* 01A8 */  0x22, 0xCB, 0x02, 0xA9, 0xF5, 0x02, 0x6A, 0xFC,  /* ".....j. */
-            /* 01B0 */  0x02, 0xE1, 0xC6, 0x02, 0x5F, 0xBB, 0x02, 0x67,  /* ...._..g */
-            /* 01B8 */  0xEC, 0x02, 0x28, 0xF3, 0x02, 0x9B, 0xA4, 0x02,  /* ..(..... */
-            /* 01C0 */  0xD9, 0x98, 0x02, 0x69, 0xFB, 0x02, 0xE5, 0xE2,  /* ...i.... */
-            /* 01C8 */  0x02, 0x64, 0xDD, 0x02, 0x5A, 0xA0, 0x02, 0x5D,  /* .d..Z..] */
-            /* 01D0 */  0xB3, 0x02, 0xDD, 0xB3, 0x02, 0xD6, 0x88, 0x02,  /* ........ */
-            /* 01D8 */  0x1E, 0xBB, 0x02, 0x28, 0xFA, 0x02, 0x9C, 0xAF,  /* ...(.... */
-            /* 01E0 */  0x02, 0x1C, 0xB0, 0x02, 0x21, 0xD0, 0x02, 0xA7,  /* ....!... */
-            /* 01E8 */  0xF6, 0x02, 0xA5, 0xEA, 0x02, 0xA6, 0xF1, 0x02,  /* ........ */
-            /* 01F0 */  0xA7, 0xF8, 0x02, 0xD9, 0x9F, 0x02, 0xA6, 0xF3,  /* ........ */
-            /* 01F8 */  0x02, 0xDE, 0xC0, 0x02, 0xA3, 0xE1, 0x02, 0x99,  /* ........ */
-            /* 0200 */  0xA1, 0x02, 0x96, 0x8E, 0x02, 0x67, 0xFD, 0x02,  /* .....g.. */
-            /* 0208 */  0x54, 0x82, 0x02, 0x59, 0xA3, 0x02, 0x65, 0xF2,  /* T..Y..e. */
-            /* 0210 */  0x02, 0x5B, 0xB1, 0x02, 0x24, 0xED, 0x02, 0x19,  /* .[..$... */
-            /* 0218 */  0xA5, 0x02, 0xE0, 0xD3, 0x02, 0x9A, 0xAC, 0x02,  /* ........ */
-            /* 0220 */  0x17, 0x99, 0x02, 0xDC, 0xBA, 0x02, 0x5C, 0xBB,  /* ......\. */
-            /* 0228 */  0x02, 0x96, 0x93, 0x02, 0x24, 0xF2, 0x02, 0xD8,  /* ....$... */
-            /* 0230 */  0xA1, 0x02, 0x64, 0xF3, 0x02, 0x1F, 0xD2, 0x02,  /* ..d..... */
-            /* 0238 */  0xA4, 0xF4, 0x02, 0x15, 0x8F, 0x02, 0x9A, 0xB1,  /* ........ */
-            /* 0240 */  0x02, 0x20, 0xDB, 0x02, 0x1D, 0xC7, 0x02, 0x5F,  /* . ....._ */
-            /* 0248 */  0xD5, 0x02, 0x1D, 0xC8, 0x02, 0x60, 0xDD, 0x02,  /* .....`.. */
-            /* 0250 */  0xE1, 0xE4, 0x02, 0x62, 0xEC, 0x02, 0x1E, 0xD1,  /* ...b.... */
-            /* 0258 */  0x02, 0x9F, 0xD8, 0x02, 0x24, 0xFC, 0x02, 0x9B,  /* ....$... */
-            /* 0260 */  0xBD, 0x02, 0xD5, 0x93, 0x02, 0x9C, 0xC5, 0x02,  /* ........ */
-            /* 0268 */  0xA3, 0xF7, 0x02, 0x9C, 0xC6, 0x02, 0xE3, 0xF8,  /* ........ */
-            /* 0270 */  0x02, 0x62, 0xF2, 0x02, 0x5E, 0xD6, 0x02, 0x61,  /* .b..^..a */
-            /* 0278 */  0xEC, 0x02, 0x22, 0xF4, 0x02, 0x5B, 0xC2, 0x02,  /* .."..[.. */
-            /* 0280 */  0x9A, 0xBB, 0x02, 0x9B, 0xAD, 0x02, 0xA2, 0xF6,  /* ........ */
-            /* 0288 */  0x02, 0xD2, 0x82, 0x02, 0x20, 0xE9, 0x02, 0x5F,  /* .... .._ */
-            /* 0290 */  0xE2, 0x02, 0xE2, 0xF8, 0x02, 0x21, 0xF2, 0x02,  /* .....!.. */
-            /* 0298 */  0x60, 0xEB, 0x02, 0x13, 0x8C, 0x02, 0xE1, 0xF3,  /* `....... */
-            /* 02A0 */  0x02, 0x9A, 0xC0, 0x02, 0x13, 0x8D, 0x02, 0xA1,  /* ........ */
-            /* 02A8 */  0xF5, 0x02, 0xA2, 0xFD, 0x02, 0x13, 0x8E, 0x02,  /* ........ */
-            /* 02B0 */  0xDC, 0xD1, 0x02, 0x5E, 0xE1, 0x02, 0x5D, 0xDA,  /* ...^..]. */
-            /* 02B8 */  0x02, 0xDD, 0xDA, 0x02, 0xA1, 0xF9, 0x02, 0xA0,  /* ........ */
-            /* 02C0 */  0xF2, 0x02, 0x95, 0x9F, 0x02, 0x1F, 0xEC, 0x02,  /* ........ */
-            /* 02C8 */  0x97, 0xAF, 0x02, 0x9B, 0xCE, 0x02, 0x18, 0xB8,  /* ........ */
-            /* 02D0 */  0x02, 0xDA, 0xC7, 0x02, 0x88, 0x82, 0x02, 0x5F,  /* ......._ */
-            /* 02D8 */  0xEF, 0x02, 0x91, 0x83, 0x02, 0xE1, 0xFF, 0x02,  /* ........ */
-            /* 02E0 */  0x59, 0xC2, 0x02, 0xD4, 0x9B, 0x02, 0xE0, 0xF9,  /* Y....... */
-            /* 02E8 */  0x02, 0x9F, 0xF2, 0x02, 0x19, 0xC4, 0x02, 0x1C,  /* ........ */
-            /* 02F0 */  0xDC, 0x02, 0xDA, 0xCC, 0x02, 0x1C, 0xDB, 0x02,  /* ........ */
-            /* 02F8 */  0xD9, 0xC5, 0x02, 0xDF, 0xF5, 0x02, 0x12, 0x8F,  /* ........ */
-            /* 0300 */  0x02, 0x54, 0x9F, 0x02, 0x99, 0xC7, 0x02, 0x17,  /* .T...... */
-            /* 0308 */  0xB8, 0x02, 0x51, 0x88, 0x02, 0x1F, 0xF9, 0x02,  /* ..Q..... */
-            /* 0310 */  0x14, 0xA1, 0x02, 0x1E, 0xF2, 0x02, 0x5B, 0xDA,  /* ......[. */
-            /* 0318 */  0x02, 0xDB, 0xDA, 0x02, 0xD7, 0xBA, 0x02, 0x5F,  /* ......._ */
-            /* 0320 */  0xFC, 0x02, 0x1A, 0xD4, 0x02, 0xD0, 0x82, 0x02,  /* ........ */
-            /* 0328 */  0x9D, 0xED, 0x02, 0xD7, 0xBC, 0x02, 0x9D, 0xEE,  /* ........ */
-            /* 0330 */  0x02, 0x5E, 0xF7, 0x02, 0x5C, 0xE7, 0x02, 0x53,  /* .^..\..S */
-            /* 0338 */  0x9D, 0x02, 0x11, 0x8D, 0x02, 0x1D, 0xF1, 0x02,  /* ........ */
-            /* 0340 */  0x53, 0x9E, 0x02, 0x1A, 0xD9, 0x02, 0x16, 0xB8,  /* S....... */
-            /* 0348 */  0x02, 0x15, 0xB0, 0x02, 0xDB, 0xE2, 0x02, 0xD5,  /* ........ */
-            /* 0350 */  0xB0, 0x02, 0x1E, 0xFD, 0x02, 0xDA, 0xDB, 0x02,  /* ........ */
-            /* 0358 */  0x58, 0xCB, 0x02, 0xD2, 0x98, 0x02, 0x95, 0xB2,  /* X....... */
-            /* 0360 */  0x02, 0x98, 0xCC, 0x02, 0x1A, 0xDE, 0x02, 0x1B,  /* ........ */
-            /* 0368 */  0xE7, 0x02, 0xD8, 0xCD, 0x02, 0x16, 0xBD, 0x02,  /* ........ */
-            /* 0370 */  0x17, 0xC6, 0x02, 0x9C, 0xF1, 0x02, 0x1C, 0xF2,  /* ........ */
-            /* 0378 */  0x02, 0x9C, 0xF2, 0x02, 0x1C, 0xF3, 0x02, 0x17,  /* ........ */
-            /* 0380 */  0xC8, 0x02, 0x5B, 0xEB, 0x02, 0x59, 0xDA, 0x02,  /* ..[..Y.. */
-            /* 0388 */  0x18, 0xD2, 0x02, 0x50, 0x8C, 0x02, 0x17, 0xCA,  /* ...P.... */
-            /* 0390 */  0x02, 0x19, 0xDC, 0x02, 0x5A, 0xE5, 0x02, 0xDA,  /* ....Z... */
-            /* 0398 */  0xE5, 0x02, 0xD6, 0xC2, 0x02, 0xD9, 0xDD, 0x02,  /* ........ */
-            /* 03A0 */  0xD4, 0xB1, 0x02, 0x15, 0xBB, 0x02, 0xD0, 0x8E,  /* ........ */
-            /* 03A8 */  0x02, 0x99, 0xDF, 0x02, 0x17, 0xCE, 0x02, 0x94,  /* ........ */
-            /* 03B0 */  0xB3, 0x02, 0xDC, 0xFB, 0x02, 0x5A, 0xEA, 0x02,  /* .....Z.. */
-            /* 03B8 */  0xDC, 0xFC, 0x02, 0x5C, 0xFD, 0x02, 0x54, 0xB5,  /* ...\..T. */
-            /* 03C0 */  0x02, 0xD6, 0xC7, 0x02, 0xD2, 0xA3, 0x02, 0xD8,  /* ........ */
-            /* 03C8 */  0xDA, 0x02, 0x93, 0xAD, 0x02, 0xD9, 0xE4, 0x02,  /* ........ */
-            /* 03D0 */  0x9B, 0xF7, 0x02, 0x93, 0xAE, 0x02, 0x5A, 0xEF,  /* ......Z. */
-            /* 03D8 */  0x02, 0x58, 0xDD, 0x02, 0x93, 0xAF, 0x02, 0x92,  /* .X...... */
-            /* 03E0 */  0xA6, 0x02, 0x57, 0xD5, 0x02, 0x9A, 0xF1, 0x02,  /* ..W..... */
-            /* 03E8 */  0xD6, 0xCC, 0x02, 0xDB, 0xFB, 0x02, 0x96, 0xCD,  /* ........ */
-            /* 03F0 */  0x02, 0x57, 0xD7, 0x02, 0x56, 0xCE, 0x02, 0x5A,  /* .W..V..Z */
-            /* 03F8 */  0xF4, 0x02, 0xCE, 0x83, 0x02, 0x15, 0xC6, 0x02,  /* ........ */
-            /* 0400 */  0x57, 0xD9, 0x02, 0x9B, 0xFF, 0x02, 0x9A, 0xF6,  /* W....... */
-            /* 0408 */  0x02, 0x1A, 0xF7, 0x02, 0x50, 0x98, 0x02, 0x0F,  /* ....P... */
-            /* 0410 */  0x8F, 0x02, 0xD9, 0xEE, 0x02, 0x96, 0xD2, 0x02,  /* ........ */
-            /* 0418 */  0x5A, 0xF9, 0x02, 0x51, 0xA3, 0x02, 0x99, 0xF0,  /* Z..Q.... */
-            /* 0420 */  0x02, 0xD4, 0xC0, 0x02, 0xD5, 0xCA, 0x02, 0x9A,  /* ........ */
-            /* 0428 */  0xFB, 0x02, 0x95, 0xCB, 0x02, 0x18, 0xE9, 0x02,  /* ........ */
-            /* 0430 */  0x94, 0xC2, 0x02, 0x5A, 0xFD, 0x02, 0x58, 0xEA,  /* ...Z..X. */
-            /* 0438 */  0x02, 0x12, 0xB0, 0x02, 0x96, 0xD7, 0x02, 0x98,  /* ........ */
-            /* 0440 */  0xEB, 0x02, 0xD9, 0xF5, 0x02, 0x52, 0xB1, 0x02,  /* .....R.. */
-            /* 0448 */  0xD8, 0xEC, 0x02, 0x11, 0xA8, 0x02, 0x99, 0xF7,  /* ........ */
-            /* 0450 */  0x02, 0x18, 0xEE, 0x02, 0x97, 0xE4, 0x02, 0x15,  /* ........ */
-            /* 0458 */  0xD1, 0x02, 0x59, 0xF9, 0x02, 0xD3, 0xBD, 0x02,  /* ..Y..... */
-            /* 0460 */  0x19, 0xFA, 0x02, 0x97, 0xE6, 0x02, 0xD3, 0xBE,  /* ........ */
-            /* 0468 */  0x02, 0x56, 0xDD, 0x02, 0x94, 0xC9, 0x02, 0xD3,  /* .V...... */
-            /* 0470 */  0xBF, 0x02, 0xD0, 0xA1, 0x02, 0x18, 0xF3, 0x02,  /* ........ */
-            /* 0478 */  0xD3, 0xC0, 0x02, 0xD1, 0xAC, 0x02, 0x8E, 0x8E,  /* ........ */
-            /* 0480 */  0x02, 0xCE, 0x8E, 0x02, 0x95, 0xD6, 0x02, 0x4E,  /* .......N */
-            /* 0488 */  0x8F, 0x02, 0x55, 0xD7, 0x02, 0x0F, 0x9A, 0x02,  /* ..U..... */
-            /* 0490 */  0x56, 0xE2, 0x02, 0x58, 0xF7, 0x02, 0xD2, 0xB9,  /* V..X.... */
-            /* 0498 */  0x02, 0xD7, 0xED, 0x02, 0x98, 0xF8, 0x02, 0x97,  /* ........ */
-            /* 04A0 */  0xEE, 0x02, 0x12, 0xBB, 0x02, 0xD8, 0xF9, 0x02,  /* ........ */
-            /* 04A8 */  0xD7, 0xEF, 0x02, 0x91, 0xB1, 0x02, 0x18, 0xFB,  /* ........ */
-            /* 04B0 */  0x02, 0x15, 0xDC, 0x02, 0xD8, 0xFB, 0x02, 0xD7,  /* ........ */
-            /* 04B8 */  0xF1, 0x02, 0x92, 0xBD, 0x02, 0x16, 0xE8, 0x02,  /* ........ */
-            /* 04C0 */  0x98, 0xFD, 0x02, 0xD6, 0xE8, 0x02, 0xD7, 0xF3,  /* ........ */
-            /* 04C8 */  0x02, 0x0D, 0x8A, 0x02, 0x8F, 0x9F, 0x02, 0x14,  /* ........ */
-            /* 04D0 */  0xD5, 0x02, 0xD6, 0xEA, 0x02, 0xD4, 0xD5, 0x02,  /* ........ */
-            /* 04D8 */  0x50, 0xAB, 0x02, 0x51, 0xB6, 0x02, 0x56, 0xEC,  /* P..Q..V. */
-            /* 04E0 */  0x02, 0x97, 0xF7, 0x02, 0x55, 0xE2, 0x02, 0x52,  /* ....U..R */
-            /* 04E8 */  0xC2, 0x02, 0xD1, 0xB7, 0x02, 0x17, 0xF9, 0x02,  /* ........ */
-            /* 04F0 */  0x90, 0xAD, 0x02, 0x92, 0xC3, 0x02, 0x57, 0xFA,  /* ......W. */
-            /* 04F8 */  0x02, 0xCC, 0x82, 0x02, 0x17, 0xFB, 0x02, 0xD2,  /* ........ */
-            /* 0500 */  0xC4, 0x02, 0x13, 0xD0, 0x02, 0x56, 0xF1, 0x02,  /* .....V.. */
-            /* 0508 */  0xCF, 0xA4, 0x02, 0x16, 0xF2, 0x02, 0x4E, 0x9A,  /* ......N. */
-            /* 0510 */  0x02, 0xD5, 0xE7, 0x02, 0x13, 0xD2, 0x02, 0x52,  /* .......R */
-            /* 0518 */  0xC7, 0x02, 0xD4, 0xDD, 0x02, 0x13, 0xD3, 0x02,  /* ........ */
-            /* 0520 */  0xD6, 0xF4, 0x02, 0x50, 0xB2, 0x02, 0x13, 0xD4,  /* ...P.... */
-            /* 0528 */  0x02, 0x94, 0xDF, 0x02, 0x8D, 0x91, 0x02, 0x13,  /* ........ */
-            /* 0530 */  0xD5, 0x02, 0x16, 0xF7, 0x02, 0x96, 0xF7, 0x02,  /* ........ */
-            /* 0538 */  0x54, 0xE1, 0x02, 0xD1, 0xBF, 0x02, 0x55, 0xED,  /* T.....U. */
-            /* 0540 */  0x02, 0x13, 0xD7, 0x02, 0x15, 0xEE, 0x02, 0x14,  /* ........ */
-            /* 0548 */  0xE3, 0x02, 0x8F, 0xAA, 0x02, 0x0D, 0x94, 0x02,  /* ........ */
-            /* 0550 */  0x52, 0xCD, 0x02, 0x56, 0xFB, 0x02, 0xD4, 0xE4,  /* R..V.... */
-            /* 0558 */  0x02, 0x16, 0xFC, 0x02, 0x92, 0xCE, 0x02, 0xD6,  /* ........ */
-            /* 0560 */  0xFC, 0x02, 0x56, 0xFD, 0x02, 0x15, 0xF2, 0x02,  /* ..V..... */
-            /* 0568 */  0xD2, 0xCF, 0x02, 0x91, 0xC4, 0x02, 0x8D, 0x96,  /* ........ */
-            /* 0570 */  0x02, 0x90, 0xB9, 0x02, 0x12, 0xD1, 0x02, 0x55,  /* .......U */
-            /* 0578 */  0xF4, 0x02, 0xCC, 0x8B, 0x02, 0x54, 0xE9, 0x02,  /* .....T.. */
-            /* 0580 */  0x8B, 0x80, 0x02, 0x8F, 0xAF, 0x02, 0xCF, 0xAF,  /* ........ */
-            /* 0588 */  0x02, 0x0F, 0xB0, 0x02, 0xD5, 0xF6, 0x02, 0x0D,  /* ........ */
-            /* 0590 */  0x99, 0x02, 0x95, 0xF7, 0x02, 0x4E, 0xA5, 0x02,  /* .....N.. */
-            /* 0598 */  0x55, 0xF8, 0x02, 0x51, 0xC9, 0x02, 0x53, 0xE1,  /* U..Q..S. */
-            /* 05A0 */  0x02, 0x4E, 0xA6, 0x02, 0x50, 0xBE, 0x02, 0x53,  /* .N..P..S */
-            /* 05A8 */  0xE2, 0x02, 0x94, 0xEE, 0x02, 0x4D, 0x9B, 0x02,  /* .....M.. */
-            /* 05B0 */  0x53, 0xE3, 0x02, 0xCB, 0x83, 0x02, 0x14, 0xF0,  /* S....... */
-            /* 05B8 */  0x02, 0x53, 0xE4, 0x02, 0x90, 0xC0, 0x02, 0x15,  /* .S...... */
-            /* 05C0 */  0xFD, 0x02, 0x53, 0xE5, 0x02, 0xD5, 0xFD, 0x02,  /* ..S..... */
-            /* 05C8 */  0x14, 0xF2, 0x02, 0x11, 0xCE, 0x02, 0xCD, 0x9D,  /* ........ */
-            /* 05D0 */  0x02, 0xD2, 0xDA, 0x02, 0x53, 0xE7, 0x02, 0x4C,  /* ....S..L */
-            /* 05D8 */  0x92, 0x02, 0x4B, 0x86, 0x02, 0x12, 0xDC, 0x02,  /* ..K..... */
-            /* 05E0 */  0xD4, 0xF4, 0x02, 0x54, 0xF5, 0x02, 0x94, 0xF5,  /* ...T.... */
-            /* 05E8 */  0x02, 0x52, 0xDD, 0x02, 0x51, 0xD1, 0x02, 0x4D,  /* .R..Q..M */
-            /* 05F0 */  0xA0, 0x02, 0x90, 0xC5, 0x02, 0x54, 0xF7, 0x02,  /* .....T.. */
-            /* 05F8 */  0x53, 0xEB, 0x02, 0xD1, 0xD2, 0x02, 0x54, 0xF8,  /* S.....T. */
-            /* 0600 */  0x02, 0xCB, 0x88, 0x02, 0x14, 0xF9, 0x02, 0x0F,  /* ........ */
-            /* 0608 */  0xBB, 0x02, 0xD0, 0xC7, 0x02, 0x14, 0xFA, 0x02,  /* ........ */
-            /* 0610 */  0xCD, 0xA2, 0x02, 0xD4, 0xFA, 0x02, 0xCE, 0xAF,  /* ........ */
-            /* 0618 */  0x02, 0x0E, 0xB0, 0x02, 0x4E, 0xB0, 0x02, 0x8E,  /* ....N... */
-            /* 0620 */  0xB0, 0x02, 0x94, 0xFC, 0x02, 0x50, 0xCA, 0x02,  /* .....P.. */
-            /* 0628 */  0x4B, 0x8B, 0x02, 0x91, 0xD7, 0x02, 0x92, 0xE4,  /* K....... */
-            /* 0630 */  0x02, 0x4D, 0xA5, 0x02, 0xCC, 0x98, 0x02, 0x14,  /* .M...... */
-            /* 0638 */  0xFF, 0x02, 0xD2, 0xE5, 0x02, 0x90, 0xCC, 0x02,  /* ........ */
-            /* 0640 */  0x0F, 0xC0, 0x02, 0x93, 0xF3, 0x02, 0x12, 0xE7,  /* ........ */
-            /* 0648 */  0x02, 0xCF, 0xC0, 0x02, 0x93, 0xF4, 0x02, 0xCB,  /* ........ */
-            /* 0650 */  0x8D, 0x02, 0x52, 0xE8, 0x02, 0x93, 0xF5, 0x02,  /* ..R..... */
-            /* 0658 */  0x10, 0xCF, 0x02, 0x51, 0xDC, 0x02, 0x93, 0xF6,  /* ...Q.... */
-            /* 0660 */  0x02, 0xD3, 0xF6, 0x02, 0x53, 0xF7, 0x02, 0x4A,  /* ....S..J */
-            /* 0668 */  0x82, 0x02, 0xD2, 0xEA, 0x02, 0x11, 0xDE, 0x02,  /* ........ */
-            /* 0670 */  0x50, 0xD1, 0x02, 0x4D, 0xAA, 0x02, 0x0A, 0x83,  /* P..M.... */
-            /* 0678 */  0x02, 0x93, 0xF9, 0x02, 0x8B, 0x90, 0x02, 0x13,  /* ........ */
-            /* 0680 */  0xFA, 0x02, 0x4D, 0xAB, 0x02, 0x0F, 0xC6, 0x02,  /* ..M..... */
-            /* 0688 */  0x13, 0xFB, 0x02, 0xD0, 0xD3, 0x02, 0xCF, 0xC6,  /* ........ */
-            /* 0690 */  0x02, 0x13, 0xFC, 0x02, 0xD1, 0xE1, 0x02, 0xD0,  /* ........ */
-            /* 0698 */  0xD4, 0x02, 0x13, 0xFD, 0x02, 0xCE, 0xBA, 0x02,  /* ........ */
-            /* 06A0 */  0x0E, 0xBB, 0x02, 0x13, 0xFE, 0x02, 0xCF, 0xC8,  /* ........ */
-            /* 06A8 */  0x02, 0x8B, 0x93, 0x02, 0x51, 0xE4, 0x02, 0x12,  /* ....Q... */
-            /* 06B0 */  0xF2, 0x02, 0x0D, 0xAF, 0x02, 0x92, 0xF2, 0x02,  /* ........ */
-            /* 06B8 */  0x91, 0xE5, 0x02, 0x52, 0xF3, 0x02, 0x90, 0xD8,  /* ...R.... */
-            /* 06C0 */  0x02, 0xD2, 0xF3, 0x02, 0x91, 0xE6, 0x02, 0x92,  /* ........ */
-            /* 06C8 */  0xF4, 0x02, 0x90, 0xD9, 0x02, 0x12, 0xF5, 0x02,  /* ........ */
-            /* 06D0 */  0x0B, 0x96, 0x02, 0x8D, 0xB1, 0x02, 0x4B, 0x96,  /* ......K. */
-            /* 06D8 */  0x02, 0x4C, 0xA4, 0x02, 0x11, 0xE9, 0x02, 0x0E,  /* .L...... */
-            /* 06E0 */  0xC0, 0x02, 0x4E, 0xC0, 0x02, 0x4F, 0xCE, 0x02,  /* ..N..O.. */
-            /* 06E8 */  0xCA, 0x89, 0x02, 0x91, 0xEA, 0x02, 0x92, 0xF8,  /* ........ */
-            /* 06F0 */  0x02, 0x50, 0xDD, 0x02, 0x51, 0xEB, 0x02, 0x8B,  /* .P..Q... */
-            /* 06F8 */  0x98, 0x02, 0xD2, 0xF9, 0x02, 0xCB, 0x98, 0x02,  /* ........ */
-            /* 0700 */  0xCF, 0xD0, 0x02, 0x0D, 0xB5, 0x02, 0x4F, 0xD1,  /* ......O. */
-            /* 0708 */  0x02, 0x90, 0xDF                                 /* ... */
+            /* 0000 */  0x01, 0x64, 0xFC, 0x01, 0x5F, 0xDA, 0x01, 0xA1,  // .d.._...
+            /* 0008 */  0xE9, 0x01, 0xE2, 0xF1, 0x01, 0x98, 0xAB, 0x01,  // ........
+            /* 0010 */  0x5D, 0xD0, 0x01, 0x5D, 0xD1, 0x01, 0x23, 0xFE,  // ]..]..#.
+            /* 0018 */  0x01, 0x15, 0x99, 0x01, 0x1C, 0xCD, 0x01, 0x5A,  // .......Z
+            /* 0020 */  0xBF, 0x01, 0xA0, 0xEC, 0x01, 0xA2, 0xFC, 0x01,  // ........
+            /* 0028 */  0xD3, 0x8D, 0x01, 0x22, 0xFF, 0x01, 0xD8, 0xB4,  // ..."....
+            /* 0030 */  0x01, 0xD3, 0x8F, 0x01, 0x60, 0xF3, 0x01, 0x21,  // ....`..!
+            /* 0038 */  0xFC, 0x01, 0xA0, 0xF5, 0x01, 0x57, 0xB1, 0x03,  // .....W..
+            /* 0040 */  0xA7, 0x96, 0x03, 0x7F, 0xF4, 0x03, 0xA1, 0x80,  // ........
+            /* 0048 */  0x03, 0xBE, 0xF2, 0x03, 0xB1, 0xC0, 0x03, 0x73,  // .......s
+            /* 0050 */  0xC9, 0x03, 0xFE, 0xF5, 0x03, 0x35, 0xD3, 0x03,  // .....5..
+            /* 0058 */  0x35, 0xD4, 0x03, 0x3E, 0xF9, 0x03, 0xF4, 0xD1,  // 5..>....
+            /* 0060 */  0x03, 0xB1, 0xC6, 0x03, 0x7E, 0xFC, 0x03, 0xE0,  // ....~...
+            /* 0068 */  0x82, 0x03, 0x3A, 0xEE, 0x03, 0x7C, 0xF7, 0x03,  // ..:..|..
+            /* 0070 */  0xAF, 0xC2, 0x03, 0xBD, 0xFD, 0x03, 0x34, 0xD9,  // ......4.
+            /* 0078 */  0x03, 0x7B, 0xF7, 0x03, 0xEA, 0xB0, 0x03, 0x69,  // .{.....i
+            /* 0080 */  0xAD, 0x03, 0xE4, 0x98, 0x03, 0x6F, 0xC8, 0x03,  // .....o..
+            /* 0088 */  0x36, 0xE7, 0x03, 0x77, 0xEC, 0x03, 0xB8, 0xF1,  // 6..w....
+            /* 0090 */  0x03, 0xB8, 0xF2, 0x03, 0x2E, 0xC8, 0x03, 0x34,  // .......4
+            /* 0098 */  0xE3, 0x03, 0x60, 0x8C, 0x03, 0x37, 0xF2, 0x03,  // ..`..7..
+            /* 00A0 */  0x37, 0xF3, 0x03, 0xB6, 0xEF, 0x03, 0xE5, 0xA4,  // 7.......
+            /* 00A8 */  0x03, 0xB2, 0xDF, 0x03, 0xA8, 0xB3, 0x03, 0x72,  // .......r
+            /* 00B0 */  0xE1, 0x03, 0x78, 0xFD, 0x03, 0x32, 0xE3, 0x03,  // ..x..2..
+            /* 00B8 */  0xF0, 0xDA, 0x03, 0xF2, 0xE4, 0x03, 0x6E, 0xD3,  // ......n.
+            /* 00C0 */  0x03, 0x29, 0xBD, 0x03, 0xB7, 0xFE, 0x03, 0x36,  // .).....6
+            /* 00C8 */  0xFC, 0x03, 0xEC, 0xCD, 0x03, 0x9F, 0xF1, 0x03,  // ........
+            /* 00D0 */  0xE0, 0x96, 0x03, 0xA3, 0xA5, 0x03, 0xB5, 0xFB,  // ........
+            /* 00D8 */  0x03, 0x65, 0xB0, 0x03, 0x71, 0xEA, 0x03, 0xDF,  // .e..q...
+            /* 00E0 */  0x94, 0x03, 0x26, 0xB7, 0x03, 0xB3, 0xF6, 0x03,  // ..&.....
+            /* 00E8 */  0x74, 0xFC, 0x03, 0x64, 0xAF, 0x03, 0xB0, 0xEA,  // t..d....
+            /* 00F0 */  0x03, 0x71, 0xF0, 0x03, 0xB0, 0xEB, 0x03, 0xAE,  // .q......
+            /* 00F8 */  0xE2, 0x03, 0x6F, 0xE8, 0x03, 0x31, 0xF3, 0x03,  // ..o..1..
+            /* 0100 */  0x2A, 0xD1, 0x03, 0xE8, 0xC7, 0x03, 0xAC, 0xDC,  // *.......
+            /* 0108 */  0x03, 0x23, 0xB0, 0x03, 0xE6, 0xBF, 0x03, 0x2F,  // .#...../
+            /* 0110 */  0xEE, 0x03, 0x25, 0xBC, 0x03, 0x61, 0xA8, 0x03,  // ..%..a..
+            /* 0118 */  0x5C, 0x8F, 0x02, 0x2D, 0xE7, 0x02, 0x70, 0xF7,  // \..-..p.
+            /* 0120 */  0x02, 0x71, 0xFD, 0x02, 0x67, 0xCA, 0x02, 0xA0,  // .q..g...
+            /* 0128 */  0xA6, 0x02, 0xA2, 0xB1, 0x02, 0x2A, 0xDC, 0x02,  // .....*..
+            /* 0130 */  0x6C, 0xE7, 0x02, 0xEB, 0xE2, 0x02, 0xE5, 0xC3,  // l.......
+            /* 0138 */  0x02, 0x6B, 0xE4, 0x02, 0x2B, 0xE5, 0x02, 0x23,  // .k..+..#
+            /* 0140 */  0xBB, 0x02, 0x62, 0xB6, 0x02, 0x2D, 0xF2, 0x02,  // ..b..-..
+            /* 0148 */  0x2B, 0xE8, 0x02, 0xEB, 0xE8, 0x02, 0xAB, 0xE9,  // +.......
+            /* 0150 */  0x02, 0x6B, 0xEA, 0x02, 0x2B, 0xEB, 0x02, 0xEB,  // .k..+...
+            /* 0158 */  0xEB, 0x02, 0x2C, 0xF2, 0x02, 0x6B, 0xED, 0x02,  // ..,..k..
+            /* 0160 */  0x2B, 0xEE, 0x02, 0xEB, 0xEE, 0x02, 0xAB, 0xEF,  // +.......
+            /* 0168 */  0x02, 0x6B, 0xF0, 0x02, 0xDF, 0xAD, 0x02, 0x2D,  // .k.....-
+            /* 0170 */  0xFD, 0x02, 0xE2, 0xBF, 0x02, 0x23, 0xC6, 0x02,  // .....#..
+            /* 0178 */  0x2B, 0xF4, 0x02, 0xEB, 0xF4, 0x02, 0x65, 0xD3,  // +.....e.
+            /* 0180 */  0x02, 0x6B, 0xF6, 0x02, 0xEC, 0xFC, 0x02, 0x2A,  // .k.....*
+            /* 0188 */  0xF2, 0x02, 0xA2, 0xC4, 0x02, 0xA0, 0xB9, 0x02,  // ........
+            /* 0190 */  0x62, 0xC6, 0x02, 0xDC, 0xA3, 0x02, 0xA9, 0xF0,  // b.......
+            /* 0198 */  0x02, 0x9E, 0xB0, 0x02, 0xEB, 0xFD, 0x02, 0xAB,  // ........
+            /* 01A0 */  0xFE, 0x02, 0x1F, 0xB8, 0x02, 0xA0, 0xBE, 0x02,  // ........
+            /* 01A8 */  0x22, 0xCB, 0x02, 0xA9, 0xF5, 0x02, 0x6A, 0xFC,  // ".....j.
+            /* 01B0 */  0x02, 0xE1, 0xC6, 0x02, 0x5F, 0xBB, 0x02, 0x67,  // ...._..g
+            /* 01B8 */  0xEC, 0x02, 0x28, 0xF3, 0x02, 0x9B, 0xA4, 0x02,  // ..(.....
+            /* 01C0 */  0xD9, 0x98, 0x02, 0x69, 0xFB, 0x02, 0xE5, 0xE2,  // ...i....
+            /* 01C8 */  0x02, 0x64, 0xDD, 0x02, 0x5A, 0xA0, 0x02, 0x5D,  // .d..Z..]
+            /* 01D0 */  0xB3, 0x02, 0xDD, 0xB3, 0x02, 0xD6, 0x88, 0x02,  // ........
+            /* 01D8 */  0x1E, 0xBB, 0x02, 0x28, 0xFA, 0x02, 0x9C, 0xAF,  // ...(....
+            /* 01E0 */  0x02, 0x1C, 0xB0, 0x02, 0x21, 0xD0, 0x02, 0xA7,  // ....!...
+            /* 01E8 */  0xF6, 0x02, 0xA5, 0xEA, 0x02, 0xA6, 0xF1, 0x02,  // ........
+            /* 01F0 */  0xA7, 0xF8, 0x02, 0xD9, 0x9F, 0x02, 0xA6, 0xF3,  // ........
+            /* 01F8 */  0x02, 0xDE, 0xC0, 0x02, 0xA3, 0xE1, 0x02, 0x99,  // ........
+            /* 0200 */  0xA1, 0x02, 0x96, 0x8E, 0x02, 0x67, 0xFD, 0x02,  // .....g..
+            /* 0208 */  0x54, 0x82, 0x02, 0x59, 0xA3, 0x02, 0x65, 0xF2,  // T..Y..e.
+            /* 0210 */  0x02, 0x5B, 0xB1, 0x02, 0x24, 0xED, 0x02, 0x19,  // .[..$...
+            /* 0218 */  0xA5, 0x02, 0xE0, 0xD3, 0x02, 0x9A, 0xAC, 0x02,  // ........
+            /* 0220 */  0x17, 0x99, 0x02, 0xDC, 0xBA, 0x02, 0x5C, 0xBB,  // ......\.
+            /* 0228 */  0x02, 0x96, 0x93, 0x02, 0x24, 0xF2, 0x02, 0xD8,  // ....$...
+            /* 0230 */  0xA1, 0x02, 0x64, 0xF3, 0x02, 0x1F, 0xD2, 0x02,  // ..d.....
+            /* 0238 */  0xA4, 0xF4, 0x02, 0x15, 0x8F, 0x02, 0x9A, 0xB1,  // ........
+            /* 0240 */  0x02, 0x20, 0xDB, 0x02, 0x1D, 0xC7, 0x02, 0x5F,  // . ....._
+            /* 0248 */  0xD5, 0x02, 0x1D, 0xC8, 0x02, 0x60, 0xDD, 0x02,  // .....`..
+            /* 0250 */  0xE1, 0xE4, 0x02, 0x62, 0xEC, 0x02, 0x1E, 0xD1,  // ...b....
+            /* 0258 */  0x02, 0x9F, 0xD8, 0x02, 0x24, 0xFC, 0x02, 0x9B,  // ....$...
+            /* 0260 */  0xBD, 0x02, 0xD5, 0x93, 0x02, 0x9C, 0xC5, 0x02,  // ........
+            /* 0268 */  0xA3, 0xF7, 0x02, 0x9C, 0xC6, 0x02, 0xE3, 0xF8,  // ........
+            /* 0270 */  0x02, 0x62, 0xF2, 0x02, 0x5E, 0xD6, 0x02, 0x61,  // .b..^..a
+            /* 0278 */  0xEC, 0x02, 0x22, 0xF4, 0x02, 0x5B, 0xC2, 0x02,  // .."..[..
+            /* 0280 */  0x9A, 0xBB, 0x02, 0x9B, 0xAD, 0x02, 0xA2, 0xF6,  // ........
+            /* 0288 */  0x02, 0xD2, 0x82, 0x02, 0x20, 0xE9, 0x02, 0x5F,  // .... .._
+            /* 0290 */  0xE2, 0x02, 0xE2, 0xF8, 0x02, 0x21, 0xF2, 0x02,  // .....!..
+            /* 0298 */  0x60, 0xEB, 0x02, 0x13, 0x8C, 0x02, 0xE1, 0xF3,  // `.......
+            /* 02A0 */  0x02, 0x9A, 0xC0, 0x02, 0x13, 0x8D, 0x02, 0xA1,  // ........
+            /* 02A8 */  0xF5, 0x02, 0xA2, 0xFD, 0x02, 0x13, 0x8E, 0x02,  // ........
+            /* 02B0 */  0xDC, 0xD1, 0x02, 0x5E, 0xE1, 0x02, 0x5D, 0xDA,  // ...^..].
+            /* 02B8 */  0x02, 0xDD, 0xDA, 0x02, 0xA1, 0xF9, 0x02, 0xA0,  // ........
+            /* 02C0 */  0xF2, 0x02, 0x95, 0x9F, 0x02, 0x1F, 0xEC, 0x02,  // ........
+            /* 02C8 */  0x97, 0xAF, 0x02, 0x9B, 0xCE, 0x02, 0x18, 0xB8,  // ........
+            /* 02D0 */  0x02, 0xDA, 0xC7, 0x02, 0x88, 0x82, 0x02, 0x5F,  // ......._
+            /* 02D8 */  0xEF, 0x02, 0x91, 0x83, 0x02, 0xE1, 0xFF, 0x02,  // ........
+            /* 02E0 */  0x59, 0xC2, 0x02, 0xD4, 0x9B, 0x02, 0xE0, 0xF9,  // Y.......
+            /* 02E8 */  0x02, 0x9F, 0xF2, 0x02, 0x19, 0xC4, 0x02, 0x1C,  // ........
+            /* 02F0 */  0xDC, 0x02, 0xDA, 0xCC, 0x02, 0x1C, 0xDB, 0x02,  // ........
+            /* 02F8 */  0xD9, 0xC5, 0x02, 0xDF, 0xF5, 0x02, 0x12, 0x8F,  // ........
+            /* 0300 */  0x02, 0x54, 0x9F, 0x02, 0x99, 0xC7, 0x02, 0x17,  // .T......
+            /* 0308 */  0xB8, 0x02, 0x51, 0x88, 0x02, 0x1F, 0xF9, 0x02,  // ..Q.....
+            /* 0310 */  0x14, 0xA1, 0x02, 0x1E, 0xF2, 0x02, 0x5B, 0xDA,  // ......[.
+            /* 0318 */  0x02, 0xDB, 0xDA, 0x02, 0xD7, 0xBA, 0x02, 0x5F,  // ......._
+            /* 0320 */  0xFC, 0x02, 0x1A, 0xD4, 0x02, 0xD0, 0x82, 0x02,  // ........
+            /* 0328 */  0x9D, 0xED, 0x02, 0xD7, 0xBC, 0x02, 0x9D, 0xEE,  // ........
+            /* 0330 */  0x02, 0x5E, 0xF7, 0x02, 0x5C, 0xE7, 0x02, 0x53,  // .^..\..S
+            /* 0338 */  0x9D, 0x02, 0x11, 0x8D, 0x02, 0x1D, 0xF1, 0x02,  // ........
+            /* 0340 */  0x53, 0x9E, 0x02, 0x1A, 0xD9, 0x02, 0x16, 0xB8,  // S.......
+            /* 0348 */  0x02, 0x15, 0xB0, 0x02, 0xDB, 0xE2, 0x02, 0xD5,  // ........
+            /* 0350 */  0xB0, 0x02, 0x1E, 0xFD, 0x02, 0xDA, 0xDB, 0x02,  // ........
+            /* 0358 */  0x58, 0xCB, 0x02, 0xD2, 0x98, 0x02, 0x95, 0xB2,  // X.......
+            /* 0360 */  0x02, 0x98, 0xCC, 0x02, 0x1A, 0xDE, 0x02, 0x1B,  // ........
+            /* 0368 */  0xE7, 0x02, 0xD8, 0xCD, 0x02, 0x16, 0xBD, 0x02,  // ........
+            /* 0370 */  0x17, 0xC6, 0x02, 0x9C, 0xF1, 0x02, 0x1C, 0xF2,  // ........
+            /* 0378 */  0x02, 0x9C, 0xF2, 0x02, 0x1C, 0xF3, 0x02, 0x17,  // ........
+            /* 0380 */  0xC8, 0x02, 0x5B, 0xEB, 0x02, 0x59, 0xDA, 0x02,  // ..[..Y..
+            /* 0388 */  0x18, 0xD2, 0x02, 0x50, 0x8C, 0x02, 0x17, 0xCA,  // ...P....
+            /* 0390 */  0x02, 0x19, 0xDC, 0x02, 0x5A, 0xE5, 0x02, 0xDA,  // ....Z...
+            /* 0398 */  0xE5, 0x02, 0xD6, 0xC2, 0x02, 0xD9, 0xDD, 0x02,  // ........
+            /* 03A0 */  0xD4, 0xB1, 0x02, 0x15, 0xBB, 0x02, 0xD0, 0x8E,  // ........
+            /* 03A8 */  0x02, 0x99, 0xDF, 0x02, 0x17, 0xCE, 0x02, 0x94,  // ........
+            /* 03B0 */  0xB3, 0x02, 0xDC, 0xFB, 0x02, 0x5A, 0xEA, 0x02,  // .....Z..
+            /* 03B8 */  0xDC, 0xFC, 0x02, 0x5C, 0xFD, 0x02, 0x54, 0xB5,  // ...\..T.
+            /* 03C0 */  0x02, 0xD6, 0xC7, 0x02, 0xD2, 0xA3, 0x02, 0xD8,  // ........
+            /* 03C8 */  0xDA, 0x02, 0x93, 0xAD, 0x02, 0xD9, 0xE4, 0x02,  // ........
+            /* 03D0 */  0x9B, 0xF7, 0x02, 0x93, 0xAE, 0x02, 0x5A, 0xEF,  // ......Z.
+            /* 03D8 */  0x02, 0x58, 0xDD, 0x02, 0x93, 0xAF, 0x02, 0x92,  // .X......
+            /* 03E0 */  0xA6, 0x02, 0x57, 0xD5, 0x02, 0x9A, 0xF1, 0x02,  // ..W.....
+            /* 03E8 */  0xD6, 0xCC, 0x02, 0xDB, 0xFB, 0x02, 0x96, 0xCD,  // ........
+            /* 03F0 */  0x02, 0x57, 0xD7, 0x02, 0x56, 0xCE, 0x02, 0x5A,  // .W..V..Z
+            /* 03F8 */  0xF4, 0x02, 0xCE, 0x83, 0x02, 0x15, 0xC6, 0x02,  // ........
+            /* 0400 */  0x57, 0xD9, 0x02, 0x9B, 0xFF, 0x02, 0x9A, 0xF6,  // W.......
+            /* 0408 */  0x02, 0x1A, 0xF7, 0x02, 0x50, 0x98, 0x02, 0x0F,  // ....P...
+            /* 0410 */  0x8F, 0x02, 0xD9, 0xEE, 0x02, 0x96, 0xD2, 0x02,  // ........
+            /* 0418 */  0x5A, 0xF9, 0x02, 0x51, 0xA3, 0x02, 0x99, 0xF0,  // Z..Q....
+            /* 0420 */  0x02, 0xD4, 0xC0, 0x02, 0xD5, 0xCA, 0x02, 0x9A,  // ........
+            /* 0428 */  0xFB, 0x02, 0x95, 0xCB, 0x02, 0x18, 0xE9, 0x02,  // ........
+            /* 0430 */  0x94, 0xC2, 0x02, 0x5A, 0xFD, 0x02, 0x58, 0xEA,  // ...Z..X.
+            /* 0438 */  0x02, 0x12, 0xB0, 0x02, 0x96, 0xD7, 0x02, 0x98,  // ........
+            /* 0440 */  0xEB, 0x02, 0xD9, 0xF5, 0x02, 0x52, 0xB1, 0x02,  // .....R..
+            /* 0448 */  0xD8, 0xEC, 0x02, 0x11, 0xA8, 0x02, 0x99, 0xF7,  // ........
+            /* 0450 */  0x02, 0x18, 0xEE, 0x02, 0x97, 0xE4, 0x02, 0x15,  // ........
+            /* 0458 */  0xD1, 0x02, 0x59, 0xF9, 0x02, 0xD3, 0xBD, 0x02,  // ..Y.....
+            /* 0460 */  0x19, 0xFA, 0x02, 0x97, 0xE6, 0x02, 0xD3, 0xBE,  // ........
+            /* 0468 */  0x02, 0x56, 0xDD, 0x02, 0x94, 0xC9, 0x02, 0xD3,  // .V......
+            /* 0470 */  0xBF, 0x02, 0xD0, 0xA1, 0x02, 0x18, 0xF3, 0x02,  // ........
+            /* 0478 */  0xD3, 0xC0, 0x02, 0xD1, 0xAC, 0x02, 0x8E, 0x8E,  // ........
+            /* 0480 */  0x02, 0xCE, 0x8E, 0x02, 0x95, 0xD6, 0x02, 0x4E,  // .......N
+            /* 0488 */  0x8F, 0x02, 0x55, 0xD7, 0x02, 0x0F, 0x9A, 0x02,  // ..U.....
+            /* 0490 */  0x56, 0xE2, 0x02, 0x58, 0xF7, 0x02, 0xD2, 0xB9,  // V..X....
+            /* 0498 */  0x02, 0xD7, 0xED, 0x02, 0x98, 0xF8, 0x02, 0x97,  // ........
+            /* 04A0 */  0xEE, 0x02, 0x12, 0xBB, 0x02, 0xD8, 0xF9, 0x02,  // ........
+            /* 04A8 */  0xD7, 0xEF, 0x02, 0x91, 0xB1, 0x02, 0x18, 0xFB,  // ........
+            /* 04B0 */  0x02, 0x15, 0xDC, 0x02, 0xD8, 0xFB, 0x02, 0xD7,  // ........
+            /* 04B8 */  0xF1, 0x02, 0x92, 0xBD, 0x02, 0x16, 0xE8, 0x02,  // ........
+            /* 04C0 */  0x98, 0xFD, 0x02, 0xD6, 0xE8, 0x02, 0xD7, 0xF3,  // ........
+            /* 04C8 */  0x02, 0x0D, 0x8A, 0x02, 0x8F, 0x9F, 0x02, 0x14,  // ........
+            /* 04D0 */  0xD5, 0x02, 0xD6, 0xEA, 0x02, 0xD4, 0xD5, 0x02,  // ........
+            /* 04D8 */  0x50, 0xAB, 0x02, 0x51, 0xB6, 0x02, 0x56, 0xEC,  // P..Q..V.
+            /* 04E0 */  0x02, 0x97, 0xF7, 0x02, 0x55, 0xE2, 0x02, 0x52,  // ....U..R
+            /* 04E8 */  0xC2, 0x02, 0xD1, 0xB7, 0x02, 0x17, 0xF9, 0x02,  // ........
+            /* 04F0 */  0x90, 0xAD, 0x02, 0x92, 0xC3, 0x02, 0x57, 0xFA,  // ......W.
+            /* 04F8 */  0x02, 0xCC, 0x82, 0x02, 0x17, 0xFB, 0x02, 0xD2,  // ........
+            /* 0500 */  0xC4, 0x02, 0x13, 0xD0, 0x02, 0x56, 0xF1, 0x02,  // .....V..
+            /* 0508 */  0xCF, 0xA4, 0x02, 0x16, 0xF2, 0x02, 0x4E, 0x9A,  // ......N.
+            /* 0510 */  0x02, 0xD5, 0xE7, 0x02, 0x13, 0xD2, 0x02, 0x52,  // .......R
+            /* 0518 */  0xC7, 0x02, 0xD4, 0xDD, 0x02, 0x13, 0xD3, 0x02,  // ........
+            /* 0520 */  0xD6, 0xF4, 0x02, 0x50, 0xB2, 0x02, 0x13, 0xD4,  // ...P....
+            /* 0528 */  0x02, 0x94, 0xDF, 0x02, 0x8D, 0x91, 0x02, 0x13,  // ........
+            /* 0530 */  0xD5, 0x02, 0x16, 0xF7, 0x02, 0x96, 0xF7, 0x02,  // ........
+            /* 0538 */  0x54, 0xE1, 0x02, 0xD1, 0xBF, 0x02, 0x55, 0xED,  // T.....U.
+            /* 0540 */  0x02, 0x13, 0xD7, 0x02, 0x15, 0xEE, 0x02, 0x14,  // ........
+            /* 0548 */  0xE3, 0x02, 0x8F, 0xAA, 0x02, 0x0D, 0x94, 0x02,  // ........
+            /* 0550 */  0x52, 0xCD, 0x02, 0x56, 0xFB, 0x02, 0xD4, 0xE4,  // R..V....
+            /* 0558 */  0x02, 0x16, 0xFC, 0x02, 0x92, 0xCE, 0x02, 0xD6,  // ........
+            /* 0560 */  0xFC, 0x02, 0x56, 0xFD, 0x02, 0x15, 0xF2, 0x02,  // ..V.....
+            /* 0568 */  0xD2, 0xCF, 0x02, 0x91, 0xC4, 0x02, 0x8D, 0x96,  // ........
+            /* 0570 */  0x02, 0x90, 0xB9, 0x02, 0x12, 0xD1, 0x02, 0x55,  // .......U
+            /* 0578 */  0xF4, 0x02, 0xCC, 0x8B, 0x02, 0x54, 0xE9, 0x02,  // .....T..
+            /* 0580 */  0x8B, 0x80, 0x02, 0x8F, 0xAF, 0x02, 0xCF, 0xAF,  // ........
+            /* 0588 */  0x02, 0x0F, 0xB0, 0x02, 0xD5, 0xF6, 0x02, 0x0D,  // ........
+            /* 0590 */  0x99, 0x02, 0x95, 0xF7, 0x02, 0x4E, 0xA5, 0x02,  // .....N..
+            /* 0598 */  0x55, 0xF8, 0x02, 0x51, 0xC9, 0x02, 0x53, 0xE1,  // U..Q..S.
+            /* 05A0 */  0x02, 0x4E, 0xA6, 0x02, 0x50, 0xBE, 0x02, 0x53,  // .N..P..S
+            /* 05A8 */  0xE2, 0x02, 0x94, 0xEE, 0x02, 0x4D, 0x9B, 0x02,  // .....M..
+            /* 05B0 */  0x53, 0xE3, 0x02, 0xCB, 0x83, 0x02, 0x14, 0xF0,  // S.......
+            /* 05B8 */  0x02, 0x53, 0xE4, 0x02, 0x90, 0xC0, 0x02, 0x15,  // .S......
+            /* 05C0 */  0xFD, 0x02, 0x53, 0xE5, 0x02, 0xD5, 0xFD, 0x02,  // ..S.....
+            /* 05C8 */  0x14, 0xF2, 0x02, 0x11, 0xCE, 0x02, 0xCD, 0x9D,  // ........
+            /* 05D0 */  0x02, 0xD2, 0xDA, 0x02, 0x53, 0xE7, 0x02, 0x4C,  // ....S..L
+            /* 05D8 */  0x92, 0x02, 0x4B, 0x86, 0x02, 0x12, 0xDC, 0x02,  // ..K.....
+            /* 05E0 */  0xD4, 0xF4, 0x02, 0x54, 0xF5, 0x02, 0x94, 0xF5,  // ...T....
+            /* 05E8 */  0x02, 0x52, 0xDD, 0x02, 0x51, 0xD1, 0x02, 0x4D,  // .R..Q..M
+            /* 05F0 */  0xA0, 0x02, 0x90, 0xC5, 0x02, 0x54, 0xF7, 0x02,  // .....T..
+            /* 05F8 */  0x53, 0xEB, 0x02, 0xD1, 0xD2, 0x02, 0x54, 0xF8,  // S.....T.
+            /* 0600 */  0x02, 0xCB, 0x88, 0x02, 0x14, 0xF9, 0x02, 0x0F,  // ........
+            /* 0608 */  0xBB, 0x02, 0xD0, 0xC7, 0x02, 0x14, 0xFA, 0x02,  // ........
+            /* 0610 */  0xCD, 0xA2, 0x02, 0xD4, 0xFA, 0x02, 0xCE, 0xAF,  // ........
+            /* 0618 */  0x02, 0x0E, 0xB0, 0x02, 0x4E, 0xB0, 0x02, 0x8E,  // ....N...
+            /* 0620 */  0xB0, 0x02, 0x94, 0xFC, 0x02, 0x50, 0xCA, 0x02,  // .....P..
+            /* 0628 */  0x4B, 0x8B, 0x02, 0x91, 0xD7, 0x02, 0x92, 0xE4,  // K.......
+            /* 0630 */  0x02, 0x4D, 0xA5, 0x02, 0xCC, 0x98, 0x02, 0x14,  // .M......
+            /* 0638 */  0xFF, 0x02, 0xD2, 0xE5, 0x02, 0x90, 0xCC, 0x02,  // ........
+            /* 0640 */  0x0F, 0xC0, 0x02, 0x93, 0xF3, 0x02, 0x12, 0xE7,  // ........
+            /* 0648 */  0x02, 0xCF, 0xC0, 0x02, 0x93, 0xF4, 0x02, 0xCB,  // ........
+            /* 0650 */  0x8D, 0x02, 0x52, 0xE8, 0x02, 0x93, 0xF5, 0x02,  // ..R.....
+            /* 0658 */  0x10, 0xCF, 0x02, 0x51, 0xDC, 0x02, 0x93, 0xF6,  // ...Q....
+            /* 0660 */  0x02, 0xD3, 0xF6, 0x02, 0x53, 0xF7, 0x02, 0x4A,  // ....S..J
+            /* 0668 */  0x82, 0x02, 0xD2, 0xEA, 0x02, 0x11, 0xDE, 0x02,  // ........
+            /* 0670 */  0x50, 0xD1, 0x02, 0x4D, 0xAA, 0x02, 0x0A, 0x83,  // P..M....
+            /* 0678 */  0x02, 0x93, 0xF9, 0x02, 0x8B, 0x90, 0x02, 0x13,  // ........
+            /* 0680 */  0xFA, 0x02, 0x4D, 0xAB, 0x02, 0x0F, 0xC6, 0x02,  // ..M.....
+            /* 0688 */  0x13, 0xFB, 0x02, 0xD0, 0xD3, 0x02, 0xCF, 0xC6,  // ........
+            /* 0690 */  0x02, 0x13, 0xFC, 0x02, 0xD1, 0xE1, 0x02, 0xD0,  // ........
+            /* 0698 */  0xD4, 0x02, 0x13, 0xFD, 0x02, 0xCE, 0xBA, 0x02,  // ........
+            /* 06A0 */  0x0E, 0xBB, 0x02, 0x13, 0xFE, 0x02, 0xCF, 0xC8,  // ........
+            /* 06A8 */  0x02, 0x8B, 0x93, 0x02, 0x51, 0xE4, 0x02, 0x12,  // ....Q...
+            /* 06B0 */  0xF2, 0x02, 0x0D, 0xAF, 0x02, 0x92, 0xF2, 0x02,  // ........
+            /* 06B8 */  0x91, 0xE5, 0x02, 0x52, 0xF3, 0x02, 0x90, 0xD8,  // ...R....
+            /* 06C0 */  0x02, 0xD2, 0xF3, 0x02, 0x91, 0xE6, 0x02, 0x92,  // ........
+            /* 06C8 */  0xF4, 0x02, 0x90, 0xD9, 0x02, 0x12, 0xF5, 0x02,  // ........
+            /* 06D0 */  0x0B, 0x96, 0x02, 0x8D, 0xB1, 0x02, 0x4B, 0x96,  // ......K.
+            /* 06D8 */  0x02, 0x4C, 0xA4, 0x02, 0x11, 0xE9, 0x02, 0x0E,  // .L......
+            /* 06E0 */  0xC0, 0x02, 0x4E, 0xC0, 0x02, 0x4F, 0xCE, 0x02,  // ..N..O..
+            /* 06E8 */  0xCA, 0x89, 0x02, 0x91, 0xEA, 0x02, 0x92, 0xF8,  // ........
+            /* 06F0 */  0x02, 0x50, 0xDD, 0x02, 0x51, 0xEB, 0x02, 0x8B,  // .P..Q...
+            /* 06F8 */  0x98, 0x02, 0xD2, 0xF9, 0x02, 0xCB, 0x98, 0x02,  // ........
+            /* 0700 */  0xCF, 0xD0, 0x02, 0x0D, 0xB5, 0x02, 0x4F, 0xD1,  // ......O.
+            /* 0708 */  0x02, 0x90, 0xDF                                 // ...
         })
     }
 
@@ -6161,104 +5965,86 @@ DefinitionBlock ("acpi.aml", "DSDT", 1, "A0994", "A0994000", 0x00000000)
         })
         Method (GIT4, 1, NotSerialized)
         {
-            Name (T_0, Zero)  // T_x: Emitted by ASL Compiler
-            Store (And (Arg0, 0xFFFF), T_0) /* \_SB_.PCI0.SBRG.ASOC.GIT4.T_0 */
-            If (LEqual (T_0, 0x10))
+            Name (_T_0, Zero)  // _T_x: Emitted by ASL Compiler, x=0-9, A-Z
+            _T_0 = (Arg0 & 0xFFFF)
+            If ((_T_0 == 0x10))
             {
-                Store (GNVS (0x1697), ASB1) /* \_SB_.PCI0.SBRG.ASOC.ASB1 */
+                ASB1 = GNVS (0x1697)
+            }
+            ElseIf ((_T_0 == 0x11))
+            {
+                ASB1 = GNVS (0x2568)
+            }
+            ElseIf ((_T_0 == 0x70))
+            {
+                ASB1 = GNVS (0x169A)
+            }
+            ElseIf ((_T_0 == 0x71))
+            {
+                ASB1 = GNVS (0x3508)
             }
             Else
             {
-                If (LEqual (T_0, 0x11))
-                {
-                    Store (GNVS (0x2568), ASB1) /* \_SB_.PCI0.SBRG.ASOC.ASB1 */
-                }
-                Else
-                {
-                    If (LEqual (T_0, 0x70))
-                    {
-                        Store (GNVS (0x169A), ASB1) /* \_SB_.PCI0.SBRG.ASOC.ASB1 */
-                    }
-                    Else
-                    {
-                        If (LEqual (T_0, 0x71))
-                        {
-                            Store (GNVS (0x3508), ASB1) /* \_SB_.PCI0.SBRG.ASOC.ASB1 */
-                        }
-                        Else
-                        {
-                            Store (Zero, ASB0) /* \_SB_.PCI0.SBRG.ASOC.ASB0 */
-                        }
-                    }
-                }
+                ASB0 = Zero
             }
         }
 
         Method (SIT4, 3, NotSerialized)
         {
-            Name (T_0, Zero)  // T_x: Emitted by ASL Compiler
-            Store (And (Arg0, 0xFFFF), T_0) /* \_SB_.PCI0.SBRG.ASOC.SIT4.T_0 */
-            If (LEqual (T_0, 0x10))
+            Name (_T_0, Zero)  // _T_x: Emitted by ASL Compiler, x=0-9, A-Z
+            _T_0 = (Arg0 & 0xFFFF)
+            If ((_T_0 == 0x10))
             {
-                If (LNotEqual (GNVS (0x1697), Arg1))
+                If ((GNVS (0x1697) != Arg1))
                 {
-                    If (And (Arg2, One))
+                    If ((Arg2 & One))
                     {
                         SNVS (0x1697, Arg1)
-                        Store (0x77, PAR0) /* \PAR0 */
+                        PAR0 = 0x77
+                        ISMI (0x88)
+                    }
+                }
+            }
+            ElseIf ((_T_0 == 0x11))
+            {
+                If ((GNVS (0x2568) != Arg1))
+                {
+                    If ((Arg2 & One))
+                    {
+                        SNVS (0x2568, Arg1)
+                        PAR0 = 0x77
+                        ISMI (0x88)
+                    }
+                }
+            }
+            ElseIf ((_T_0 == 0x70))
+            {
+                If ((GNVS (0x169A) != Arg1))
+                {
+                    If ((Arg2 & One))
+                    {
+                        SNVS (0x169A, Arg1)
+                        PAR0 = 0x78
+                        ISMI (0x88)
+                    }
+                }
+            }
+            ElseIf ((_T_0 == 0x71))
+            {
+                If ((GNVS (0x3508) != Arg1))
+                {
+                    If ((Arg2 & One))
+                    {
+                        DBG8 = Arg1
+                        SNVS (0x3508, Arg1)
+                        PAR0 = 0x78
                         ISMI (0x88)
                     }
                 }
             }
             Else
             {
-                If (LEqual (T_0, 0x11))
-                {
-                    If (LNotEqual (GNVS (0x2568), Arg1))
-                    {
-                        If (And (Arg2, One))
-                        {
-                            SNVS (0x2568, Arg1)
-                            Store (0x77, PAR0) /* \PAR0 */
-                            ISMI (0x88)
-                        }
-                    }
-                }
-                Else
-                {
-                    If (LEqual (T_0, 0x70))
-                    {
-                        If (LNotEqual (GNVS (0x169A), Arg1))
-                        {
-                            If (And (Arg2, One))
-                            {
-                                SNVS (0x169A, Arg1)
-                                Store (0x78, PAR0) /* \PAR0 */
-                                ISMI (0x88)
-                            }
-                        }
-                    }
-                    Else
-                    {
-                        If (LEqual (T_0, 0x71))
-                        {
-                            If (LNotEqual (GNVS (0x3508), Arg1))
-                            {
-                                If (And (Arg2, One))
-                                {
-                                    Store (Arg1, DBG8) /* \DBG8 */
-                                    SNVS (0x3508, Arg1)
-                                    Store (0x78, PAR0) /* \PAR0 */
-                                    ISMI (0x88)
-                                }
-                            }
-                        }
-                        Else
-                        {
-                            Store (Zero, ASB0) /* \_SB_.PCI0.SBRG.ASOC.ASB0 */
-                        }
-                    }
-                }
+                ASB0 = Zero
             }
         }
     }
@@ -6281,29 +6067,29 @@ DefinitionBlock ("acpi.aml", "DSDT", 1, "A0994", "A0994000", 0x00000000)
         })
         Method (GIT5, 1, NotSerialized)
         {
-            Name (T_0, Zero)  // T_x: Emitted by ASL Compiler
-            Store (And (Arg0, 0xFFFF), T_0) /* \_SB_.PCI0.SBRG.ASOC.GIT5.T_0 */
-            If (LEqual (T_0, Zero))
+            Name (_T_0, Zero)  // _T_x: Emitted by ASL Compiler, x=0-9, A-Z
+            _T_0 = (Arg0 & 0xFFFF)
+            If ((_T_0 == Zero))
             {
-                Store (One, ASB1) /* \_SB_.PCI0.SBRG.ASOC.ASB1 */
+                ASB1 = One
             }
             Else
             {
-                Store (Zero, ASB0) /* \_SB_.PCI0.SBRG.ASOC.ASB0 */
+                ASB0 = Zero
             }
         }
 
         Method (SIT5, 3, NotSerialized)
         {
-            Name (T_0, Zero)  // T_x: Emitted by ASL Compiler
-            Store (And (Arg0, 0xFFFF), T_0) /* \_SB_.PCI0.SBRG.ASOC.SIT5.T_0 */
-            If (LEqual (T_0, Zero))
+            Name (_T_0, Zero)  // _T_x: Emitted by ASL Compiler, x=0-9, A-Z
+            _T_0 = (Arg0 & 0xFFFF)
+            If ((_T_0 == Zero))
             {
-                Store (0x03, ASB0) /* \_SB_.PCI0.SBRG.ASOC.ASB0 */
+                ASB0 = 0x03
             }
             Else
             {
-                Store (Zero, ASB0) /* \_SB_.PCI0.SBRG.ASOC.ASB0 */
+                ASB0 = Zero
             }
         }
     }
@@ -6414,141 +6200,93 @@ DefinitionBlock ("acpi.aml", "DSDT", 1, "A0994", "A0994000", 0x00000000)
         })
         Method (GIT6, 1, NotSerialized)
         {
-            Name (T_0, Zero)  // T_x: Emitted by ASL Compiler
-            Store (And (Arg0, 0xFFFF), T_0) /* \_SB_.PCI0.SBRG.ASOC.GIT6.T_0 */
-            If (LEqual (T_0, 0x11))
+            Name (_T_0, Zero)  // _T_x: Emitted by ASL Compiler, x=0-9, A-Z
+            _T_0 = (Arg0 & 0xFFFF)
+            If ((_T_0 == 0x11))
             {
-                Store (0x0600, ASB1) /* \_SB_.PCI0.SBRG.ASOC.ASB1 */
+                ASB1 = 0x0600
+            }
+            ElseIf ((_T_0 == 0x12))
+            {
+                ASB1 = 0x0601
+            }
+            ElseIf ((_T_0 == 0x13))
+            {
+                ASB1 = 0x0602
+            }
+            ElseIf ((_T_0 == 0x73))
+            {
+                ASB1 = 0x0603
+            }
+            ElseIf ((_T_0 == 0xC3))
+            {
+                ASB1 = 0x0604
+            }
+            ElseIf ((_T_0 == 0x61))
+            {
+                ASB1 = 0x0605
+            }
+            ElseIf ((_T_0 == 0x62))
+            {
+                ASB1 = 0x0606
+            }
+            ElseIf ((_T_0 == 0x63))
+            {
+                ASB1 = 0x0607
+            }
+            ElseIf ((_T_0 == 0x74))
+            {
+                ASB1 = 0x0608
             }
             Else
             {
-                If (LEqual (T_0, 0x12))
-                {
-                    Store (0x0601, ASB1) /* \_SB_.PCI0.SBRG.ASOC.ASB1 */
-                }
-                Else
-                {
-                    If (LEqual (T_0, 0x13))
-                    {
-                        Store (0x0602, ASB1) /* \_SB_.PCI0.SBRG.ASOC.ASB1 */
-                    }
-                    Else
-                    {
-                        If (LEqual (T_0, 0x73))
-                        {
-                            Store (0x0603, ASB1) /* \_SB_.PCI0.SBRG.ASOC.ASB1 */
-                        }
-                        Else
-                        {
-                            If (LEqual (T_0, 0xC3))
-                            {
-                                Store (0x0604, ASB1) /* \_SB_.PCI0.SBRG.ASOC.ASB1 */
-                            }
-                            Else
-                            {
-                                If (LEqual (T_0, 0x61))
-                                {
-                                    Store (0x0605, ASB1) /* \_SB_.PCI0.SBRG.ASOC.ASB1 */
-                                }
-                                Else
-                                {
-                                    If (LEqual (T_0, 0x62))
-                                    {
-                                        Store (0x0606, ASB1) /* \_SB_.PCI0.SBRG.ASOC.ASB1 */
-                                    }
-                                    Else
-                                    {
-                                        If (LEqual (T_0, 0x63))
-                                        {
-                                            Store (0x0607, ASB1) /* \_SB_.PCI0.SBRG.ASOC.ASB1 */
-                                        }
-                                        Else
-                                        {
-                                            If (LEqual (T_0, 0x74))
-                                            {
-                                                Store (0x0608, ASB1) /* \_SB_.PCI0.SBRG.ASOC.ASB1 */
-                                            }
-                                            Else
-                                            {
-                                                Store (Zero, ASB0) /* \_SB_.PCI0.SBRG.ASOC.ASB0 */
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
+                ASB0 = Zero
             }
         }
 
         Method (SIT6, 3, NotSerialized)
         {
-            Name (T_0, Zero)  // T_x: Emitted by ASL Compiler
-            Store (And (Arg0, 0xFFFF), T_0) /* \_SB_.PCI0.SBRG.ASOC.SIT6.T_0 */
-            If (LEqual (T_0, 0x11))
+            Name (_T_0, Zero)  // _T_x: Emitted by ASL Compiler, x=0-9, A-Z
+            _T_0 = (Arg0 & 0xFFFF)
+            If ((_T_0 == 0x11))
             {
-                Store (0x0600, DBG8) /* \DBG8 */
+                DBG8 = 0x0600
+            }
+            ElseIf ((_T_0 == 0x12))
+            {
+                DBG8 = 0x0601
+            }
+            ElseIf ((_T_0 == 0x13))
+            {
+                DBG8 = 0x0602
+            }
+            ElseIf ((_T_0 == 0x73))
+            {
+                DBG8 = 0x0603
+            }
+            ElseIf ((_T_0 == 0xC3))
+            {
+                DBG8 = 0x0604
+            }
+            ElseIf ((_T_0 == 0x61))
+            {
+                DBG8 = 0x0605
+            }
+            ElseIf ((_T_0 == 0x62))
+            {
+                DBG8 = 0x0606
+            }
+            ElseIf ((_T_0 == 0x63))
+            {
+                DBG8 = 0x0607
+            }
+            ElseIf ((_T_0 == 0x74))
+            {
+                DBG8 = 0x0608
             }
             Else
             {
-                If (LEqual (T_0, 0x12))
-                {
-                    Store (0x0601, DBG8) /* \DBG8 */
-                }
-                Else
-                {
-                    If (LEqual (T_0, 0x13))
-                    {
-                        Store (0x0602, DBG8) /* \DBG8 */
-                    }
-                    Else
-                    {
-                        If (LEqual (T_0, 0x73))
-                        {
-                            Store (0x0603, DBG8) /* \DBG8 */
-                        }
-                        Else
-                        {
-                            If (LEqual (T_0, 0xC3))
-                            {
-                                Store (0x0604, DBG8) /* \DBG8 */
-                            }
-                            Else
-                            {
-                                If (LEqual (T_0, 0x61))
-                                {
-                                    Store (0x0605, DBG8) /* \DBG8 */
-                                }
-                                Else
-                                {
-                                    If (LEqual (T_0, 0x62))
-                                    {
-                                        Store (0x0606, DBG8) /* \DBG8 */
-                                    }
-                                    Else
-                                    {
-                                        If (LEqual (T_0, 0x63))
-                                        {
-                                            Store (0x0607, DBG8) /* \DBG8 */
-                                        }
-                                        Else
-                                        {
-                                            If (LEqual (T_0, 0x74))
-                                            {
-                                                Store (0x0608, DBG8) /* \DBG8 */
-                                            }
-                                            Else
-                                            {
-                                                Store (Zero, ASB0) /* \_SB_.PCI0.SBRG.ASOC.ASB0 */
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
+                ASB0 = Zero
             }
         }
     }
@@ -6575,37 +6313,37 @@ DefinitionBlock ("acpi.aml", "DSDT", 1, "A0994", "A0994000", 0x00000000)
         })
         Method (GIT9, 1, NotSerialized)
         {
-            Name (T_0, Zero)  // T_x: Emitted by ASL Compiler
-            Store (And (Arg0, 0xFFFF), T_0) /* \_SB_.PCI0.SBRG.ASOC.GIT9.T_0 */
-            If (LEqual (T_0, Zero))
+            Name (_T_0, Zero)  // _T_x: Emitted by ASL Compiler, x=0-9, A-Z
+            _T_0 = (Arg0 & 0xFFFF)
+            If ((_T_0 == Zero))
             {
-                Store (GNVS (0x34F0), ASB1) /* \_SB_.PCI0.SBRG.ASOC.ASB1 */
+                ASB1 = GNVS (0x34F0)
             }
             Else
             {
-                Store (Zero, ASB0) /* \_SB_.PCI0.SBRG.ASOC.ASB0 */
+                ASB0 = Zero
             }
         }
 
         Method (SIT9, 3, NotSerialized)
         {
-            Name (T_0, Zero)  // T_x: Emitted by ASL Compiler
-            Store (And (Arg0, 0xFFFF), T_0) /* \_SB_.PCI0.SBRG.ASOC.SIT9.T_0 */
-            If (LEqual (T_0, Zero))
+            Name (_T_0, Zero)  // _T_x: Emitted by ASL Compiler, x=0-9, A-Z
+            _T_0 = (Arg0 & 0xFFFF)
+            If ((_T_0 == Zero))
             {
-                If (LNotEqual (GNVS (0x34F0), Arg1))
+                If ((GNVS (0x34F0) != Arg1))
                 {
-                    If (And (Arg2, One))
+                    If ((Arg2 & One))
                     {
                         SNVS (0x34F0, Arg1)
                     }
 
-                    Or (ASB0, 0x02, ASB0) /* \_SB_.PCI0.SBRG.ASOC.ASB0 */
+                    ASB0 |= 0x02
                 }
             }
             Else
             {
-                Store (Zero, ASB0) /* \_SB_.PCI0.SBRG.ASOC.ASB0 */
+                ASB0 = Zero
             }
         }
     }
@@ -6650,82 +6388,70 @@ DefinitionBlock ("acpi.aml", "DSDT", 1, "A0994", "A0994000", 0x00000000)
         })
         Method (GITB, 1, NotSerialized)
         {
-            Name (T_0, Zero)  // T_x: Emitted by ASL Compiler
-            Store (And (Arg0, 0xFFFF), T_0) /* \_SB_.PCI0.SBRG.ASOC.GITB.T_0 */
-            If (LEqual (T_0, One))
+            Name (_T_0, Zero)  // _T_x: Emitted by ASL Compiler, x=0-9, A-Z
+            _T_0 = (Arg0 & 0xFFFF)
+            If ((_T_0 == One))
             {
-                Store (And (DerefOf (Index (GBT0, 0x02)), 0xFFFF), ASB1) /* \_SB_.PCI0.SBRG.ASOC.ASB1 */
+                ASB1 = (DerefOf (GBT0 [0x02]) & 0xFFFF)
+            }
+            ElseIf ((_T_0 == 0x02))
+            {
+                ASB1 = DerefOf (GBT1 [0x02])
+            }
+            ElseIf ((_T_0 == 0x03))
+            {
+                ASB1 = DerefOf (GBT2 [0x02])
             }
             Else
             {
-                If (LEqual (T_0, 0x02))
-                {
-                    Store (DerefOf (Index (GBT1, 0x02)), ASB1) /* \_SB_.PCI0.SBRG.ASOC.ASB1 */
-                }
-                Else
-                {
-                    If (LEqual (T_0, 0x03))
-                    {
-                        Store (DerefOf (Index (GBT2, 0x02)), ASB1) /* \_SB_.PCI0.SBRG.ASOC.ASB1 */
-                    }
-                    Else
-                    {
-                        Store (Zero, ASB0) /* \_SB_.PCI0.SBRG.ASOC.ASB0 */
-                    }
-                }
+                ASB0 = Zero
             }
         }
 
         Method (SITB, 3, NotSerialized)
         {
-            Name (T_0, Zero)  // T_x: Emitted by ASL Compiler
-            Store (And (Arg0, 0xFFFF), T_0) /* \_SB_.PCI0.SBRG.ASOC.SITB.T_0 */
-            If (LEqual (T_0, One))
+            Name (_T_0, Zero)  // _T_x: Emitted by ASL Compiler, x=0-9, A-Z
+            _T_0 = (Arg0 & 0xFFFF)
+            If ((_T_0 == One))
             {
-                Name (T_1, Zero)  // T_x: Emitted by ASL Compiler
-                Store (And (Arg2, 0xFFFF), T_1) /* \_SB_.PCI0.SBRG.ASOC.SITB.T_1 */
-                If (LEqual (T_1, Zero))
+                Name (_T_1, Zero)  // _T_x: Emitted by ASL Compiler, x=0-9, A-Z
+                _T_1 = (Arg2 & 0xFFFF)
+                If ((_T_1 == Zero))
                 {
-                    Store (And (DerefOf (Index (GBT0, 0x02)), 0xFFFF), Local0)
-                    If (LEqual (Local0, Zero))
+                    Local0 = (DerefOf (GBT0 [0x02]) & 0xFFFF)
+                    If ((Local0 == Zero))
                     {
-                        Store (Local0, PAR0) /* \PAR0 */
+                        PAR0 = Local0
                     }
+                }
+                ElseIf ((_T_1 == One))
+                {
+                    Local0 = (Arg1 & 0xFFFF)
+                    GBT0 [0x02] = Local0
+                    SICL (Local0)
+                    PAR0 = Local0
+                    ISMI (0x88)
                 }
                 Else
                 {
-                    If (LEqual (T_1, One))
-                    {
-                        And (Arg1, 0xFFFF, Local0)
-                        Store (Local0, Index (GBT0, 0x02))
-                        SICL (Local0)
-                        Store (Local0, PAR0) /* \PAR0 */
-                        ISMI (0x88)
-                    }
-                    Else
-                    {
-                        Store (Zero, ASB0) /* \_SB_.PCI0.SBRG.ASOC.ASB0 */
-                    }
+                    ASB0 = Zero
+                }
+            }
+            ElseIf ((_T_0 == 0x02))
+            {
+                Local0 = (Arg1 & 0xFF)
+                If ((ITCG (Local0) == One))
+                {
+                    GBT1 [0x02] = Local0
+                }
+                Else
+                {
+                    ASB0 = Zero
                 }
             }
             Else
             {
-                If (LEqual (T_0, 0x02))
-                {
-                    Store (And (Arg1, 0xFF), Local0)
-                    If (LEqual (ITCG (Local0), One))
-                    {
-                        Store (Local0, Index (GBT1, 0x02))
-                    }
-                    Else
-                    {
-                        Store (Zero, ASB0) /* \_SB_.PCI0.SBRG.ASOC.ASB0 */
-                    }
-                }
-                Else
-                {
-                    Store (Zero, ASB0) /* \_SB_.PCI0.SBRG.ASOC.ASB0 */
-                }
+                ASB0 = Zero
             }
         }
     }
@@ -6792,103 +6518,79 @@ DefinitionBlock ("acpi.aml", "DSDT", 1, "A0994", "A0994000", 0x00000000)
         })
         Method (GITD, 1, NotSerialized)
         {
-            Name (T_0, Zero)  // T_x: Emitted by ASL Compiler
-            Store (And (Arg0, 0xFFFF), T_0) /* \_SB_.PCI0.SBRG.ASOC.GITD.T_0 */
-            If (LEqual (T_0, One))
+            Name (_T_0, Zero)  // _T_x: Emitted by ASL Compiler, x=0-9, A-Z
+            _T_0 = (Arg0 & 0xFFFF)
+            If ((_T_0 == One))
             {
-                Store (GNVS (0x168F), ASB1) /* \_SB_.PCI0.SBRG.ASOC.ASB1 */
+                ASB1 = GNVS (0x168F)
+            }
+            ElseIf ((_T_0 == 0x02))
+            {
+                ASB1 = GNVS (0x5390)
+            }
+            ElseIf ((_T_0 == 0x03))
+            {
+                ASB1 = GNVS (0x5398)
+            }
+            ElseIf ((_T_0 == 0x04))
+            {
+                ASB1 = GNVS (0x6358)
+            }
+            ElseIf ((_T_0 == 0x05))
+            {
+                ASB1 = GNVS (0x6360)
             }
             Else
             {
-                If (LEqual (T_0, 0x02))
-                {
-                    Store (GNVS (0x5390), ASB1) /* \_SB_.PCI0.SBRG.ASOC.ASB1 */
-                }
-                Else
-                {
-                    If (LEqual (T_0, 0x03))
-                    {
-                        Store (GNVS (0x5398), ASB1) /* \_SB_.PCI0.SBRG.ASOC.ASB1 */
-                    }
-                    Else
-                    {
-                        If (LEqual (T_0, 0x04))
-                        {
-                            Store (GNVS (0x6358), ASB1) /* \_SB_.PCI0.SBRG.ASOC.ASB1 */
-                        }
-                        Else
-                        {
-                            If (LEqual (T_0, 0x05))
-                            {
-                                Store (GNVS (0x6360), ASB1) /* \_SB_.PCI0.SBRG.ASOC.ASB1 */
-                            }
-                            Else
-                            {
-                                Store (Zero, ASB0) /* \_SB_.PCI0.SBRG.ASOC.ASB0 */
-                            }
-                        }
-                    }
-                }
+                ASB0 = Zero
             }
         }
 
         Method (SITD, 3, NotSerialized)
         {
-            Name (T_0, Zero)  // T_x: Emitted by ASL Compiler
-            Store (And (Arg0, 0xFFFF), T_0) /* \_SB_.PCI0.SBRG.ASOC.SITD.T_0 */
-            If (LEqual (T_0, One))
+            Name (_T_0, Zero)  // _T_x: Emitted by ASL Compiler, x=0-9, A-Z
+            _T_0 = (Arg0 & 0xFFFF)
+            If ((_T_0 == One))
             {
                 SNVS (0x168F, Arg1)
-                Store (0x03, ASB0) /* \_SB_.PCI0.SBRG.ASOC.ASB0 */
+                ASB0 = 0x03
+            }
+            ElseIf ((_T_0 == 0x02))
+            {
+                SNVS (0x5390, Arg1)
+                ASB0 = 0x03
+            }
+            ElseIf ((_T_0 == 0x03))
+            {
+                SNVS (0x5398, Arg1)
+                ASB0 = 0x03
+            }
+            ElseIf ((_T_0 == 0x04))
+            {
+                SNVS (0x6358, Arg1)
+                ASB0 = 0x03
+            }
+            ElseIf ((_T_0 == 0x05))
+            {
+                SNVS (0x6360, Arg1)
+                ASB0 = 0x03
             }
             Else
             {
-                If (LEqual (T_0, 0x02))
-                {
-                    SNVS (0x5390, Arg1)
-                    Store (0x03, ASB0) /* \_SB_.PCI0.SBRG.ASOC.ASB0 */
-                }
-                Else
-                {
-                    If (LEqual (T_0, 0x03))
-                    {
-                        SNVS (0x5398, Arg1)
-                        Store (0x03, ASB0) /* \_SB_.PCI0.SBRG.ASOC.ASB0 */
-                    }
-                    Else
-                    {
-                        If (LEqual (T_0, 0x04))
-                        {
-                            SNVS (0x6358, Arg1)
-                            Store (0x03, ASB0) /* \_SB_.PCI0.SBRG.ASOC.ASB0 */
-                        }
-                        Else
-                        {
-                            If (LEqual (T_0, 0x05))
-                            {
-                                SNVS (0x6360, Arg1)
-                                Store (0x03, ASB0) /* \_SB_.PCI0.SBRG.ASOC.ASB0 */
-                            }
-                            Else
-                            {
-                                Store (Zero, ASB0) /* \_SB_.PCI0.SBRG.ASOC.ASB0 */
-                            }
-                        }
-                    }
-                }
+                ASB0 = Zero
             }
         }
     }
 
     Scope (_GPE)
     {
-        Method (_L18, 0, NotSerialized)  // _Lxx: Level-Triggered GPE
+        Method (_L18, 0, NotSerialized)  // _Lxx: Level-Triggered GPE, xx=0x00-0xFF
         {
             Notify (\_SB.PCI0.SBRG.ASOC, 0x05) // Frequency Mismatch
-            If (LEqual (\_SB.PCI0.SBRG.ASOC.AIGC, One))
+            If ((\_SB.PCI0.SBRG.ASOC.AIGC == One))
             {
                 \_SB.PCI0.SBRG.ASOC.GITE (0x0E060001)
-                \_SB.PCI0.SBRG.ASOC.SICL (Or (0x8010, \_SB.PCI0.SBRG.ASOC.ASB1))
+                \_SB.PCI0.SBRG.ASOC.SICL ((0x8010 | \_SB.PCI0.SBRG.ASOC.ASB1))
             }
 
             \_SB.PCI0.SBRG.ASOC.RCAS ()
@@ -7002,108 +6704,81 @@ DefinitionBlock ("acpi.aml", "DSDT", 1, "A0994", "A0994000", 0x00000000)
         })
         Name (OCST, Buffer (0x04)
         {
-             0x00, 0x01, 0x02, 0x03                           /* .... */
+             0x00, 0x01, 0x02, 0x03                           // ....
         })
         Method (GITE, 1, NotSerialized)
         {
-            Name (T_0, Zero)  // T_x: Emitted by ASL Compiler
-            Store (And (Arg0, 0xFFFF), T_0) /* \_SB_.PCI0.SBRG.ASOC.GITE.T_0 */
-            If (LEqual (T_0, One))
+            Name (_T_0, Zero)  // _T_x: Emitted by ASL Compiler, x=0-9, A-Z
+            _T_0 = (Arg0 & 0xFFFF)
+            If ((_T_0 == One))
             {
-                Store (DerefOf (Index (OCST, RBYT (DerefOf (Index (ADP3, Zero)), 
-                    DerefOf (Index (ADP3, One))))), ASB1) /* \_SB_.PCI0.SBRG.ASOC.ASB1 */
+                ASB1 = DerefOf (OCST [RBYT (DerefOf (ADP3 [Zero]), DerefOf (
+                    ADP3 [One]))])
+            }
+            ElseIf ((_T_0 == 0x11))
+            {
+                Local0 = RBYT (DerefOf (ADP3 [Zero]), DerefOf (ADP3 [0x02]
+                    ))
+                Local1 = RBYT (DerefOf (ADP3 [Zero]), (DerefOf (ADP3 [
+                    0x02]) + One))
+                ASB1 = ((Local1 << 0x02) | (Local0 & 0x03))
+            }
+            ElseIf ((_T_0 == 0x12))
+            {
+                Local0 = RBYT (DerefOf (ADP3 [Zero]), DerefOf (ADP3 [0x03]
+                    ))
+                Local1 = RBYT (DerefOf (ADP3 [Zero]), (DerefOf (ADP3 [
+                    0x03]) + One))
+                ASB1 = ((Local1 << 0x02) | (Local0 & 0x03))
+            }
+            ElseIf ((_T_0 == 0x13))
+            {
+                Local0 = RBYT (DerefOf (ADP3 [Zero]), DerefOf (ADP3 [0x04]
+                    ))
+                Local1 = RBYT (DerefOf (ADP3 [Zero]), (DerefOf (ADP3 [
+                    0x04]) + One))
+                ASB1 = ((Local1 << 0x08) | Local0)
+            }
+            ElseIf ((_T_0 == 0x14))
+            {
+                ASB1 = RBYT (DerefOf (ADP3 [Zero]), DerefOf (ADP3 [0x05]
+                    ))
+            }
+            ElseIf ((_T_0 == 0x15))
+            {
+                ASB1 = RBYT (DerefOf (ADP3 [Zero]), DerefOf (ADP3 [0x06]
+                    ))
+            }
+            ElseIf ((_T_0 == 0x16))
+            {
+                ASB1 = RBYT (DerefOf (ADP3 [Zero]), DerefOf (ADP3 [0x07]
+                    ))
             }
             Else
             {
-                If (LEqual (T_0, 0x11))
-                {
-                    Store (RBYT (DerefOf (Index (ADP3, Zero)), DerefOf (Index (ADP3, 
-                        0x02))), Local0)
-                    Store (RBYT (DerefOf (Index (ADP3, Zero)), Add (DerefOf (Index (
-                        ADP3, 0x02)), One)), Local1)
-                    Or (ShiftLeft (Local1, 0x02), And (Local0, 0x03), ASB1) /* \_SB_.PCI0.SBRG.ASOC.ASB1 */
-                }
-                Else
-                {
-                    If (LEqual (T_0, 0x12))
-                    {
-                        Store (RBYT (DerefOf (Index (ADP3, Zero)), DerefOf (Index (ADP3, 
-                            0x03))), Local0)
-                        Store (RBYT (DerefOf (Index (ADP3, Zero)), Add (DerefOf (Index (
-                            ADP3, 0x03)), One)), Local1)
-                        Or (ShiftLeft (Local1, 0x02), And (Local0, 0x03), ASB1) /* \_SB_.PCI0.SBRG.ASOC.ASB1 */
-                    }
-                    Else
-                    {
-                        If (LEqual (T_0, 0x13))
-                        {
-                            Store (RBYT (DerefOf (Index (ADP3, Zero)), DerefOf (Index (ADP3, 
-                                0x04))), Local0)
-                            Store (RBYT (DerefOf (Index (ADP3, Zero)), Add (DerefOf (Index (
-                                ADP3, 0x04)), One)), Local1)
-                            Or (ShiftLeft (Local1, 0x08), Local0, ASB1) /* \_SB_.PCI0.SBRG.ASOC.ASB1 */
-                        }
-                        Else
-                        {
-                            If (LEqual (T_0, 0x14))
-                            {
-                                Store (RBYT (DerefOf (Index (ADP3, Zero)), DerefOf (Index (ADP3, 
-                                    0x05))), ASB1) /* \_SB_.PCI0.SBRG.ASOC.ASB1 */
-                            }
-                            Else
-                            {
-                                If (LEqual (T_0, 0x15))
-                                {
-                                    Store (RBYT (DerefOf (Index (ADP3, Zero)), DerefOf (Index (ADP3, 
-                                        0x06))), ASB1) /* \_SB_.PCI0.SBRG.ASOC.ASB1 */
-                                }
-                                Else
-                                {
-                                    If (LEqual (T_0, 0x16))
-                                    {
-                                        Store (RBYT (DerefOf (Index (ADP3, Zero)), DerefOf (Index (ADP3, 
-                                            0x07))), ASB1) /* \_SB_.PCI0.SBRG.ASOC.ASB1 */
-                                    }
-                                    Else
-                                    {
-                                        Store (Zero, ASB0) /* \_SB_.PCI0.SBRG.ASOC.ASB0 */
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
+                ASB0 = Zero
             }
         }
 
         Method (SITE, 3, NotSerialized)
         {
-            Name (T_0, Zero)  // T_x: Emitted by ASL Compiler
-            Store (And (Arg0, 0xFFFF), T_0) /* \_SB_.PCI0.SBRG.ASOC.SITE.T_0 */
-            If (LEqual (T_0, 0x14))
+            Name (_T_0, Zero)  // _T_x: Emitted by ASL Compiler, x=0-9, A-Z
+            _T_0 = (Arg0 & 0xFFFF)
+            If ((_T_0 == 0x14))
             {
-                WBYT (DerefOf (Index (ADP3, Zero)), DerefOf (Index (ADP3, 0x05
-                    )), Arg1)
+                WBYT (DerefOf (ADP3 [Zero]), DerefOf (ADP3 [0x05]), Arg1)
+            }
+            ElseIf ((_T_0 == 0x15))
+            {
+                WBYT (DerefOf (ADP3 [Zero]), DerefOf (ADP3 [0x06]), Arg1)
+            }
+            ElseIf ((_T_0 == 0x16))
+            {
+                WBYT (DerefOf (ADP3 [Zero]), DerefOf (ADP3 [0x07]), Arg1)
             }
             Else
             {
-                If (LEqual (T_0, 0x15))
-                {
-                    WBYT (DerefOf (Index (ADP3, Zero)), DerefOf (Index (ADP3, 0x06
-                        )), Arg1)
-                }
-                Else
-                {
-                    If (LEqual (T_0, 0x16))
-                    {
-                        WBYT (DerefOf (Index (ADP3, Zero)), DerefOf (Index (ADP3, 0x07
-                            )), Arg1)
-                    }
-                    Else
-                    {
-                        Store (Zero, ASB0) /* \_SB_.PCI0.SBRG.ASOC.ASB0 */
-                    }
-                }
+                ASB0 = Zero
             }
         }
 
@@ -7155,36 +6830,30 @@ DefinitionBlock ("acpi.aml", "DSDT", 1, "A0994", "A0994000", 0x00000000)
         })
         Name (CLKB, Buffer (0x1B)
         {
-            /* 0000 */  0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,  /* ........ */
-            /* 0008 */  0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,  /* ........ */
-            /* 0010 */  0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,  /* ........ */
-            /* 0018 */  0x00, 0x00, 0x00                                 /* ... */
+            /* 0000 */  0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,  // ........
+            /* 0008 */  0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,  // ........
+            /* 0010 */  0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,  // ........
+            /* 0018 */  0x00, 0x00, 0x00                                 // ...
         })
         Method (ITCG, 1, NotSerialized)
         {
-            Name (T_0, Zero)  // T_x: Emitted by ASL Compiler
-            Store (GNVS (0x354C), T_0) /* \_SB_.PCI0.SBRG.ASOC.ITCG.T_0 */
-            If (LEqual (T_0, Zero))
+            Name (_T_0, Zero)  // _T_x: Emitted by ASL Compiler, x=0-9, A-Z
+            _T_0 = GNVS (0x354C)
+            If ((_T_0 == Zero))
             {
-                Store (One, Local0)
+                Local0 = One
+            }
+            ElseIf ((_T_0 == 0x04))
+            {
+                Local0 = 0x02
+            }
+            ElseIf ((_T_0 == 0x06))
+            {
+                Local0 = 0x03
             }
             Else
             {
-                If (LEqual (T_0, 0x04))
-                {
-                    Store (0x02, Local0)
-                }
-                Else
-                {
-                    If (LEqual (T_0, 0x06))
-                    {
-                        Store (0x03, Local0)
-                    }
-                    Else
-                    {
-                        Store (Zero, Local0)
-                    }
-                }
+                Local0 = Zero
             }
 
             CreateByteField (CLKB, Zero, CB00)
@@ -7195,41 +6864,31 @@ DefinitionBlock ("acpi.aml", "DSDT", 1, "A0994", "A0994000", 0x00000000)
             CreateByteField (CLKB, 0x17, CB23)
             CreateByteField (CLKB, 0x18, CB24)
             CreateByteField (CLKB, 0x19, CB25)
-            Store (RBLK (0xD2, Zero, 0x1A), CLKB) /* \_SB_.PCI0.SBRG.ASOC.CLKB */
-            Name (T_1, Zero)  // T_x: Emitted by ASL Compiler
-            Store (And (Arg0, 0xFF), T_1) /* \_SB_.PCI0.SBRG.ASOC.ITCG.T_1 */
-            If (LEqual (T_1, Zero))
+            CLKB = RBLK (0xD2, Zero, 0x1A)
+            Name (_T_1, Zero)  // _T_x: Emitted by ASL Compiler, x=0-9, A-Z
+            _T_1 = (Arg0 & 0xFF)
+            If ((_T_1 == Zero))
             {
-                Store (Or (CB00, 0x20), CB00) /* \_SB_.PCI0.SBRG.ASOC.ITCG.CB00 */
-                Store (And (CB20, 0xFB), CB20) /* \_SB_.PCI0.SBRG.ASOC.ITCG.CB20 */
-                Store (And (CB22, 0xF7), CB22) /* \_SB_.PCI0.SBRG.ASOC.ITCG.CB22 */
-                Store (DerefOf (Index (DerefOf (Index (FSBL, Local0)), 0x05)), 
-                    CB11) /* \_SB_.PCI0.SBRG.ASOC.ITCG.CB11 */
-                Store (DerefOf (Index (DerefOf (Index (FSBL, Local0)), 0x06)), 
-                    CB12) /* \_SB_.PCI0.SBRG.ASOC.ITCG.CB12 */
+                CB00 = (CB00 | 0x20)
+                CB20 = (CB20 & 0xFB)
+                CB22 = (CB22 & 0xF7)
+                CB11 = DerefOf (DerefOf (FSBL [Local0]) [0x05])
+                CB12 = DerefOf (DerefOf (FSBL [Local0]) [0x06])
+            }
+            ElseIf ((_T_1 == One))
+            {
+                CB00 = (CB00 & 0xDF)
+                CB20 = (CB20 | 0x04)
+                CB22 = (CB22 | 0x08)
+                CB11 = DerefOf (DerefOf (FSBL [Local0]) [Zero])
+                CB12 = DerefOf (DerefOf (FSBL [Local0]) [One])
+                CB23 = DerefOf (DerefOf (FSBL [Local0]) [0x03])
+                CB24 = DerefOf (DerefOf (FSBL [Local0]) [0x02])
+                CB25 = DerefOf (DerefOf (FSBL [Local0]) [0x04])
             }
             Else
             {
-                If (LEqual (T_1, One))
-                {
-                    Store (And (CB00, 0xDF), CB00) /* \_SB_.PCI0.SBRG.ASOC.ITCG.CB00 */
-                    Store (Or (CB20, 0x04), CB20) /* \_SB_.PCI0.SBRG.ASOC.ITCG.CB20 */
-                    Store (Or (CB22, 0x08), CB22) /* \_SB_.PCI0.SBRG.ASOC.ITCG.CB22 */
-                    Store (DerefOf (Index (DerefOf (Index (FSBL, Local0)), Zero)), 
-                        CB11) /* \_SB_.PCI0.SBRG.ASOC.ITCG.CB11 */
-                    Store (DerefOf (Index (DerefOf (Index (FSBL, Local0)), One)), 
-                        CB12) /* \_SB_.PCI0.SBRG.ASOC.ITCG.CB12 */
-                    Store (DerefOf (Index (DerefOf (Index (FSBL, Local0)), 0x03)), 
-                        CB23) /* \_SB_.PCI0.SBRG.ASOC.ITCG.CB23 */
-                    Store (DerefOf (Index (DerefOf (Index (FSBL, Local0)), 0x02)), 
-                        CB24) /* \_SB_.PCI0.SBRG.ASOC.ITCG.CB24 */
-                    Store (DerefOf (Index (DerefOf (Index (FSBL, Local0)), 0x04)), 
-                        CB25) /* \_SB_.PCI0.SBRG.ASOC.ITCG.CB25 */
-                }
-                Else
-                {
-                    Return (Zero)
-                }
+                Return (Zero)
             }
 
             WBLK (0xD2, Zero, 0x1A, CLKB)
@@ -7239,80 +6898,65 @@ DefinitionBlock ("acpi.aml", "DSDT", 1, "A0994", "A0994000", 0x00000000)
         Name (AIGC, Zero)
         Method (SICL, 1, NotSerialized)
         {
-            If (And (Arg0, 0x8000))
+            If ((Arg0 & 0x8000))
             {
-                Store (One, AIGC) /* \_SB_.PCI0.SBRG.ASOC.AIGC */
-                Name (T_0, Zero)  // T_x: Emitted by ASL Compiler
-                Store (And (Arg0, 0xFF), T_0) /* \_SB_.PCI0.SBRG.ASOC.SICL.T_0 */
-                If (LEqual (T_0, 0x10))
+                AIGC = One
+                Name (_T_0, Zero)  // _T_x: Emitted by ASL Compiler, x=0-9, A-Z
+                _T_0 = (Arg0 & 0xFF)
+                If ((_T_0 == 0x10))
                 {
                     SPIC (Zero)
-                    Store (Zero, PICL) /* \_SB_.PCI0.SBRG.ASOC.PICL */
+                    PICL = Zero
+                }
+                ElseIf ((_T_0 == 0x11))
+                {
+                    SPIC (One)
+                    PICL = One
+                }
+                ElseIf ((_T_0 == 0x12))
+                {
+                    SPIC (0x02)
+                    PICL = 0x02
+                }
+                ElseIf ((_T_0 == 0x13))
+                {
+                    SPIC (0x03)
+                    PICL = 0x03
                 }
                 Else
                 {
-                    If (LEqual (T_0, 0x11))
-                    {
-                        SPIC (One)
-                        Store (One, PICL) /* \_SB_.PCI0.SBRG.ASOC.PICL */
-                    }
-                    Else
-                    {
-                        If (LEqual (T_0, 0x12))
-                        {
-                            SPIC (0x02)
-                            Store (0x02, PICL) /* \_SB_.PCI0.SBRG.ASOC.PICL */
-                        }
-                        Else
-                        {
-                            If (LEqual (T_0, 0x13))
-                            {
-                                SPIC (0x03)
-                                Store (0x03, PICL) /* \_SB_.PCI0.SBRG.ASOC.PICL */
-                            }
-                            Else
-                            {
-                            }
-                        }
-                    }
                 }
             }
             Else
             {
-                Store (Zero, AIGC) /* \_SB_.PCI0.SBRG.ASOC.AIGC */
-                If (And (Arg0, 0x4000))
+                AIGC = Zero
+                If ((Arg0 & 0x4000))
                 {
                     SPIC (Zero)
-                    Store (Zero, PICL) /* \_SB_.PCI0.SBRG.ASOC.PICL */
+                    PICL = Zero
                 }
                 Else
                 {
-                    Name (T_1, Zero)  // T_x: Emitted by ASL Compiler
-                    Store (And (Arg0, 0xFF), T_1) /* \_SB_.PCI0.SBRG.ASOC.SICL.T_1 */
-                    If (LEqual (T_1, Zero))
+                    Name (_T_1, Zero)  // _T_x: Emitted by ASL Compiler, x=0-9, A-Z
+                    _T_1 = (Arg0 & 0xFF)
+                    If ((_T_1 == Zero))
                     {
                         SPIC (One)
-                        Store (One, PICL) /* \_SB_.PCI0.SBRG.ASOC.PICL */
+                        PICL = One
+                    }
+                    ElseIf ((_T_1 == One))
+                    {
+                        SPIC (0x02)
+                        PICL = 0x02
+                    }
+                    ElseIf ((_T_1 == 0x02))
+                    {
+                        SPIC (0x03)
+                        PICL = 0x03
                     }
                     Else
                     {
-                        If (LEqual (T_1, One))
-                        {
-                            SPIC (0x02)
-                            Store (0x02, PICL) /* \_SB_.PCI0.SBRG.ASOC.PICL */
-                        }
-                        Else
-                        {
-                            If (LEqual (T_1, 0x02))
-                            {
-                                SPIC (0x03)
-                                Store (0x03, PICL) /* \_SB_.PCI0.SBRG.ASOC.PICL */
-                            }
-                            Else
-                            {
-                                Return (Zero)
-                            }
-                        }
+                        Return (Zero)
                     }
                 }
             }
@@ -7361,48 +7005,48 @@ DefinitionBlock ("acpi.aml", "DSDT", 1, "A0994", "A0994000", 0x00000000)
         })
         Method (SPIC, 1, NotSerialized)
         {
-            If (LLessEqual (Arg0, PICL))
+            If ((Arg0 <= PICL))
             {
-                Store (One, GPL0) /* \GPL0 */
-                WBYT (DerefOf (Index (ADP3, Zero)), DerefOf (Index (ADP3, 0x08
-                    )), DerefOf (Index (DerefOf (Index (PSLV, Arg0)), 0x03)))
-                WBYT (DerefOf (Index (ADP3, Zero)), DerefOf (Index (ADP3, 0x09
-                    )), DerefOf (Index (DerefOf (Index (PSLV, Arg0)), 0x04)))
-                If (LEqual (AIGC, Zero))
+                GPL0 = One
+                WBYT (DerefOf (ADP3 [Zero]), DerefOf (ADP3 [0x08]), DerefOf (
+                    DerefOf (PSLV [Arg0]) [0x03]))
+                WBYT (DerefOf (ADP3 [Zero]), DerefOf (ADP3 [0x09]), DerefOf (
+                    DerefOf (PSLV [Arg0]) [0x04]))
+                If ((AIGC == Zero))
                 {
-                    WBYT (DerefOf (Index (ADP3, Zero)), DerefOf (Index (ADP3, 0x05
-                        )), DerefOf (Index (DerefOf (Index (PSLV, Arg0)), Zero)))
+                    WBYT (DerefOf (ADP3 [Zero]), DerefOf (ADP3 [0x05]), DerefOf (
+                        DerefOf (PSLV [Arg0]) [Zero]))
                     Sleep (0x03E8)
-                    WBYT (DerefOf (Index (ADP3, Zero)), DerefOf (Index (ADP3, 0x06
-                        )), DerefOf (Index (DerefOf (Index (PSLV, Arg0)), One)))
+                    WBYT (DerefOf (ADP3 [Zero]), DerefOf (ADP3 [0x06]), DerefOf (
+                        DerefOf (PSLV [Arg0]) [One]))
                     Sleep (0x03E8)
-                    WBYT (DerefOf (Index (ADP3, Zero)), DerefOf (Index (ADP3, 0x07
-                        )), DerefOf (Index (DerefOf (Index (PSLV, Arg0)), 0x02)))
+                    WBYT (DerefOf (ADP3 [Zero]), DerefOf (ADP3 [0x07]), DerefOf (
+                        DerefOf (PSLV [Arg0]) [0x02]))
                     Sleep (0x03E8)
                 }
             }
             Else
             {
-                If (LEqual (AIGC, Zero))
+                If ((AIGC == Zero))
                 {
-                    WBYT (DerefOf (Index (ADP3, Zero)), DerefOf (Index (ADP3, 0x07
-                        )), DerefOf (Index (DerefOf (Index (PSLV, Arg0)), 0x02)))
+                    WBYT (DerefOf (ADP3 [Zero]), DerefOf (ADP3 [0x07]), DerefOf (
+                        DerefOf (PSLV [Arg0]) [0x02]))
                     Sleep (0x03E8)
-                    WBYT (DerefOf (Index (ADP3, Zero)), DerefOf (Index (ADP3, 0x06
-                        )), DerefOf (Index (DerefOf (Index (PSLV, Arg0)), One)))
+                    WBYT (DerefOf (ADP3 [Zero]), DerefOf (ADP3 [0x06]), DerefOf (
+                        DerefOf (PSLV [Arg0]) [One]))
                     Sleep (0x03E8)
-                    WBYT (DerefOf (Index (ADP3, Zero)), DerefOf (Index (ADP3, 0x05
-                        )), DerefOf (Index (DerefOf (Index (PSLV, Arg0)), Zero)))
+                    WBYT (DerefOf (ADP3 [Zero]), DerefOf (ADP3 [0x05]), DerefOf (
+                        DerefOf (PSLV [Arg0]) [Zero]))
                     Sleep (0x03E8)
                 }
 
-                WBYT (DerefOf (Index (ADP3, Zero)), DerefOf (Index (ADP3, 0x09
-                    )), DerefOf (Index (DerefOf (Index (PSLV, Arg0)), 0x04)))
-                WBYT (DerefOf (Index (ADP3, Zero)), DerefOf (Index (ADP3, 0x08
-                    )), DerefOf (Index (DerefOf (Index (PSLV, Arg0)), 0x03)))
-                If (LEqual (Arg0, 0x03))
+                WBYT (DerefOf (ADP3 [Zero]), DerefOf (ADP3 [0x09]), DerefOf (
+                    DerefOf (PSLV [Arg0]) [0x04]))
+                WBYT (DerefOf (ADP3 [Zero]), DerefOf (ADP3 [0x08]), DerefOf (
+                    DerefOf (PSLV [Arg0]) [0x03]))
+                If ((Arg0 == 0x03))
                 {
-                    Store (Zero, GPL0) /* \GPL0 */
+                    GPL0 = Zero
                 }
             }
 
@@ -7411,12 +7055,9 @@ DefinitionBlock ("acpi.aml", "DSDT", 1, "A0994", "A0994000", 0x00000000)
 
         Method (RCAS, 0, NotSerialized)
         {
-            RBYT (DerefOf (Index (ADP3, Zero)), DerefOf (Index (ADP3, 0x0A
-                )))
-            RBYT (DerefOf (Index (ADP3, Zero)), DerefOf (Index (ADP3, 0x0B
-                )))
-            RBYT (DerefOf (Index (ADP3, Zero)), DerefOf (Index (ADP3, 0x0C
-                )))
+            RBYT (DerefOf (ADP3 [Zero]), DerefOf (ADP3 [0x0A]))
+            RBYT (DerefOf (ADP3 [Zero]), DerefOf (ADP3 [0x0B]))
+            RBYT (DerefOf (ADP3 [Zero]), DerefOf (ADP3 [0x0C]))
         }
     }
 
@@ -7448,7 +7089,7 @@ DefinitionBlock ("acpi.aml", "DSDT", 1, "A0994", "A0994000", 0x00000000)
             Name (_UID, One)  // _UID: Unique ID
             Method (_STA, 0, NotSerialized)  // _STA: Status
             {
-                And (PIRA, 0x80, Local0)
+                Local0 = (PIRA & 0x80)
                 If (Local0)
                 {
                     Return (0x09)
@@ -7466,13 +7107,13 @@ DefinitionBlock ("acpi.aml", "DSDT", 1, "A0994", "A0994000", 0x00000000)
 
             Method (_DIS, 0, NotSerialized)  // _DIS: Disable Device
             {
-                Or (PIRA, 0x80, PIRA) /* \PIRA */
+                PIRA |= 0x80
             }
 
             Method (_CRS, 0, NotSerialized)  // _CRS: Current Resource Settings
             {
-                And (PIRA, 0x0F, Local0)
-                ShiftLeft (One, Local0, IRA0) /* \_SB_.IRA0 */
+                Local0 = (PIRA & 0x0F)
+                IRA0 = (One << Local0)
                 Return (BUFA) /* \_SB_.BUFA */
             }
 
@@ -7480,8 +7121,8 @@ DefinitionBlock ("acpi.aml", "DSDT", 1, "A0994", "A0994000", 0x00000000)
             {
                 CreateWordField (Arg0, One, IRA)
                 FindSetRightBit (IRA, Local0)
-                Decrement (Local0)
-                Store (Local0, PIRA) /* \PIRA */
+                Local0--
+                PIRA = Local0
             }
         }
 
@@ -7491,7 +7132,7 @@ DefinitionBlock ("acpi.aml", "DSDT", 1, "A0994", "A0994000", 0x00000000)
             Name (_UID, 0x02)  // _UID: Unique ID
             Method (_STA, 0, NotSerialized)  // _STA: Status
             {
-                And (PIRB, 0x80, Local0)
+                Local0 = (PIRB & 0x80)
                 If (Local0)
                 {
                     Return (0x09)
@@ -7509,13 +7150,13 @@ DefinitionBlock ("acpi.aml", "DSDT", 1, "A0994", "A0994000", 0x00000000)
 
             Method (_DIS, 0, NotSerialized)  // _DIS: Disable Device
             {
-                Or (PIRB, 0x80, PIRB) /* \PIRB */
+                PIRB |= 0x80
             }
 
             Method (_CRS, 0, NotSerialized)  // _CRS: Current Resource Settings
             {
-                And (PIRB, 0x0F, Local0)
-                ShiftLeft (One, Local0, IRA0) /* \_SB_.IRA0 */
+                Local0 = (PIRB & 0x0F)
+                IRA0 = (One << Local0)
                 Return (BUFA) /* \_SB_.BUFA */
             }
 
@@ -7523,8 +7164,8 @@ DefinitionBlock ("acpi.aml", "DSDT", 1, "A0994", "A0994000", 0x00000000)
             {
                 CreateWordField (Arg0, One, IRA)
                 FindSetRightBit (IRA, Local0)
-                Decrement (Local0)
-                Store (Local0, PIRB) /* \PIRB */
+                Local0--
+                PIRB = Local0
             }
         }
 
@@ -7534,7 +7175,7 @@ DefinitionBlock ("acpi.aml", "DSDT", 1, "A0994", "A0994000", 0x00000000)
             Name (_UID, 0x03)  // _UID: Unique ID
             Method (_STA, 0, NotSerialized)  // _STA: Status
             {
-                And (PIRC, 0x80, Local0)
+                Local0 = (PIRC & 0x80)
                 If (Local0)
                 {
                     Return (0x09)
@@ -7552,13 +7193,13 @@ DefinitionBlock ("acpi.aml", "DSDT", 1, "A0994", "A0994000", 0x00000000)
 
             Method (_DIS, 0, NotSerialized)  // _DIS: Disable Device
             {
-                Or (PIRC, 0x80, PIRC) /* \PIRC */
+                PIRC |= 0x80
             }
 
             Method (_CRS, 0, NotSerialized)  // _CRS: Current Resource Settings
             {
-                And (PIRC, 0x0F, Local0)
-                ShiftLeft (One, Local0, IRA0) /* \_SB_.IRA0 */
+                Local0 = (PIRC & 0x0F)
+                IRA0 = (One << Local0)
                 Return (BUFA) /* \_SB_.BUFA */
             }
 
@@ -7566,8 +7207,8 @@ DefinitionBlock ("acpi.aml", "DSDT", 1, "A0994", "A0994000", 0x00000000)
             {
                 CreateWordField (Arg0, One, IRA)
                 FindSetRightBit (IRA, Local0)
-                Decrement (Local0)
-                Store (Local0, PIRC) /* \PIRC */
+                Local0--
+                PIRC = Local0
             }
         }
 
@@ -7577,7 +7218,7 @@ DefinitionBlock ("acpi.aml", "DSDT", 1, "A0994", "A0994000", 0x00000000)
             Name (_UID, 0x04)  // _UID: Unique ID
             Method (_STA, 0, NotSerialized)  // _STA: Status
             {
-                And (PIRD, 0x80, Local0)
+                Local0 = (PIRD & 0x80)
                 If (Local0)
                 {
                     Return (0x09)
@@ -7595,13 +7236,13 @@ DefinitionBlock ("acpi.aml", "DSDT", 1, "A0994", "A0994000", 0x00000000)
 
             Method (_DIS, 0, NotSerialized)  // _DIS: Disable Device
             {
-                Or (PIRD, 0x80, PIRD) /* \PIRD */
+                PIRD |= 0x80
             }
 
             Method (_CRS, 0, NotSerialized)  // _CRS: Current Resource Settings
             {
-                And (PIRD, 0x0F, Local0)
-                ShiftLeft (One, Local0, IRA0) /* \_SB_.IRA0 */
+                Local0 = (PIRD & 0x0F)
+                IRA0 = (One << Local0)
                 Return (BUFA) /* \_SB_.BUFA */
             }
 
@@ -7609,8 +7250,8 @@ DefinitionBlock ("acpi.aml", "DSDT", 1, "A0994", "A0994000", 0x00000000)
             {
                 CreateWordField (Arg0, One, IRA)
                 FindSetRightBit (IRA, Local0)
-                Decrement (Local0)
-                Store (Local0, PIRD) /* \PIRD */
+                Local0--
+                PIRD = Local0
             }
         }
 
@@ -7620,7 +7261,7 @@ DefinitionBlock ("acpi.aml", "DSDT", 1, "A0994", "A0994000", 0x00000000)
             Name (_UID, 0x05)  // _UID: Unique ID
             Method (_STA, 0, NotSerialized)  // _STA: Status
             {
-                And (PIRE, 0x80, Local0)
+                Local0 = (PIRE & 0x80)
                 If (Local0)
                 {
                     Return (0x09)
@@ -7638,13 +7279,13 @@ DefinitionBlock ("acpi.aml", "DSDT", 1, "A0994", "A0994000", 0x00000000)
 
             Method (_DIS, 0, NotSerialized)  // _DIS: Disable Device
             {
-                Or (PIRE, 0x80, PIRE) /* \PIRE */
+                PIRE |= 0x80
             }
 
             Method (_CRS, 0, NotSerialized)  // _CRS: Current Resource Settings
             {
-                And (PIRE, 0x0F, Local0)
-                ShiftLeft (One, Local0, IRA0) /* \_SB_.IRA0 */
+                Local0 = (PIRE & 0x0F)
+                IRA0 = (One << Local0)
                 Return (BUFA) /* \_SB_.BUFA */
             }
 
@@ -7652,8 +7293,8 @@ DefinitionBlock ("acpi.aml", "DSDT", 1, "A0994", "A0994000", 0x00000000)
             {
                 CreateWordField (Arg0, One, IRA)
                 FindSetRightBit (IRA, Local0)
-                Decrement (Local0)
-                Store (Local0, PIRE) /* \PIRE */
+                Local0--
+                PIRE = Local0
             }
         }
 
@@ -7663,7 +7304,7 @@ DefinitionBlock ("acpi.aml", "DSDT", 1, "A0994", "A0994000", 0x00000000)
             Name (_UID, 0x06)  // _UID: Unique ID
             Method (_STA, 0, NotSerialized)  // _STA: Status
             {
-                And (PIRF, 0x80, Local0)
+                Local0 = (PIRF & 0x80)
                 If (Local0)
                 {
                     Return (0x09)
@@ -7681,13 +7322,13 @@ DefinitionBlock ("acpi.aml", "DSDT", 1, "A0994", "A0994000", 0x00000000)
 
             Method (_DIS, 0, NotSerialized)  // _DIS: Disable Device
             {
-                Or (PIRF, 0x80, PIRF) /* \PIRF */
+                PIRF |= 0x80
             }
 
             Method (_CRS, 0, NotSerialized)  // _CRS: Current Resource Settings
             {
-                And (PIRF, 0x0F, Local0)
-                ShiftLeft (One, Local0, IRA0) /* \_SB_.IRA0 */
+                Local0 = (PIRF & 0x0F)
+                IRA0 = (One << Local0)
                 Return (BUFA) /* \_SB_.BUFA */
             }
 
@@ -7695,8 +7336,8 @@ DefinitionBlock ("acpi.aml", "DSDT", 1, "A0994", "A0994000", 0x00000000)
             {
                 CreateWordField (Arg0, One, IRA)
                 FindSetRightBit (IRA, Local0)
-                Decrement (Local0)
-                Store (Local0, PIRF) /* \PIRF */
+                Local0--
+                PIRF = Local0
             }
         }
 
@@ -7706,7 +7347,7 @@ DefinitionBlock ("acpi.aml", "DSDT", 1, "A0994", "A0994000", 0x00000000)
             Name (_UID, 0x07)  // _UID: Unique ID
             Method (_STA, 0, NotSerialized)  // _STA: Status
             {
-                And (PIRG, 0x80, Local0)
+                Local0 = (PIRG & 0x80)
                 If (Local0)
                 {
                     Return (0x09)
@@ -7724,13 +7365,13 @@ DefinitionBlock ("acpi.aml", "DSDT", 1, "A0994", "A0994000", 0x00000000)
 
             Method (_DIS, 0, NotSerialized)  // _DIS: Disable Device
             {
-                Or (PIRG, 0x80, PIRG) /* \PIRG */
+                PIRG |= 0x80
             }
 
             Method (_CRS, 0, NotSerialized)  // _CRS: Current Resource Settings
             {
-                And (PIRG, 0x0F, Local0)
-                ShiftLeft (One, Local0, IRA0) /* \_SB_.IRA0 */
+                Local0 = (PIRG & 0x0F)
+                IRA0 = (One << Local0)
                 Return (BUFA) /* \_SB_.BUFA */
             }
 
@@ -7738,8 +7379,8 @@ DefinitionBlock ("acpi.aml", "DSDT", 1, "A0994", "A0994000", 0x00000000)
             {
                 CreateWordField (Arg0, One, IRA)
                 FindSetRightBit (IRA, Local0)
-                Decrement (Local0)
-                Store (Local0, PIRG) /* \PIRG */
+                Local0--
+                PIRG = Local0
             }
         }
 
@@ -7749,7 +7390,7 @@ DefinitionBlock ("acpi.aml", "DSDT", 1, "A0994", "A0994000", 0x00000000)
             Name (_UID, 0x08)  // _UID: Unique ID
             Method (_STA, 0, NotSerialized)  // _STA: Status
             {
-                And (PIRH, 0x80, Local0)
+                Local0 = (PIRH & 0x80)
                 If (Local0)
                 {
                     Return (0x09)
@@ -7767,13 +7408,13 @@ DefinitionBlock ("acpi.aml", "DSDT", 1, "A0994", "A0994000", 0x00000000)
 
             Method (_DIS, 0, NotSerialized)  // _DIS: Disable Device
             {
-                Or (PIRH, 0x80, PIRH) /* \PIRH */
+                PIRH |= 0x80
             }
 
             Method (_CRS, 0, NotSerialized)  // _CRS: Current Resource Settings
             {
-                And (PIRH, 0x0F, Local0)
-                ShiftLeft (One, Local0, IRA0) /* \_SB_.IRA0 */
+                Local0 = (PIRH & 0x0F)
+                IRA0 = (One << Local0)
                 Return (BUFA) /* \_SB_.BUFA */
             }
 
@@ -7781,8 +7422,8 @@ DefinitionBlock ("acpi.aml", "DSDT", 1, "A0994", "A0994000", 0x00000000)
             {
                 CreateWordField (Arg0, One, IRA)
                 FindSetRightBit (IRA, Local0)
-                Decrement (Local0)
-                Store (Local0, PIRH) /* \PIRH */
+                Local0--
+                PIRH = Local0
             }
         }
     }
@@ -7806,7 +7447,7 @@ DefinitionBlock ("acpi.aml", "DSDT", 1, "A0994", "A0994000", 0x00000000)
         Method (RBPE, 1, NotSerialized)
         {
             Acquire (MUTE, 0x03E8)
-            Add (Arg0, PCIB, Local0)
+            Local0 = (Arg0 + PCIB) /* \PCIB */
             OperationRegion (PCFG, SystemMemory, Local0, One)
             Field (PCFG, ByteAcc, NoLock, Preserve)
             {
@@ -7820,8 +7461,8 @@ DefinitionBlock ("acpi.aml", "DSDT", 1, "A0994", "A0994000", 0x00000000)
         Method (RWPE, 1, NotSerialized)
         {
             Acquire (MUTE, 0x03E8)
-            And (Arg0, 0xFFFFFFFE, Arg0)
-            Add (Arg0, PCIB, Local0)
+            Arg0 &= 0xFFFFFFFE
+            Local0 = (Arg0 + PCIB) /* \PCIB */
             OperationRegion (PCFG, SystemMemory, Local0, 0x02)
             Field (PCFG, WordAcc, NoLock, Preserve)
             {
@@ -7835,8 +7476,8 @@ DefinitionBlock ("acpi.aml", "DSDT", 1, "A0994", "A0994000", 0x00000000)
         Method (RDPE, 1, NotSerialized)
         {
             Acquire (MUTE, 0x03E8)
-            And (Arg0, 0xFFFFFFFC, Arg0)
-            Add (Arg0, PCIB, Local0)
+            Arg0 &= 0xFFFFFFFC
+            Local0 = (Arg0 + PCIB) /* \PCIB */
             OperationRegion (PCFG, SystemMemory, Local0, 0x04)
             Field (PCFG, DWordAcc, NoLock, Preserve)
             {
@@ -7850,76 +7491,76 @@ DefinitionBlock ("acpi.aml", "DSDT", 1, "A0994", "A0994000", 0x00000000)
         Method (WBPE, 2, NotSerialized)
         {
             Acquire (MUTE, 0x0FFF)
-            Add (Arg0, PCIB, Local0)
+            Local0 = (Arg0 + PCIB) /* \PCIB */
             OperationRegion (PCFG, SystemMemory, Local0, One)
             Field (PCFG, ByteAcc, NoLock, Preserve)
             {
                 XCFG,   8
             }
 
-            Store (Arg1, XCFG) /* \_SB_.WBPE.XCFG */
+            XCFG = Arg1
             Release (MUTE)
         }
 
         Method (WWPE, 2, NotSerialized)
         {
             Acquire (MUTE, 0x03E8)
-            And (Arg0, 0xFFFFFFFE, Arg0)
-            Add (Arg0, PCIB, Local0)
+            Arg0 &= 0xFFFFFFFE
+            Local0 = (Arg0 + PCIB) /* \PCIB */
             OperationRegion (PCFG, SystemMemory, Local0, 0x02)
             Field (PCFG, WordAcc, NoLock, Preserve)
             {
                 XCFG,   16
             }
 
-            Store (Arg1, XCFG) /* \_SB_.WWPE.XCFG */
+            XCFG = Arg1
             Release (MUTE)
         }
 
         Method (WDPE, 2, NotSerialized)
         {
             Acquire (MUTE, 0x03E8)
-            And (Arg0, 0xFFFFFFFC, Arg0)
-            Add (Arg0, PCIB, Local0)
+            Arg0 &= 0xFFFFFFFC
+            Local0 = (Arg0 + PCIB) /* \PCIB */
             OperationRegion (PCFG, SystemMemory, Local0, 0x04)
             Field (PCFG, DWordAcc, NoLock, Preserve)
             {
                 XCFG,   32
             }
 
-            Store (Arg1, XCFG) /* \_SB_.WDPE.XCFG */
+            XCFG = Arg1
             Release (MUTE)
         }
 
         Method (RWDP, 3, NotSerialized)
         {
             Acquire (MUTE, 0x03E8)
-            And (Arg0, 0xFFFFFFFC, Arg0)
-            Add (Arg0, PCIB, Local0)
+            Arg0 &= 0xFFFFFFFC
+            Local0 = (Arg0 + PCIB) /* \PCIB */
             OperationRegion (PCFG, SystemMemory, Local0, 0x04)
             Field (PCFG, DWordAcc, NoLock, Preserve)
             {
                 XCFG,   32
             }
 
-            And (XCFG, Arg2, Local1)
-            Or (Local1, Arg1, XCFG) /* \_SB_.RWDP.XCFG */
+            Local1 = (XCFG & Arg2)
+            XCFG = (Local1 | Arg1)
             Release (MUTE)
         }
 
         Method (RPME, 1, NotSerialized)
         {
-            Add (Arg0, 0x84, Local0)
-            Store (RDPE (Local0), Local1)
-            If (LEqual (Local1, Ones))
+            Local0 = (Arg0 + 0x84)
+            Local1 = RDPE (Local0)
+            If ((Local1 == Ones))
             {
                 Return (Zero)
             }
             Else
             {
-                If (LAnd (Local1, 0x00010000))
+                If ((Local1 && 0x00010000))
                 {
-                    WDPE (Local0, And (Local1, 0x00010000))
+                    WDPE (Local0, (Local1 & 0x00010000))
                     Return (One)
                 }
 
@@ -7949,30 +7590,30 @@ DefinitionBlock ("acpi.aml", "DSDT", 1, "A0994", "A0994000", 0x00000000)
 
     Method (SCMD, 4, Serialized)
     {
-        Store (0x05, Local0)
-        While (Decrement (Local0))
+        Local0 = 0x05
+        While (Local0--)
         {
-            Store (0xFFFF, Local1)
-            While (LAnd (HSTS, Decrement (Local1)))
+            Local1 = 0xFFFF
+            While ((HSTS && Local1--))
             {
-                Store (0xFE, HSTS) /* \HSTS */
+                HSTS = 0xFE
                 Stall (0x0A)
             }
 
-            Store (HSTC, Local2)
-            Store (Arg0, HADR) /* \HADR */
-            Store (Arg1, HCMD) /* \HCMD */
-            Store (Arg2, HDTW) /* \HDTW */
-            Store (Arg3, HSTC) /* \HSTC */
-            Store (0xFFFF, Local1)
-            While (Decrement (Local1))
+            Local2 = HSTC /* \HSTC */
+            HADR = Arg0
+            HCMD = Arg1
+            HDTW = Arg2
+            HSTC = Arg3
+            Local1 = 0xFFFF
+            While (Local1--)
             {
-                If (And (HSTS, 0x0C))
+                If ((HSTS & 0x0C))
                 {
-                    Store (One, Local1)
+                    Local1 = One
                 }
 
-                If (LEqual (And (HSTS, 0x03), 0x02))
+                If (((HSTS & 0x03) == 0x02))
                 {
                     Return (HDTW) /* \HDTW */
                 }
@@ -7980,19 +7621,19 @@ DefinitionBlock ("acpi.aml", "DSDT", 1, "A0994", "A0994000", 0x00000000)
                 Stall (0x0A)
             }
 
-            Store (0x42, HSTC) /* \HSTC */
-            Store (0xFFFF, Local1)
-            While (Decrement (Local1))
+            HSTC = 0x42
+            Local1 = 0xFFFF
+            While (Local1--)
             {
-                If (And (HSTS, 0x10))
+                If ((HSTS & 0x10))
                 {
-                    Store (One, Local1)
+                    Local1 = One
                 }
 
                 Stall (0x0A)
             }
 
-            Store (Zero, HSTC) /* \HSTC */
+            HSTC = Zero
         }
 
         Return (Ones)
@@ -8015,36 +7656,36 @@ DefinitionBlock ("acpi.aml", "DSDT", 1, "A0994", "A0994000", 0x00000000)
 
     Method (RSBT, 2, NotSerialized)
     {
-        Or (Arg0, One, Arg0)
-        Return (And (SCMD (Arg0, Arg1, Zero, 0x44), 0xFF))
+        Arg0 |= One
+        Return ((SCMD (Arg0, Arg1, Zero, 0x44) & 0xFF))
     }
 
     Method (RBYT, 2, NotSerialized)
     {
-        Or (Arg0, One, Arg0)
-        Return (And (SCMD (Arg0, Arg1, Zero, 0x48), 0xFF))
+        Arg0 |= One
+        Return ((SCMD (Arg0, Arg1, Zero, 0x48) & 0xFF))
     }
 
     Method (RWRD, 2, NotSerialized)
     {
-        Or (Arg0, One, Arg0)
+        Arg0 |= One
         Return (SCMD (Arg0, Arg1, Zero, 0x4C))
     }
 
     Method (RBLK, 3, NotSerialized)
     {
-        Or (Arg0, One, Local0)
+        Local0 = (Arg0 | One)
         SCMD (Local0, Arg1, Arg2, 0x54)
-        Store (HSTC, Local0)
-        Store (HDT0, Local0)
-        Add (Local0, One, Local7)
-        Name (RBUF, Buffer (Local7) {})
-        Store (Zero, Local1)
+        Local0 = HSTC /* \HSTC */
+        Local0 = HDT0 /* \HDT0 */
+        Local7 = (Local0 + One)
+        Name (RBUF, Buffer (Local7){})
+        Local1 = Zero
         While (Local0)
         {
-            Store (BLKD, Index (RBUF, Local1))
-            Decrement (Local0)
-            Increment (Local1)
+            RBUF [Local1] = BLKD /* \BLKD */
+            Local0--
+            Local1++
         }
 
         Return (RBUF) /* \RBLK.RBUF */
@@ -8052,15 +7693,15 @@ DefinitionBlock ("acpi.aml", "DSDT", 1, "A0994", "A0994000", 0x00000000)
 
     Method (WBLK, 4, NotSerialized)
     {
-        Store (HSTC, Local0)
-        Store (Zero, Local0)
-        While (LLessEqual (Local0, Arg2))
+        Local0 = HSTC /* \HSTC */
+        Local0 = Zero
+        While ((Local0 <= Arg2))
         {
-            Store (DerefOf (Index (Arg3, Local0)), BLKD) /* \BLKD */
-            Increment (Local0)
+            BLKD = DerefOf (Arg3 [Local0])
+            Local0++
         }
 
-        And (Arg0, 0xFE, Local0)
+        Local0 = (Arg0 & 0xFE)
         SCMD (Local0, Arg1, Arg2, 0x54)
     }
 
@@ -8068,50 +7709,50 @@ DefinitionBlock ("acpi.aml", "DSDT", 1, "A0994", "A0994000", 0x00000000)
     {
         Method (HWV0, 0, NotSerialized)
         {
-            Return (Multiply (VCOR, 0x08))
+            Return ((VCOR * 0x08))
         }
 
         Method (HWV1, 0, NotSerialized)
         {
-            Return (Multiply (V12V, 0x08))
+            Return ((V12V * 0x08))
         }
 
         Method (HWV3, 0, NotSerialized)
         {
-            Return (Multiply (V33V, 0x08))
+            Return ((V33V * 0x08))
         }
 
         Method (HWV5, 0, NotSerialized)
         {
-            Return (Multiply (V50V, 0x08))
+            Return ((V50V * 0x08))
         }
 
         Method (HWT0, 0, NotSerialized)
         {
-            Store (MBTE, Local1)
-            Multiply (Local1, 0x0A, Local1)
+            Local1 = MBTE /* \_SB_.PCI0.SBRG.SIOR.MBTE */
+            Local1 *= 0x0A
             Return (Local1)
         }
 
         Method (HWT1, 0, NotSerialized)
         {
-            Store (One, BSEL) /* \_SB_.PCI0.SBRG.SIOR.BSEL */
-            Store (TSR1, Local1)
-            Multiply (Local1, 0x0A, Local1)
-            Store (TSR2, Local2)
-            Multiply (Local2, 0x05, Local2)
-            Add (Local1, Local2, Local1)
+            BSEL = One
+            Local1 = TSR1 /* \_SB_.PCI0.SBRG.SIOR.TSR1 */
+            Local1 *= 0x0A
+            Local2 = TSR2 /* \_SB_.PCI0.SBRG.SIOR.TSR2 */
+            Local2 *= 0x05
+            Local1 += Local2
             Return (Local1)
         }
 
         Method (HWT2, 0, NotSerialized)
         {
-            Store (0x02, BSEL) /* \_SB_.PCI0.SBRG.SIOR.BSEL */
-            Store (TSR1, Local1)
-            Multiply (Local1, 0x0A, Local1)
-            Store (TSR2, Local2)
-            Multiply (Local2, 0x05, Local2)
-            Add (Local1, Local2, Local1)
+            BSEL = 0x02
+            Local1 = TSR1 /* \_SB_.PCI0.SBRG.SIOR.TSR1 */
+            Local1 *= 0x0A
+            Local2 = TSR2 /* \_SB_.PCI0.SBRG.SIOR.TSR2 */
+            Local2 *= 0x05
+            Local1 += Local2
             Return (Local1)
         }
 
@@ -8123,449 +7764,437 @@ DefinitionBlock ("acpi.aml", "DSDT", 1, "A0994", "A0994000", 0x00000000)
 
         Method (HWF0, 0, NotSerialized)
         {
-            Store (FAN1, Local0)
-            Store (Zero, BSEL) /* \_SB_.PCI0.SBRG.SIOR.BSEL */
-            And (FD21, 0x20, Local1)
-            ShiftRight (Local1, 0x05, Local1)
-            Multiply (Local1, 0x04, Local1)
-            And (FDR1, 0x30, Local2)
-            ShiftRight (Local2, 0x04, Local2)
-            Add (Local1, Local2, Local1)
-            If (LOr (LGreater (Local1, 0x05), LLess (Local1, 0x02)))
+            Local0 = FAN1 /* \_SB_.PCI0.SBRG.SIOR.FAN1 */
+            BSEL = Zero
+            Local1 = (FD21 & 0x20)
+            Local1 >>= 0x05
+            Local1 *= 0x04
+            Local2 = (FDR1 & 0x30)
+            Local2 >>= 0x04
+            Local1 += Local2
+            If (((Local1 > 0x05) || (Local1 < 0x02)))
             {
-                If (LGreater (Local0, 0xF0))
+                If ((Local0 > 0xF0))
                 {
-                    Store (0x02, Local1)
+                    Local1 = 0x02
+                }
+                ElseIf ((Local0 < 0x1E))
+                {
+                    Local1 = 0x05
                 }
                 Else
                 {
-                    If (LLess (Local0, 0x1E))
-                    {
-                        Store (0x05, Local1)
-                    }
-                    Else
-                    {
-                        Store (0x03, Local1)
-                    }
+                    Local1 = 0x03
                 }
 
                 Divide (Local1, 0x04, Local2, Local3)
-                ShiftLeft (Local3, 0x05, Local3)
-                Store (FD21, Local4)
-                And (Local4, 0xDF, Local4)
-                Or (Local3, Local4, FD21) /* \_SB_.PCI0.SBRG.SIOR.FD21 */
-                Store (FDR1, Local4)
-                And (Local4, 0xCF, Local4)
-                ShiftLeft (Local2, 0x04, Local2)
-                Or (Local4, One, Local4)
-                Or (Local4, Local2, FDR1) /* \_SB_.PCI0.SBRG.SIOR.FDR1 */
+                Local3 <<= 0x05
+                Local4 = FD21 /* \_SB_.PCI0.SBRG.SIOR.FD21 */
+                Local4 &= 0xDF
+                FD21 = (Local3 | Local4)
+                Local4 = FDR1 /* \_SB_.PCI0.SBRG.SIOR.FDR1 */
+                Local4 &= 0xCF
+                Local2 <<= 0x04
+                Local4 |= One
+                FDR1 = (Local4 | Local2)
             }
 
-            While (LOr (LAnd (LGreater (Local0, 0xF0), LLess (Local1, 0x05)), LAnd (
-                LLess (Local0, 0x1E), LGreater (Local1, 0x02))))
+            While ((((Local0 > 0xF0) && (Local1 < 0x05)) || ((Local0 < 
+                0x1E) && (Local1 > 0x02))))
             {
-                If (LAnd (LGreater (Local0, 0xF0), LLess (Local1, 0x05)))
+                If (((Local0 > 0xF0) && (Local1 < 0x05)))
                 {
-                    Add (Local1, One, Local1)
+                    Local1 += One
                     Divide (Local1, 0x04, Local2, Local3)
-                    Store (Zero, BSEL) /* \_SB_.PCI0.SBRG.SIOR.BSEL */
-                    ShiftLeft (Local3, 0x05, Local3)
-                    Store (FD21, Local4)
-                    And (Local4, 0xDF, Local4)
-                    Or (Local3, Local4, FD21) /* \_SB_.PCI0.SBRG.SIOR.FD21 */
-                    Store (FDR1, Local4)
-                    And (Local4, 0xCF, Local4)
-                    ShiftLeft (Local2, 0x04, Local2)
-                    Or (Local4, One, Local4)
-                    Or (Local4, Local2, FDR1) /* \_SB_.PCI0.SBRG.SIOR.FDR1 */
+                    BSEL = Zero
+                    Local3 <<= 0x05
+                    Local4 = FD21 /* \_SB_.PCI0.SBRG.SIOR.FD21 */
+                    Local4 &= 0xDF
+                    FD21 = (Local3 | Local4)
+                    Local4 = FDR1 /* \_SB_.PCI0.SBRG.SIOR.FDR1 */
+                    Local4 &= 0xCF
+                    Local2 <<= 0x04
+                    Local4 |= One
+                    FDR1 = (Local4 | Local2)
                     Sleep (0x32)
-                    Store (FAN1, Local0)
+                    Local0 = FAN1 /* \_SB_.PCI0.SBRG.SIOR.FAN1 */
                     Sleep (0x32)
-                    Store (FAN1, Local0)
+                    Local0 = FAN1 /* \_SB_.PCI0.SBRG.SIOR.FAN1 */
                     Sleep (0x32)
-                    Store (FAN1, Local0)
+                    Local0 = FAN1 /* \_SB_.PCI0.SBRG.SIOR.FAN1 */
                 }
                 Else
                 {
-                    Subtract (Local1, One, Local1)
+                    Local1 -= One
                     Divide (Local1, 0x04, Local2, Local3)
-                    Store (Zero, BSEL) /* \_SB_.PCI0.SBRG.SIOR.BSEL */
-                    ShiftLeft (Local3, 0x05, Local3)
-                    Store (FD21, Local4)
-                    And (Local4, 0xDF, Local4)
-                    Or (Local3, Local4, FD21) /* \_SB_.PCI0.SBRG.SIOR.FD21 */
-                    Store (FDR1, Local4)
-                    And (Local4, 0xCF, Local4)
-                    ShiftLeft (Local2, 0x04, Local2)
-                    Or (Local4, One, Local4)
-                    Or (Local4, Local2, FDR1) /* \_SB_.PCI0.SBRG.SIOR.FDR1 */
+                    BSEL = Zero
+                    Local3 <<= 0x05
+                    Local4 = FD21 /* \_SB_.PCI0.SBRG.SIOR.FD21 */
+                    Local4 &= 0xDF
+                    FD21 = (Local3 | Local4)
+                    Local4 = FDR1 /* \_SB_.PCI0.SBRG.SIOR.FDR1 */
+                    Local4 &= 0xCF
+                    Local2 <<= 0x04
+                    Local4 |= One
+                    FDR1 = (Local4 | Local2)
                     Sleep (0x32)
-                    Store (FAN1, Local0)
+                    Local0 = FAN1 /* \_SB_.PCI0.SBRG.SIOR.FAN1 */
                     Sleep (0x32)
-                    Store (FAN1, Local0)
+                    Local0 = FAN1 /* \_SB_.PCI0.SBRG.SIOR.FAN1 */
                     Sleep (0x32)
-                    Store (FAN1, Local0)
+                    Local0 = FAN1 /* \_SB_.PCI0.SBRG.SIOR.FAN1 */
                 }
             }
 
-            If (LAnd (LEqual (Local0, 0xFF), LEqual (Local1, 0x05)))
+            If (((Local0 == 0xFF) && (Local1 == 0x05)))
             {
                 Return (Zero)
             }
 
-            If (LAnd (LEqual (Local0, Zero), LEqual (Local1, 0x02)))
+            If (((Local0 == Zero) && (Local1 == 0x02)))
             {
                 Return (0xFFFF)
             }
 
-            Store (One, Local2)
+            Local2 = One
             While (Local1)
             {
-                Multiply (Local2, 0x02, Local2)
-                Decrement (Local1)
+                Local2 *= 0x02
+                Local1--
             }
 
-            Multiply (Local0, Local2, Local0)
+            Local0 *= Local2
             Divide (0x00149970, Local0, Local1, Local0)
             Return (Local0)
         }
 
         Method (HWF1, 0, NotSerialized)
         {
-            Store (Zero, BSEL) /* \_SB_.PCI0.SBRG.SIOR.BSEL */
-            Store (FAN2, Local0)
-            And (FD21, 0x40, Local1)
-            ShiftRight (Local1, 0x06, Local1)
-            Multiply (Local1, 0x04, Local1)
-            And (FDR1, 0xC0, Local2)
-            ShiftRight (Local2, 0x06, Local2)
-            Add (Local1, Local2, Local1)
-            If (LOr (LGreater (Local1, 0x05), LLess (Local1, 0x02)))
+            BSEL = Zero
+            Local0 = FAN2 /* \_SB_.PCI0.SBRG.SIOR.FAN2 */
+            Local1 = (FD21 & 0x40)
+            Local1 >>= 0x06
+            Local1 *= 0x04
+            Local2 = (FDR1 & 0xC0)
+            Local2 >>= 0x06
+            Local1 += Local2
+            If (((Local1 > 0x05) || (Local1 < 0x02)))
             {
-                If (LGreater (Local0, 0xF0))
+                If ((Local0 > 0xF0))
                 {
-                    Store (0x02, Local1)
+                    Local1 = 0x02
+                }
+                ElseIf ((Local0 < 0x1E))
+                {
+                    Local1 = 0x05
                 }
                 Else
                 {
-                    If (LLess (Local0, 0x1E))
-                    {
-                        Store (0x05, Local1)
-                    }
-                    Else
-                    {
-                        Store (0x03, Local1)
-                    }
+                    Local1 = 0x03
                 }
 
                 Divide (Local1, 0x04, Local2, Local3)
-                ShiftLeft (Local3, 0x06, Local3)
-                Store (FD21, Local4)
-                And (Local4, 0xBF, Local4)
-                Or (Local3, Local4, FD21) /* \_SB_.PCI0.SBRG.SIOR.FD21 */
-                Store (FDR1, Local4)
-                And (Local4, 0x3F, Local4)
-                ShiftLeft (Local2, 0x06, Local2)
-                Or (Local4, One, Local4)
-                Or (Local4, Local2, FDR1) /* \_SB_.PCI0.SBRG.SIOR.FDR1 */
+                Local3 <<= 0x06
+                Local4 = FD21 /* \_SB_.PCI0.SBRG.SIOR.FD21 */
+                Local4 &= 0xBF
+                FD21 = (Local3 | Local4)
+                Local4 = FDR1 /* \_SB_.PCI0.SBRG.SIOR.FDR1 */
+                Local4 &= 0x3F
+                Local2 <<= 0x06
+                Local4 |= One
+                FDR1 = (Local4 | Local2)
             }
 
-            While (LOr (LAnd (LGreater (Local0, 0xF0), LLess (Local1, 0x05)), LAnd (
-                LLess (Local0, 0x1E), LGreater (Local1, 0x02))))
+            While ((((Local0 > 0xF0) && (Local1 < 0x05)) || ((Local0 < 
+                0x1E) && (Local1 > 0x02))))
             {
-                If (LAnd (LLess (Local0, 0x1E), LGreater (Local1, 0x02)))
+                If (((Local0 < 0x1E) && (Local1 > 0x02)))
                 {
-                    Subtract (Local1, One, Local1)
+                    Local1 -= One
                     Divide (Local1, 0x04, Local2, Local3)
-                    Store (Zero, BSEL) /* \_SB_.PCI0.SBRG.SIOR.BSEL */
-                    ShiftLeft (Local3, 0x06, Local3)
-                    Store (FD21, Local4)
-                    And (Local4, 0xBF, Local4)
-                    Or (Local3, Local4, FD21) /* \_SB_.PCI0.SBRG.SIOR.FD21 */
-                    Store (FDR1, Local4)
-                    And (Local4, 0x3F, Local4)
-                    ShiftLeft (Local2, 0x06, Local2)
-                    Or (Local4, One, Local4)
-                    Or (Local4, Local2, FDR1) /* \_SB_.PCI0.SBRG.SIOR.FDR1 */
+                    BSEL = Zero
+                    Local3 <<= 0x06
+                    Local4 = FD21 /* \_SB_.PCI0.SBRG.SIOR.FD21 */
+                    Local4 &= 0xBF
+                    FD21 = (Local3 | Local4)
+                    Local4 = FDR1 /* \_SB_.PCI0.SBRG.SIOR.FDR1 */
+                    Local4 &= 0x3F
+                    Local2 <<= 0x06
+                    Local4 |= One
+                    FDR1 = (Local4 | Local2)
                     Sleep (0x32)
-                    Store (Zero, BSEL) /* \_SB_.PCI0.SBRG.SIOR.BSEL */
-                    Store (FAN2, Local0)
+                    BSEL = Zero
+                    Local0 = FAN2 /* \_SB_.PCI0.SBRG.SIOR.FAN2 */
                     Sleep (0x32)
-                    Store (FAN2, Local0)
+                    Local0 = FAN2 /* \_SB_.PCI0.SBRG.SIOR.FAN2 */
                     Sleep (0x32)
-                    Store (FAN2, Local0)
+                    Local0 = FAN2 /* \_SB_.PCI0.SBRG.SIOR.FAN2 */
                 }
                 Else
                 {
-                    Add (Local1, One, Local1)
+                    Local1 += One
                     Divide (Local1, 0x04, Local2, Local3)
-                    Store (Zero, BSEL) /* \_SB_.PCI0.SBRG.SIOR.BSEL */
-                    ShiftLeft (Local3, 0x06, Local3)
-                    Store (FD21, Local4)
-                    And (Local4, 0xBF, Local4)
-                    Or (Local3, Local4, FD21) /* \_SB_.PCI0.SBRG.SIOR.FD21 */
-                    Store (FDR1, Local4)
-                    And (Local4, 0x3F, Local4)
-                    ShiftLeft (Local2, 0x06, Local2)
-                    Or (Local4, One, Local4)
-                    Or (Local4, Local2, FDR1) /* \_SB_.PCI0.SBRG.SIOR.FDR1 */
+                    BSEL = Zero
+                    Local3 <<= 0x06
+                    Local4 = FD21 /* \_SB_.PCI0.SBRG.SIOR.FD21 */
+                    Local4 &= 0xBF
+                    FD21 = (Local3 | Local4)
+                    Local4 = FDR1 /* \_SB_.PCI0.SBRG.SIOR.FDR1 */
+                    Local4 &= 0x3F
+                    Local2 <<= 0x06
+                    Local4 |= One
+                    FDR1 = (Local4 | Local2)
                     Sleep (0x32)
-                    Store (Zero, BSEL) /* \_SB_.PCI0.SBRG.SIOR.BSEL */
-                    Store (FAN2, Local0)
+                    BSEL = Zero
+                    Local0 = FAN2 /* \_SB_.PCI0.SBRG.SIOR.FAN2 */
                     Sleep (0x32)
-                    Store (FAN2, Local0)
+                    Local0 = FAN2 /* \_SB_.PCI0.SBRG.SIOR.FAN2 */
                     Sleep (0x32)
-                    Store (FAN2, Local0)
+                    Local0 = FAN2 /* \_SB_.PCI0.SBRG.SIOR.FAN2 */
                 }
             }
 
-            If (LAnd (LEqual (Local0, 0xFF), LEqual (Local1, 0x05)))
+            If (((Local0 == 0xFF) && (Local1 == 0x05)))
             {
                 Return (Zero)
             }
 
-            If (LAnd (LEqual (Local0, Zero), LEqual (Local1, 0x02)))
+            If (((Local0 == Zero) && (Local1 == 0x02)))
             {
                 Return (0xFFFF)
             }
 
-            Store (One, Local2)
+            Local2 = One
             While (Local1)
             {
-                Multiply (Local2, 0x02, Local2)
-                Decrement (Local1)
+                Local2 *= 0x02
+                Local1--
             }
 
-            Multiply (Local0, Local2, Local0)
+            Local0 *= Local2
             Divide (0x00149970, Local0, Local1, Local0)
             Return (Local0)
         }
 
         Method (HWF2, 0, NotSerialized)
         {
-            Store (FAN3, Local0)
-            Store (Zero, BSEL) /* \_SB_.PCI0.SBRG.SIOR.BSEL */
-            And (FD21, 0x80, Local1)
-            ShiftRight (Local1, 0x07, Local1)
-            Multiply (Local1, 0x04, Local1)
+            Local0 = FAN3 /* \_SB_.PCI0.SBRG.SIOR.FAN3 */
+            BSEL = Zero
+            Local1 = (FD21 & 0x80)
+            Local1 >>= 0x07
+            Local1 *= 0x04
             Divide (FD13, 0x40, Local2, Local3)
-            Add (Local1, Local3, Local1)
-            If (LOr (LGreater (Local1, 0x05), LLess (Local1, 0x02)))
+            Local1 += Local3
+            If (((Local1 > 0x05) || (Local1 < 0x02)))
             {
-                If (LGreater (Local0, 0xF0))
+                If ((Local0 > 0xF0))
                 {
-                    Store (0x02, Local1)
+                    Local1 = 0x02
+                }
+                ElseIf ((Local0 < 0x1E))
+                {
+                    Local1 = 0x05
                 }
                 Else
                 {
-                    If (LLess (Local0, 0x1E))
-                    {
-                        Store (0x05, Local1)
-                    }
-                    Else
-                    {
-                        Store (0x03, Local1)
-                    }
+                    Local1 = 0x03
                 }
 
                 Divide (Local1, 0x04, Local2, Local3)
-                ShiftLeft (Local3, 0x07, Local3)
-                Store (FD21, Local4)
-                And (Local4, 0x7F, Local4)
-                Or (Local3, Local4, FD21) /* \_SB_.PCI0.SBRG.SIOR.FD21 */
-                Store (FD13, Local3)
-                And (Local3, 0x3F, Local3)
-                Multiply (Local2, 0x40, Local2)
-                Add (Local3, Local2, Local2)
-                Store (Local2, FD13) /* \_SB_.PCI0.SBRG.SIOR.FD13 */
+                Local3 <<= 0x07
+                Local4 = FD21 /* \_SB_.PCI0.SBRG.SIOR.FD21 */
+                Local4 &= 0x7F
+                FD21 = (Local3 | Local4)
+                Local3 = FD13 /* \_SB_.PCI0.SBRG.SIOR.FD13 */
+                Local3 &= 0x3F
+                Local2 *= 0x40
+                Local2 += Local3
+                FD13 = Local2
             }
 
-            While (LOr (LAnd (LGreater (Local0, 0xF0), LLess (Local1, 0x05)), LAnd (
-                LLess (Local0, 0x1E), LGreater (Local1, 0x02))))
+            While ((((Local0 > 0xF0) && (Local1 < 0x05)) || ((Local0 < 
+                0x1E) && (Local1 > 0x02))))
             {
-                If (LAnd (LGreater (Local0, 0xF0), LLess (Local1, 0x05)))
+                If (((Local0 > 0xF0) && (Local1 < 0x05)))
                 {
-                    If (LEqual (Local0, 0xFF))
+                    If ((Local0 == 0xFF))
                     {
-                        Store (0x05, Local1)
+                        Local1 = 0x05
                     }
                     Else
                     {
-                        Add (Local1, One, Local1)
+                        Local1 += One
                     }
 
                     Divide (Local1, 0x04, Local2, Local3)
-                    Store (Zero, BSEL) /* \_SB_.PCI0.SBRG.SIOR.BSEL */
-                    ShiftLeft (Local3, 0x07, Local3)
-                    Store (FD21, Local4)
-                    And (Local4, 0x7F, Local4)
-                    Or (Local3, Local4, FD21) /* \_SB_.PCI0.SBRG.SIOR.FD21 */
-                    Store (FD13, Local3)
-                    And (Local3, 0x3F, Local3)
-                    Multiply (Local2, 0x40, Local2)
-                    Add (Local3, Local2, Local2)
-                    Store (Local2, FD13) /* \_SB_.PCI0.SBRG.SIOR.FD13 */
-                    If (LNotEqual (Local0, 0xFF))
+                    BSEL = Zero
+                    Local3 <<= 0x07
+                    Local4 = FD21 /* \_SB_.PCI0.SBRG.SIOR.FD21 */
+                    Local4 &= 0x7F
+                    FD21 = (Local3 | Local4)
+                    Local3 = FD13 /* \_SB_.PCI0.SBRG.SIOR.FD13 */
+                    Local3 &= 0x3F
+                    Local2 *= 0x40
+                    Local2 += Local3
+                    FD13 = Local2
+                    If ((Local0 != 0xFF))
                     {
                         Sleep (0x32)
                     }
 
-                    Store (FAN3, Local0)
+                    Local0 = FAN3 /* \_SB_.PCI0.SBRG.SIOR.FAN3 */
                     Sleep (0x32)
-                    Store (FAN3, Local0)
+                    Local0 = FAN3 /* \_SB_.PCI0.SBRG.SIOR.FAN3 */
                     Sleep (0x32)
-                    Store (FAN3, Local0)
+                    Local0 = FAN3 /* \_SB_.PCI0.SBRG.SIOR.FAN3 */
                 }
                 Else
                 {
-                    Subtract (Local1, One, Local1)
+                    Local1 -= One
                     Divide (Local1, 0x04, Local2, Local3)
-                    Store (Zero, BSEL) /* \_SB_.PCI0.SBRG.SIOR.BSEL */
-                    ShiftLeft (Local3, 0x07, Local3)
-                    Store (FD21, Local4)
-                    And (Local4, 0x7F, Local4)
-                    Or (Local3, Local4, FD21) /* \_SB_.PCI0.SBRG.SIOR.FD21 */
-                    Store (FD13, Local3)
-                    And (Local3, 0x3F, Local3)
-                    Multiply (Local2, 0x40, Local2)
-                    Add (Local3, Local2, Local2)
-                    Store (Local2, FD13) /* \_SB_.PCI0.SBRG.SIOR.FD13 */
+                    BSEL = Zero
+                    Local3 <<= 0x07
+                    Local4 = FD21 /* \_SB_.PCI0.SBRG.SIOR.FD21 */
+                    Local4 &= 0x7F
+                    FD21 = (Local3 | Local4)
+                    Local3 = FD13 /* \_SB_.PCI0.SBRG.SIOR.FD13 */
+                    Local3 &= 0x3F
+                    Local2 *= 0x40
+                    Local2 += Local3
+                    FD13 = Local2
                     Sleep (0x32)
-                    Store (FAN3, Local0)
+                    Local0 = FAN3 /* \_SB_.PCI0.SBRG.SIOR.FAN3 */
                     Sleep (0x32)
-                    Store (FAN3, Local0)
+                    Local0 = FAN3 /* \_SB_.PCI0.SBRG.SIOR.FAN3 */
                     Sleep (0x32)
-                    Store (FAN3, Local0)
+                    Local0 = FAN3 /* \_SB_.PCI0.SBRG.SIOR.FAN3 */
                 }
             }
 
-            If (LAnd (LEqual (Local0, 0xFF), LEqual (Local1, 0x05)))
+            If (((Local0 == 0xFF) && (Local1 == 0x05)))
             {
                 Return (Zero)
             }
 
-            If (LAnd (LEqual (Local0, Zero), LEqual (Local1, 0x02)))
+            If (((Local0 == Zero) && (Local1 == 0x02)))
             {
                 Return (0xFFFF)
             }
 
-            Store (One, Local2)
+            Local2 = One
             While (Local1)
             {
-                Multiply (Local2, 0x02, Local2)
-                Decrement (Local1)
+                Local2 *= 0x02
+                Local1--
             }
 
-            Multiply (Local0, Local2, Local0)
+            Local0 *= Local2
             Divide (0x00149970, Local0, Local1, Local0)
             Return (Local0)
         }
 
         Method (HWF4, 0, NotSerialized)
         {
-            Store (0x05, BSEL) /* \_SB_.PCI0.SBRG.SIOR.BSEL */
-            Store (FAN4, Local0)
-            Store (Zero, BSEL) /* \_SB_.PCI0.SBRG.SIOR.BSEL */
-            And (FND4, 0x80, Local1)
-            ShiftRight (Local1, 0x08, Local1)
-            Multiply (Local1, 0x04, Local1)
-            And (FND4, 0x0C, Local2)
-            ShiftRight (Local2, 0x02, Local2)
-            Add (Local1, Local2, Local1)
-            If (LOr (LGreater (Local1, 0x05), LLess (Local1, 0x02)))
+            BSEL = 0x05
+            Local0 = FAN4 /* \_SB_.PCI0.SBRG.SIOR.FAN4 */
+            BSEL = Zero
+            Local1 = (FND4 & 0x80)
+            Local1 >>= 0x08
+            Local1 *= 0x04
+            Local2 = (FND4 & 0x0C)
+            Local2 >>= 0x02
+            Local1 += Local2
+            If (((Local1 > 0x05) || (Local1 < 0x02)))
             {
-                If (LGreater (Local0, 0xF0))
+                If ((Local0 > 0xF0))
                 {
-                    Store (0x02, Local1)
+                    Local1 = 0x02
+                }
+                ElseIf ((Local0 < 0x1E))
+                {
+                    Local1 = 0x05
                 }
                 Else
                 {
-                    If (LLess (Local0, 0x1E))
-                    {
-                        Store (0x05, Local1)
-                    }
-                    Else
-                    {
-                        Store (0x03, Local1)
-                    }
+                    Local1 = 0x03
                 }
 
                 Divide (Local1, 0x04, Local2, Local3)
-                ShiftLeft (Local3, 0x08, Local3)
-                ShiftLeft (Local2, 0x02, Local2)
-                Store (FND4, Local4)
-                And (Local4, 0x73, Local4)
-                Or (Local3, Local2, Local3)
-                Or (Local3, Local4, FND4) /* \_SB_.PCI0.SBRG.SIOR.FND4 */
+                Local3 <<= 0x08
+                Local2 <<= 0x02
+                Local4 = FND4 /* \_SB_.PCI0.SBRG.SIOR.FND4 */
+                Local4 &= 0x73
+                Local3 |= Local2
+                FND4 = (Local3 | Local4)
             }
 
-            While (LOr (LAnd (LGreater (Local0, 0xF0), LLess (Local1, 0x05)), LAnd (
-                LLess (Local0, 0x1E), LGreater (Local1, 0x02))))
+            While ((((Local0 > 0xF0) && (Local1 < 0x05)) || ((Local0 < 
+                0x1E) && (Local1 > 0x02))))
             {
-                If (LAnd (LGreater (Local0, 0xF0), LLess (Local1, 0x05)))
+                If (((Local0 > 0xF0) && (Local1 < 0x05)))
                 {
-                    Add (Local1, One, Local1)
+                    Local1 += One
                     Divide (Local1, 0x04, Local2, Local3)
-                    Store (Zero, BSEL) /* \_SB_.PCI0.SBRG.SIOR.BSEL */
-                    ShiftLeft (Local3, 0x08, Local3)
-                    ShiftLeft (Local2, 0x02, Local2)
-                    Store (FND4, Local4)
-                    And (Local4, 0x73, Local4)
-                    Or (Local3, Local2, Local3)
-                    Or (Local3, Local4, FND4) /* \_SB_.PCI0.SBRG.SIOR.FND4 */
-                    If (LNotEqual (Local0, 0xFF))
+                    BSEL = Zero
+                    Local3 <<= 0x08
+                    Local2 <<= 0x02
+                    Local4 = FND4 /* \_SB_.PCI0.SBRG.SIOR.FND4 */
+                    Local4 &= 0x73
+                    Local3 |= Local2
+                    FND4 = (Local3 | Local4)
+                    If ((Local0 != 0xFF))
                     {
                         Sleep (0x32)
                     }
 
-                    Store (0x05, BSEL) /* \_SB_.PCI0.SBRG.SIOR.BSEL */
-                    Store (FAN4, Local0)
+                    BSEL = 0x05
+                    Local0 = FAN4 /* \_SB_.PCI0.SBRG.SIOR.FAN4 */
                     Sleep (0x32)
-                    Store (FAN4, Local0)
+                    Local0 = FAN4 /* \_SB_.PCI0.SBRG.SIOR.FAN4 */
                     Sleep (0x32)
-                    Store (FAN4, Local0)
-                    Store (Zero, BSEL) /* \_SB_.PCI0.SBRG.SIOR.BSEL */
+                    Local0 = FAN4 /* \_SB_.PCI0.SBRG.SIOR.FAN4 */
+                    BSEL = Zero
                 }
                 Else
                 {
-                    Subtract (Local1, One, Local1)
+                    Local1 -= One
                     Divide (Local1, 0x04, Local2, Local3)
-                    Store (Zero, BSEL) /* \_SB_.PCI0.SBRG.SIOR.BSEL */
-                    ShiftLeft (Local3, 0x08, Local3)
-                    ShiftLeft (Local2, 0x02, Local2)
-                    Store (FND4, Local4)
-                    And (Local4, 0x73, Local4)
-                    Or (Local3, Local2, Local3)
-                    Or (Local3, Local4, FND4) /* \_SB_.PCI0.SBRG.SIOR.FND4 */
+                    BSEL = Zero
+                    Local3 <<= 0x08
+                    Local2 <<= 0x02
+                    Local4 = FND4 /* \_SB_.PCI0.SBRG.SIOR.FND4 */
+                    Local4 &= 0x73
+                    Local3 |= Local2
+                    FND4 = (Local3 | Local4)
                     Sleep (0x32)
-                    Store (0x05, BSEL) /* \_SB_.PCI0.SBRG.SIOR.BSEL */
-                    Store (FAN4, Local0)
+                    BSEL = 0x05
+                    Local0 = FAN4 /* \_SB_.PCI0.SBRG.SIOR.FAN4 */
                     Sleep (0x32)
-                    Store (FAN4, Local0)
+                    Local0 = FAN4 /* \_SB_.PCI0.SBRG.SIOR.FAN4 */
                     Sleep (0x32)
-                    Store (FAN4, Local0)
-                    Store (Zero, BSEL) /* \_SB_.PCI0.SBRG.SIOR.BSEL */
+                    Local0 = FAN4 /* \_SB_.PCI0.SBRG.SIOR.FAN4 */
+                    BSEL = Zero
                 }
             }
 
-            If (LAnd (LEqual (Local0, 0xFF), LEqual (Local1, 0x05)))
+            If (((Local0 == 0xFF) && (Local1 == 0x05)))
             {
                 Return (Zero)
             }
 
-            If (LAnd (LEqual (Local0, Zero), LEqual (Local1, 0x02)))
+            If (((Local0 == Zero) && (Local1 == 0x02)))
             {
                 Return (0xFFFF)
             }
 
-            Store (One, Local2)
+            Local2 = One
             While (Local1)
             {
-                Multiply (Local2, 0x02, Local2)
-                Decrement (Local1)
+                Local2 *= 0x02
+                Local1--
             }
 
-            Multiply (Local0, Local2, Local0)
+            Local0 *= Local2
             Divide (0x00149970, Local0, Local1, Local0)
             Return (Local0)
         }
@@ -8583,82 +8212,79 @@ DefinitionBlock ("acpi.aml", "DSDT", 1, "A0994", "A0994000", 0x00000000)
         })
         Method (HWF3, 0, NotSerialized)
         {
-            Store (Zero, BSEL) /* \_SB_.PCI0.SBRG.SIOR.BSEL */
-            Store (CFN3, Local0)
-            And (FD15, 0x80, Local1)
-            ShiftRight (Local1, 0x05, Local1)
-            And (FND4, 0x03, Local2)
-            Or (Local1, Local2, Local1)
-            If (LOr (LGreater (Local1, 0x05), LLess (Local1, 0x02)))
+            BSEL = Zero
+            Local0 = CFN3 /* \_SB_.PCI0.SBRG.SIOR.CFN3 */
+            Local1 = (FD15 & 0x80)
+            Local1 >>= 0x05
+            Local2 = (FND4 & 0x03)
+            Local1 |= Local2
+            If (((Local1 > 0x05) || (Local1 < 0x02)))
             {
-                If (LGreater (Local0, 0xF0))
+                If ((Local0 > 0xF0))
                 {
-                    Store (0x02, Local1)
+                    Local1 = 0x02
+                }
+                ElseIf ((Local0 < 0x1E))
+                {
+                    Local1 = 0x05
                 }
                 Else
                 {
-                    If (LLess (Local0, 0x1E))
-                    {
-                        Store (0x05, Local1)
-                    }
-                    Else
-                    {
-                        Store (0x03, Local1)
-                    }
+                    Local1 = 0x03
                 }
 
-                ShiftLeft (Local1, 0x05, Local2)
-                And (Local2, 0x80, Local2)
-                And (FD15, 0x7F, Local3)
-                Or (Local2, Local3, Local3)
-                Store (Local3, FD15) /* \_SB_.PCI0.SBRG.SIOR.FD15 */
-                And (Local1, 0x03, Local2)
-                And (FND4, 0xFC, Local3)
-                Or (Local2, Local3, Local3)
-                Store (Local3, FND4) /* \_SB_.PCI0.SBRG.SIOR.FND4 */
+                Local2 = (Local1 << 0x05)
+                Local2 &= 0x80
+                Local3 = (FD15 & 0x7F)
+                Local3 |= Local2
+                FD15 = Local3
+                Local2 = (Local1 & 0x03)
+                Local3 = (FND4 & 0xFC)
+                Local3 |= Local2
+                FND4 = Local3
             }
 
-            While (LOr (LAnd (LGreater (Local0, 0xF0), LLess (Local1, 0x05)), LAnd (
-                LLess (Local0, 0x1E), LGreater (Local1, 0x02))))
+            While ((((Local0 > 0xF0) && (Local1 < 0x05)) || ((Local0 < 
+                0x1E) && (Local1 > 0x02))))
             {
-                If (LAnd (LGreater (Local0, 0xF0), LLess (Local1, 0x05)))
+                If (((Local0 > 0xF0) && (Local1 < 0x05)))
                 {
-                    Increment (Local1)
+                    Local1++
                 }
                 Else
                 {
-                    Decrement (Local1)
+                    Local1--
                 }
 
-                ShiftLeft (Local1, 0x05, Local2)
-                And (Local2, 0x80, Local2)
-                And (FD15, 0x7F, Local3)
-                Or (Local2, Local3, Local3)
-                Store (Local3, FD15) /* \_SB_.PCI0.SBRG.SIOR.FD15 */
-                And (Local1, 0x03, Local2)
-                And (FND4, 0xFC, Local3)
-                Or (Local2, Local3, Local3)
-                Store (Local3, FND4) /* \_SB_.PCI0.SBRG.SIOR.FND4 */
+                Local2 = (Local1 << 0x05)
+                Local2 &= 0x80
+                Local3 = (FD15 & 0x7F)
+                Local3 |= Local2
+                FD15 = Local3
+                Local2 = (Local1 & 0x03)
+                Local3 = (FND4 & 0xFC)
+                Local3 |= Local2
+                FND4 = Local3
                 Sleep (0x32)
-                Store (CFN3, Local0)
+                Local0 = CFN3 /* \_SB_.PCI0.SBRG.SIOR.CFN3 */
                 Sleep (0x32)
-                Store (CFN3, Local0)
+                Local0 = CFN3 /* \_SB_.PCI0.SBRG.SIOR.CFN3 */
                 Sleep (0x32)
-                Store (CFN3, Local0)
+                Local0 = CFN3 /* \_SB_.PCI0.SBRG.SIOR.CFN3 */
             }
 
-            If (LAnd (LEqual (Local0, 0xFF), LEqual (Local1, 0x05)))
+            If (((Local0 == 0xFF) && (Local1 == 0x05)))
             {
                 Return (Zero)
             }
 
-            If (LAnd (LEqual (Local0, Zero), LEqual (Local1, 0x02)))
+            If (((Local0 == Zero) && (Local1 == 0x02)))
             {
                 Return (0xFFFF)
             }
 
-            Store (DerefOf (Index (FNDT, Local1)), Local2)
-            Multiply (Local0, Local2, Local0)
+            Local2 = DerefOf (FNDT [Local1])
+            Local0 *= Local2
             Divide (0x00149970, Local0, Local1, Local0)
             Return (Local0)
         }
@@ -8795,22 +8421,22 @@ DefinitionBlock ("acpi.aml", "DSDT", 1, "A0994", "A0994000", 0x00000000)
         })
         Method (VGET, 1, NotSerialized)
         {
-            If (LEqual (Arg0, Zero))
+            If ((Arg0 == Zero))
             {
                 Return (^^SIOR.HWV0 ())
             }
 
-            If (LEqual (Arg0, One))
+            If ((Arg0 == One))
             {
                 Return (^^SIOR.HWV3 ())
             }
 
-            If (LEqual (Arg0, 0x02))
+            If ((Arg0 == 0x02))
             {
                 Return (^^SIOR.HWV5 ())
             }
 
-            If (LEqual (Arg0, 0x03))
+            If ((Arg0 == 0x03))
             {
                 Return (^^SIOR.HWV1 ())
             }
@@ -8840,12 +8466,12 @@ DefinitionBlock ("acpi.aml", "DSDT", 1, "A0994", "A0994000", 0x00000000)
         })
         Method (TGET, 1, NotSerialized)
         {
-            If (LEqual (Arg0, Zero))
+            If ((Arg0 == Zero))
             {
                 Return (^^SIOR.HWT1 ())
             }
 
-            If (LEqual (Arg0, One))
+            If ((Arg0 == One))
             {
                 Return (^^SIOR.HWT0 ())
             }
@@ -8884,17 +8510,17 @@ DefinitionBlock ("acpi.aml", "DSDT", 1, "A0994", "A0994000", 0x00000000)
         })
         Method (FGET, 1, NotSerialized)
         {
-            If (LEqual (Arg0, Zero))
+            If ((Arg0 == Zero))
             {
                 Return (^^SIOR.HWF1 ())
             }
 
-            If (LEqual (Arg0, One))
+            If ((Arg0 == One))
             {
                 Return (^^SIOR.HWF2 ())
             }
 
-            If (LEqual (Arg0, 0x02))
+            If ((Arg0 == 0x02))
             {
                 Return (^^SIOR.HWF0 ())
             }
@@ -8907,38 +8533,35 @@ DefinitionBlock ("acpi.aml", "DSDT", 1, "A0994", "A0994000", 0x00000000)
 
         Method (RVLT, 1, NotSerialized)
         {
-            And (Arg0, 0xFFFF, Local0)
-            Store (VGET (Local0), Local1)
-            Store (DerefOf (Index (DerefOf (Index (VPAR, Local0)), Zero)), 
-                Local2)
-            Store (DerefOf (Index (DerefOf (Index (VPAR, Local0)), One)), 
-                Local3)
-            Store (DerefOf (Index (DerefOf (Index (VPAR, Local0)), 0x02)), 
-                Local4)
-            Multiply (Local1, Add (Local2, Local3), Local5)
-            Divide (Local5, Local3, , Local5)
-            Add (Local5, Local4, Local5)
+            Local0 = (Arg0 & 0xFFFF)
+            Local1 = VGET (Local0)
+            Local2 = DerefOf (DerefOf (VPAR [Local0]) [Zero])
+            Local3 = DerefOf (DerefOf (VPAR [Local0]) [One])
+            Local4 = DerefOf (DerefOf (VPAR [Local0]) [0x02])
+            Local5 = (Local1 * (Local2 + Local3))
+            Local5 /= Local3
+            Local5 += Local4
             Return (Local5)
         }
 
         Method (SVLT, 1, NotSerialized)
         {
-            And (DerefOf (Index (Arg0, Zero)), 0xFFFF, Local0)
-            Store (DerefOf (Index (VBUF, Zero)), Local1)
-            If (LGreaterEqual (Local0, Local1))
+            Local0 = (DerefOf (Arg0 [Zero]) & 0xFFFF)
+            Local1 = DerefOf (VBUF [Zero])
+            If ((Local0 >= Local1))
             {
                 Return (Zero)
             }
 
-            Increment (Local0)
-            Store (DerefOf (Index (Arg0, One)), Index (DerefOf (Index (VBUF, 
-                Local0)), One))
-            Store (DerefOf (Index (Arg0, 0x02)), Index (DerefOf (Index (VBUF, 
-                Local0)), 0x02))
-            Store (DerefOf (Index (Arg0, 0x03)), Index (DerefOf (Index (VBUF, 
-                Local0)), 0x03))
-            Store (DerefOf (Index (Arg0, 0x04)), Index (DerefOf (Index (VBUF, 
-                Local0)), 0x04))
+            Local0++
+            DerefOf (VBUF [Local0]) [One] = DerefOf (Arg0 [
+                One])
+            DerefOf (VBUF [Local0]) [0x02] = DerefOf (Arg0 [
+                0x02])
+            DerefOf (VBUF [Local0]) [0x03] = DerefOf (Arg0 [
+                0x03])
+            DerefOf (VBUF [Local0]) [0x04] = DerefOf (Arg0 [
+                0x04])
             Return (One)
         }
 
@@ -8949,29 +8572,29 @@ DefinitionBlock ("acpi.aml", "DSDT", 1, "A0994", "A0994000", 0x00000000)
 
         Method (RTMP, 1, NotSerialized)
         {
-            And (Arg0, 0xFFFF, Local0)
-            Store (TGET (Local0), Local1)
+            Local0 = (Arg0 & 0xFFFF)
+            Local1 = TGET (Local0)
             Return (Local1)
         }
 
         Method (STMP, 1, NotSerialized)
         {
-            Store (And (DerefOf (Index (Arg0, Zero)), 0xFFFF), Local0)
-            Store (DerefOf (Index (TBUF, Zero)), Local1)
-            If (LGreaterEqual (Local0, Local1))
+            Local0 = (DerefOf (Arg0 [Zero]) & 0xFFFF)
+            Local1 = DerefOf (TBUF [Zero])
+            If ((Local0 >= Local1))
             {
                 Return (Zero)
             }
 
-            Increment (Local0)
-            Store (DerefOf (Index (Arg0, One)), Index (DerefOf (Index (TBUF, 
-                Local0)), One))
-            Store (DerefOf (Index (Arg0, 0x02)), Index (DerefOf (Index (TBUF, 
-                Local0)), 0x02))
-            Store (DerefOf (Index (Arg0, 0x03)), Index (DerefOf (Index (TBUF, 
-                Local0)), 0x03))
-            Store (DerefOf (Index (Arg0, 0x04)), Index (DerefOf (Index (TBUF, 
-                Local0)), 0x04))
+            Local0++
+            DerefOf (TBUF [Local0]) [One] = DerefOf (Arg0 [
+                One])
+            DerefOf (TBUF [Local0]) [0x02] = DerefOf (Arg0 [
+                0x02])
+            DerefOf (TBUF [Local0]) [0x03] = DerefOf (Arg0 [
+                0x03])
+            DerefOf (TBUF [Local0]) [0x04] = DerefOf (Arg0 [
+                0x04])
             Return (One)
         }
 
@@ -8982,31 +8605,31 @@ DefinitionBlock ("acpi.aml", "DSDT", 1, "A0994", "A0994000", 0x00000000)
 
         Method (RFAN, 1, NotSerialized)
         {
-            And (Arg0, 0xFFFF, Local0)
-            Store (FGET (Local0), Local1)
+            Local0 = (Arg0 & 0xFFFF)
+            Local1 = FGET (Local0)
             Return (Local1)
         }
 
         Method (SFAN, 1, NotSerialized)
         {
-            And (DerefOf (Index (Arg0, Zero)), 0xFFFF, Local0)
-            Store (DerefOf (Index (FBUF, Zero)), Local1)
-            If (LGreaterEqual (Local0, Local1))
+            Local0 = (DerefOf (Arg0 [Zero]) & 0xFFFF)
+            Local1 = DerefOf (FBUF [Zero])
+            If ((Local0 >= Local1))
             {
                 Return (Zero)
             }
 
-            Increment (Local0)
-            Store (DerefOf (Index (Arg0, One)), Index (DerefOf (Index (FBUF, 
-                Local0)), One))
-            Store (DerefOf (Index (Arg0, 0x02)), Index (DerefOf (Index (FBUF, 
-                Local0)), 0x02))
-            Store (DerefOf (Index (Arg0, 0x03)), Index (DerefOf (Index (FBUF, 
-                Local0)), 0x03))
-            Store (DerefOf (Index (Arg0, 0x04)), Index (DerefOf (Index (FBUF, 
-                Local0)), 0x04))
-            Store (DerefOf (Index (Arg0, 0x05)), Index (DerefOf (Index (FBUF, 
-                Local0)), 0x05))
+            Local0++
+            DerefOf (FBUF [Local0]) [One] = DerefOf (Arg0 [
+                One])
+            DerefOf (FBUF [Local0]) [0x02] = DerefOf (Arg0 [
+                0x02])
+            DerefOf (FBUF [Local0]) [0x03] = DerefOf (Arg0 [
+                0x03])
+            DerefOf (FBUF [Local0]) [0x04] = DerefOf (Arg0 [
+                0x04])
+            DerefOf (FBUF [Local0]) [0x05] = DerefOf (Arg0 [
+                0x05])
             Return (One)
         }
     }
@@ -9036,14 +8659,14 @@ DefinitionBlock ("acpi.aml", "DSDT", 1, "A0994", "A0994000", 0x00000000)
                     0x0CF7,             // Range Maximum
                     0x0000,             // Translation Offset
                     0x0CF8,             // Length
-                    ,, , TypeStatic)
+                    ,, , TypeStatic, DenseTranslation)
                 WordIO (ResourceProducer, MinFixed, MaxFixed, PosDecode, EntireRange,
                     0x0000,             // Granularity
                     0x0D00,             // Range Minimum
                     0xFFFF,             // Range Maximum
                     0x0000,             // Translation Offset
                     0xF300,             // Length
-                    ,, , TypeStatic)
+                    ,, , TypeStatic, DenseTranslation)
                 DWordMemory (ResourceProducer, PosDecode, MinFixed, MaxFixed, Cacheable, ReadWrite,
                     0x00000000,         // Granularity
                     0x000A0000,         // Range Minimum
@@ -9074,18 +8697,18 @@ DefinitionBlock ("acpi.aml", "DSDT", 1, "A0994", "A0994000", 0x00000000)
             CreateDWordField (CRS, \_SB.PCI0._Y12._LEN, LEN6)  // _LEN: Length
             Method (_CRS, 0, NotSerialized)  // _CRS: Current Resource Settings
             {
-                Store (MG1L, Local0)
+                Local0 = MG1L /* \MG1L */
                 If (Local0)
                 {
-                    Store (MG1B, MIN5) /* \_SB_.PCI0.MIN5 */
-                    Store (MG1L, LEN5) /* \_SB_.PCI0.LEN5 */
-                    Add (MIN5, Decrement (Local0), MAX5) /* \_SB_.PCI0.MAX5 */
+                    MIN5 = MG1B /* \MG1B */
+                    LEN5 = MG1L /* \MG1L */
+                    MAX5 = (MIN5 + Local0--)
                 }
 
-                Store (MG2B, MIN6) /* \_SB_.PCI0.MIN6 */
-                Store (MG2L, LEN6) /* \_SB_.PCI0.LEN6 */
-                Store (MG2L, Local0)
-                Add (MIN6, Decrement (Local0), MAX6) /* \_SB_.PCI0.MAX6 */
+                MIN6 = MG2B /* \MG2B */
+                LEN6 = MG2L /* \MG2L */
+                Local0 = MG2L /* \MG2L */
+                MAX6 = (MIN6 + Local0--)
                 Return (CRS) /* \_SB_.PCI0.CRS_ */
             }
         }
@@ -9096,28 +8719,28 @@ DefinitionBlock ("acpi.aml", "DSDT", 1, "A0994", "A0994000", 0x00000000)
     Name (WAXB, Zero)
     Method (_PTS, 1, NotSerialized)  // _PTS: Prepare To Sleep
     {
-        Store (Arg0, DBG8) /* \DBG8 */
+        DBG8 = Arg0
         PTS (Arg0)
-        Store (Zero, Index (WAKP, Zero))
-        Store (Zero, Index (WAKP, One))
-        If (LAnd (LEqual (Arg0, 0x04), LEqual (OSFL (), 0x02)))
+        WAKP [Zero] = Zero
+        WAKP [One] = Zero
+        If (((Arg0 == 0x04) && (OSFL () == 0x02)))
         {
             Sleep (0x0BB8)
         }
 
-        Store (ASSB, WSSB) /* \WSSB */
-        Store (AOTB, WOTB) /* \WOTB */
-        Store (AAXB, WAXB) /* \WAXB */
-        Store (Arg0, ASSB) /* \ASSB */
-        Store (OSFL (), AOTB) /* \AOTB */
-        Store (Zero, AAXB) /* \AAXB */
+        WSSB = ASSB /* \ASSB */
+        WOTB = AOTB /* \AOTB */
+        WAXB = AAXB /* \AAXB */
+        ASSB = Arg0
+        AOTB = OSFL ()
+        AAXB = Zero
     }
 
     Method (_WAK, 1, NotSerialized)  // _WAK: Wake
     {
-        ShiftLeft (Arg0, 0x04, DBG8) /* \DBG8 */
+        DBG8 = (Arg0 << 0x04)
         WAK (Arg0)
-        If (IOWK) {}
+        If (IOWK){}
         Else
         {
             Notify (\_SB.PWRB, 0x02) // Device Wake
@@ -9125,18 +8748,18 @@ DefinitionBlock ("acpi.aml", "DSDT", 1, "A0994", "A0994000", 0x00000000)
 
         If (ASSB)
         {
-            Store (WSSB, ASSB) /* \ASSB */
-            Store (WOTB, AOTB) /* \AOTB */
-            Store (WAXB, AAXB) /* \AAXB */
+            ASSB = WSSB /* \WSSB */
+            AOTB = WOTB /* \WOTB */
+            AAXB = WAXB /* \WAXB */
         }
 
-        If (DerefOf (Index (WAKP, Zero)))
+        If (DerefOf (WAKP [Zero]))
         {
-            Store (Zero, Index (WAKP, One))
+            WAKP [One] = Zero
         }
         Else
         {
-            Store (Arg0, Index (WAKP, One))
+            WAKP [One] = Arg0
         }
 
         Return (WAKP) /* \WAKP */
