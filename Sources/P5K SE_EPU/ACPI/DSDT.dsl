@@ -1978,7 +1978,7 @@ DefinitionBlock ("", "DSDT", 1, "A0994", "A0994000", 0x00000000)
                             0x0000,             // Range Minimum
                             0x0000,             // Range Maximum
                             0x00,               // Alignment
-                            0x00,               // Length
+                            0x01,               // Length
                             )
                         IO (Decode16,
                             0x0290,             // Range Minimum
@@ -2876,7 +2876,7 @@ DefinitionBlock ("", "DSDT", 1, "A0994", "A0994000", 0x00000000)
                             0x00000400,         // Address Length
                             _Y09)
                     })
-                    OperationRegion (^LPCR, SystemMemory, 0xFED1F404, 0x04)
+                    OperationRegion (LPCR, SystemMemory, 0xFED1F404, 0x04)
                     Field (LPCR, AnyAcc, NoLock, Preserve)
                     {
                         HPTS,   2, 
