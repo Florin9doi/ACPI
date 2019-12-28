@@ -187,31 +187,31 @@
 		<key>TextOnly</key>
 		<false/>
 		<key>Scan</key>
-			<dict>
-				<key>Legacy</key>
-				<false/>
-				<key>Linux</key>
-				<true/>
-			</dict>
+		<dict>
+			<key>Legacy</key>
+			<false/>
+			<key>Linux</key>
+			<true/>
+		</dict>
 		<key>Hide</key>
-			<array>
-				<string>Preboot</string>
-				<string>Recovery</string>
-				<string>Windows</string>
-				<string>970_2</string>
-				<string>8TB</string>
-			</array>
+		<array>
+			<string>Preboot</string>
+			<string>Recovery</string>
+			<string>Windows</string>
+			<string>970_2</string>
+			<string>8TB</string>
+		</array>
 		<key>ScreenResolution</key>
 		<string>1680x1050</string>
 		<key>Theme</key>
 		<string>embedded</string>
 		<key>Mouse</key>
-			<dict>
-				<key>Enabled</key>
-				<false/>
-			</dict>
-        <key>PlayAsync</key>
-    	<true/>
+		<dict>
+			<key>Enabled</key>
+			<false/>
+		</dict>
+		<key>PlayAsync</key>
+		<true/>
 	</dict>
 	<key>Graphics</key>
 	<dict>
