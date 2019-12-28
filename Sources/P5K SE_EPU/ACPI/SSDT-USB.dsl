@@ -77,7 +77,4 @@ DefinitionBlock ("", "SSDT", 1, "HACK", "USB_EHCI", 0x00000000)
             })
         }
     }
-
-
-
 }
