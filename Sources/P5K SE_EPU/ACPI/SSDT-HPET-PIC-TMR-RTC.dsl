@@ -103,4 +103,21 @@ DefinitionBlock ("", "SSDT", 1, "HACK", "FIX_IRQs", 0x00000000)
                 )
         })
     }
+
+    // Add SMBus
+    Device(\_SB.PCI0.LPC0.BUS0)
+    {
+        Name(_CID, "smbus")
+        Name(_ADR, Zero)
+        Device(DVL0)
+        {
+            Name(_ADR, 0x57)
+            Name(_CID, "diagsvault")
+            Method(_DSM, 4)
+            {
+                If (!Arg2) { Return (Buffer() { 0x03 } ) }
+                Return (Package() { "address", 0x57 })
+            }
+        }
+    }
 }
