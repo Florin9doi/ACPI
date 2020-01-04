@@ -22,7 +22,7 @@
 		<key>CustomLogo</key>
 		<string>No</string>
 		<key>Arguments</key>
-		<string>npci=0x2000 -v</string>
+		<string>npci=0x2000 -nehalem_error_disable kext-dev-mode=1 -v</string>
 		<key>Legacy</key>
 		<string>PBR</string>
 		<key>DefaultVolume</key>
@@ -33,7 +33,7 @@
 		<key>Audio</key>
 		<dict>
 			<key>Inject</key>
-			<string>12</string>
+			<string>7</string>
 		</dict>
 	</dict>
 	<key>DisableDrivers</key>
@@ -85,17 +85,13 @@
 		<array>
 			<dict>
 				<key>Comment</key>
-				<string>Patch AppleTyMCEDriver to use MacPro5,1 name</string>
+				<string>Enable TRIM for SSD</string>
 				<key>Name</key>
-				<string>AppleTyMCEDriver</string>
-				<key>Disabled</key>
-				<false/>
-				<key>InfoPlistPatch</key>
-				<false/>
+				<string>IOAHCIBlockStorage</string>
 				<key>Find</key>
-				<data>cgoATWFjUHJvNCwxAE1hY1BybzUsMQBY</data>
+				<data>AEFQUExFIFNTRAA=</data>
 				<key>Replace</key>
-				<data>cgoAAAAAAAAAAAAAAAAAAAAAAAAAAABY</data>
+				<data>AAAAAAAAAAAAAAA=</data>
 			</dict>
 		</array>
 	</dict>
@@ -108,6 +104,8 @@
 	<dict>
 		<key>ProductName</key>
 		<string>MacPro5,1</string>
+		<key>#ProductName</key>
+		<string>iMac10,1</string>
 	</dict>
 	<key>SystemParameters</key>
 	<dict>
