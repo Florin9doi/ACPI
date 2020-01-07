@@ -1,10 +1,19 @@
 #!/usr/bin/env bash
 
-CLOVER_ACPI="/Volumes/USB-8GB/EFI/CLOVER/OEM/X299 Taichi XE/ACPI/patched/"
-CLOVER_ACPI="/mnt/l/EFI/CLOVER/OEM/P5K SE_EPU/ACPI/patched/"
+SYSTEM="P5K SE_EPU"
 
-iasl SSDT-HPET-PIC-TMR-RTC.dsl
-iasl SSDT-USB.dsl
+CLOVER_ACPI="/mnt/l/EFI/CLOVER/OEM/${SYSTEM}/ACPI/patched/"
+CLOVER_ACPI="/Volumes/BOOT/EFI/CLOVER/OEM/${SYSTEM}/ACPI/patched/"
 
-mv SSDT-HPET-PIC-TMR-RTC.aml "${CLOVER_ACPI}"
-mv SSDT-USB.aml "${CLOVER_ACPI}"
+TABLES=(
+	SSDT-HPET-PIC-TMR-RTC
+	SSDT-PTS-WAK
+	SSDT-USB
+)
+
+for TABLE in "${TABLES[@]}"
+do
+	iasl "$TABLE".dsl
+	cp "$TABLE".aml "../../../EFI/CLOVER/OEM/${SYSTEM}/ACPI/patched"
+	mv "$TABLE".aml "${CLOVER_ACPI}"
+done

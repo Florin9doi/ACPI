@@ -6,6 +6,22 @@
 	<dict>
 		<key>HaltEnabler</key>
 		<false/>
+		<key>DSDT</key>
+		<dict>
+			<key>Patches</key>
+			<array>
+				<dict>
+					<key>Comment</key>
+					<string>Change _PTS to XPTS</string>
+					<key>Disabled</key>
+					<false/>
+					<key>Find</key>
+					<data>X1BUUw==</data>
+					<key>Replace</key>
+					<data>WFBUUw==</data>
+				</dict>
+			</array>
+		</dict>
 		<key>SSDT</key>
 		<dict>
 			<key>Generate</key>
@@ -106,6 +122,8 @@
 		<string>MacPro5,1</string>
 		<key>#ProductName</key>
 		<string>iMac10,1</string>
+		<key>PlatformFeature</key>
+		<string>0x00</string>
 	</dict>
 	<key>SystemParameters</key>
 	<dict>
