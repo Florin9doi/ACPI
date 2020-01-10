@@ -104,19 +104,43 @@ DefinitionBlock ("", "SSDT", 1, "HACK", "FIX_IRQs", 0x00000000)
         })
     }
 
-    // Add SMBus
-    Device(\_SB.PCI0.LPC0.BUS0)
+    // HDEF Patch
+    Device (\_SB.PCI0.HDEF)
     {
-        Name(_CID, "smbus")
-        Name(_ADR, Zero)
-        Device(DVL0)
+        Name (_ADR, 0x001B0000)  // _ADR: Address
+        Method (_DSM, 4)
         {
-            Name(_ADR, 0x57)
-            Name(_CID, "diagsvault")
-            Method(_DSM, 4)
+            If (!Arg2) { Return (Buffer () { 0x03 } ) }
+            Return (Package ()
             {
-                If (!Arg2) { Return (Buffer() { 0x03 } ) }
-                Return (Package() { "address", 0x57 })
+                "layout-id", Buffer () { 0x07, 0x00, 0x00, 0x00 }
+            })
+        }
+    }
+
+    // Patch _PTS / Shutdown
+    External (XPTS, MethodObj)
+    Method (\_PTS, 1)
+    {
+        If (Arg0 != 0x05)
+        {
+            XPTS(Arg0)
+        }
+    }
+
+    // Add EC
+    Device (\_SB.PCI0.LPC0.EC)
+    {
+        Name (_HID, "ACID0001")  // _HID: Hardware ID
+        Method (_STA, 0, NotSerialized)  // _STA: Status
+        {
+            If (_OSI ("Darwin"))
+            {
+                Return (0x0F)
+            }
+            Else
+            {
+                Return (Zero)
             }
         }
     }
