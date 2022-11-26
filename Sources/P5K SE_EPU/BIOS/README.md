@@ -1,5 +1,5 @@
-* P5K-SE-EPU-0501-v0.rom = 0501 original file
-* P5K-SE-EPU-0501-v1.rom = 0501-v0.ROM + mods
+* [P5K-SE-EPU-0501-v0.rom](P5K-SE-EPU-0501-v0.rom) = 0501 original file
+* [P5K-SE-EPU-0501-v1.rom](P5K-SE-EPU-0501-v1.rom) = 0501-v0.ROM + mods
   * AHCI unlocked
   * "Native" renamed to "AHCI"
   * "Vanderpool Technology" renamed to "Intel Virtualization Tech"
