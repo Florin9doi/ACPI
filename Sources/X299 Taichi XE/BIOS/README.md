@@ -1,0 +1,7 @@
+* X29TCX1.90B-v0.rom = 1.90B original file
+* X29TCX1.90B-v1.rom = 1.90B-v0.rom + microcode update
+  * CPUID 906E9 (B4 to F0)
+  * CPUID 50654 (2006A0A to 2006E05)
+  * CPUID 50655 (3000010 to 3000012)
+  * CPUID 50656 (4003006 to 4003302)
+  * CPUID 50657 (5003006 to 5003302)
